@@ -1,0 +1,101 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Docs/Figma Integration" />
+
+# Figma Integration
+
+This design system supports Figma integration through embedded iframes in documentation pages.
+
+## Embedding Figma in Documentation
+
+You can embed Figma designs directly in your MDX documentation files using iframes.
+
+### How to Get the Embed URL
+
+1. Open your Figma file
+2. Select the frame or component you want to embed
+3. Click **Share** → **Get embed code** (or press `Cmd+L` to copy link)
+4. Convert the URL to embed format
+
+**URL Format:**
+```
+# Regular Figma URL:
+https://www.figma.com/file/ABC123/Design-System?node-id=123-456
+
+# Embed URL (add /embed at the end):
+https://www.figma.com/embed?embed_host=storybook&url=https://www.figma.com/file/ABC123/Design-System?node-id=123-456
+```
+
+### Embedding in MDX
+
+Add this to any `.mdx` file:
+
+```jsx
+<iframe
+  width="100%"
+  height="450"
+  src="https://www.figma.com/embed?embed_host=storybook&url=YOUR_FIGMA_URL"
+  allowFullScreen
+  style={{ border: '1px solid #e5e5e5', borderRadius: '8px' }}
+/>
+```
+
+## Example: Button Component Design
+
+Your Component Kit Figma file:
+
+<iframe
+  width="100%"
+  height="450"
+  src="https://www.figma.com/embed?embed_host=storybook&url=https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Component-kit?node-id=113-90"
+  allowFullScreen
+  style={{ border: '1px solid #e5e5e5', borderRadius: '8px' }}
+/>
+
+## Figma Variables & Design Tokens
+
+Keep your Figma and code tokens in sync:
+
+| Figma Feature | Design System File |
+|---------------|-------------------|
+| **Color Variables** | `.storybook/src/tokens/colors.ts` |
+| **Typography Styles** | `.storybook/src/tokens/typography.ts` |
+| **Effect Styles** | `.storybook/src/tokens/spacing.ts` |
+| **Component Variants** | Component props |
+
+## Creating Component Documentation with Figma
+
+For each component, you can create a dedicated MDX file that shows both the Figma design and the live component:
+
+```jsx
+// stories/components/Button.mdx
+import { Meta, Canvas } from '@storybook/blocks';
+import * as ButtonStories from '../../.storybook/src/components/Button/Button.stories';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+## Figma Design
+
+<iframe
+  width="100%"
+  height="300"
+  src="https://www.figma.com/embed?embed_host=storybook&url=YOUR_BUTTON_FIGMA_URL"
+  allowFullScreen
+/>
+
+## Implementation
+
+<Canvas of={ButtonStories.Primary} />
+```
+
+## Tips
+
+- **Make files viewable**: Ensure your Figma file sharing settings allow "Anyone with the link can view"
+- **Use specific node IDs**: Link to exact frames, not entire pages
+- **Keep URLs updated**: Update embed URLs if you reorganize your Figma file
+
+## Future: @storybook/addon-designs
+
+Once `@storybook/addon-designs` is updated for Storybook 9 compatibility, you'll be able to add Figma directly to story parameters for a more integrated experience.

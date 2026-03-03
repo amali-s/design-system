@@ -48,21 +48,6 @@ const stateStyles: Record<
   },
 };
 
-/* ─── Plus icon for action button ─────────────────────────── */
-
-const PlusIcon = () => (
-  <svg
-    width="10"
-    height="9"
-    viewBox="0 0 10 9"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M5 0.5V8.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-    <path d="M1 4.5H9" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-  </svg>
-);
-
 /* ─── Close icon ──────────────────────────────────────────── */
 
 const CloseIcon = () => (
@@ -147,15 +132,14 @@ export const ToastNotification = ({
             {body}
           </p>
 
-          {/* Action button (ghost style) */}
+          {/* Action button — matches ghost variant from Button component */}
           {button && (
             <button
               type="button"
               onClick={onAction}
-              className="inline-flex items-center gap-2 pl-2 pr-3 py-1 rounded-tl rounded-br font-brand text-sm font-w1 text-primary transition-opacity hover:opacity-70 self-start"
+              className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full font-sans text-xs font-medium text-primary bg-transparent border-[1.5px] border-transparent hover:bg-[#E8F2F9] hover:border-[#E8F2F9] transition-all duration-200 self-start"
             >
-              <span>{actionLabel}</span>
-              <PlusIcon />
+              {actionLabel}
             </button>
           )}
         </div>

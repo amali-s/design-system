@@ -1,7 +1,7 @@
 /**
- * Design System Color Tokens
- * 
- * This file defines the color palette for the design system.
+ * Design System Color Tokens — Ghibli x Brand
+ *
+ * A warm, organic palette inspired by nature and craft.
  * Colors are organized by their purpose and usage context.
  */
 
@@ -9,8 +9,10 @@ export const colors = {
   // Status & Action Colors
   // Used for interactive elements and status indicators
   status: {
-    primary: '#0F88CB',
-    secondary: '#575040',
+    primary: '#1F83BD',
+    secondary: '#59554B',
+    sage: '#A9C1A9',
+    deepRed: '#7D0A16',
     warning: '#D98900',
     error: '#ED112E',
     success: '#14C714',
@@ -33,9 +35,11 @@ export const colors = {
   brand: {
     darkBlue: '#1E526F',
     accent: '#E8DDA2',
+    gold: '#E8DDA2',
     black: '#1B2323',
     darkGrey: '#413E36',
     foreground: '#EDE6DE',
+    white: '#FFFDFA',
     highlightYellow: '#FFD60C',
     darkRed: '#902944',
     darkGreen: '#198D54',
@@ -48,31 +52,45 @@ export const semantic = {
   text: {
     primary: colors.brand.black,
     secondary: colors.brand.darkGrey,
+    muted: '#8A867E',
     inverse: colors.brand.foreground,
     brand: colors.brand.darkBlue,
   },
 
   // Background colors
   background: {
-    default: '#FFFFFF',
-    subtle: colors.brand.foreground,
-    accent: colors.brand.accent,
+    default: colors.brand.white,       // #FFFDFA — card/surface background
+    subtle: colors.brand.foreground,    // #EDE6DE — page background
+    accent: colors.brand.accent,        // #E8DDA2 — gold accent
+    sage: '#EDF3ED',                    // sage tint
+    blue: '#E8F2F9',                    // blue tint
+    red: '#F5E8E9',                     // red tint
+    gold: '#F9F6E8',                    // gold tint
     dark: colors.brand.black,
   },
 
   // Border colors
   border: {
-    default: colors.brand.darkGrey,
-    subtle: '#D1D5DB',
+    default: 'rgba(89, 85, 75, 0.08)',  // barely visible warm border
+    subtle: 'rgba(89, 85, 75, 0.06)',
+    medium: 'rgba(89, 85, 75, 0.12)',   // dividers
+    strong: 'rgba(89, 85, 75, 0.2)',    // secondary button borders
     focus: colors.status.primary,
   },
 
   // Interactive states
   interactive: {
     default: colors.status.primary,
-    hover: '#0D7AB8',
-    active: '#0B6CA3',
-    disabled: '#9CA3AF',
+    hover: '#1A6FA0',
+    active: '#165D87',
+    disabled: '#B5B1A9',
+  },
+
+  // Shadows (warm-toned)
+  shadow: {
+    sm: '0 1px 4px rgba(89, 85, 75, 0.06)',
+    md: '0 4px 16px rgba(89, 85, 75, 0.08)',
+    lg: '0 8px 32px rgba(89, 85, 75, 0.1)',
   },
 } as const;
 

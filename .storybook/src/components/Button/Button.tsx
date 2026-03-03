@@ -1,76 +1,87 @@
 import * as React from "react";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "success" | "warning" | "error";
+  /** The visual style of the button */
+  variant?: "primary" | "secondary" | "sage" | "red" | "ghost";
+  /** The size of the button */
   size?: "sm" | "md" | "lg";
+  /** Optional icon element rendered before children */
   icon?: React.ReactNode;
 }
 
 /**
- * Button component following the design system specifications.
- * 
- * Primary button design:
- * - Asymmetric corners: top-left 8px, top-right 0, bottom-right 8px, bottom-left 0
- * - Left-aligned content with icon
- * - Padding: 8px top/bottom, 8px left, 12px right
- * - 8px gap between icon and text
- * - Text/icon color: #F6F1EB
- * - Text style: Body 1 (Hiragino Sans, 14px, W3)
- * - Hover: #0E7BB8 background
- * - Disabled: #A5B1B8 background
+ * Button component — Ghibli x Brand aesthetic.
+ *
+ * Design details:
+ * - Shape: Pill-shaped (rounded-full)
+ * - Typography: Hiragino Sans, 13px, weight 500
+ * - Warm box-shadows with rgba(89,85,75,...) tones
+ * - Variants: primary (blue), secondary (outline), sage (green), red, ghost
+ * - Hover: Darker shade + deeper shadow
+ * - Disabled: opacity-50, cursor-not-allowed
  */
-export const Button = ({ 
-  variant = "primary", 
+export const Button = ({
+  variant = "primary",
   size = "md",
-  icon, 
-  children, 
+  icon,
+  children,
   disabled,
   className,
-  ...props 
+  ...props
 }: ButtonProps) => {
-  const isPrimary = variant === "primary";
-  
-  // Base styles with Body 1 typography: font-sans (Hiragino Sans), text-sm (14px), font-w3 (400)
   const baseStyles = `
-    relative inline-flex items-center gap-2
-    font-sans text-sm font-w3
-    transition-all focus-visible:outline-none
-    focus-visible:ring-2 focus-visible:ring-offset-2
+    relative inline-flex items-center justify-center gap-2
+    font-sans font-medium
+    rounded-full
+    transition-all duration-200
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary
   `;
 
-  // Primary uses custom asymmetric corners, others use standard rounded
-  const cornerStyles = isPrimary
-    ? "rounded-tl-lg rounded-tr-none rounded-br-lg rounded-bl-none"
-    : "rounded-xl";
-
-  // Primary uses left-aligned content, others centered
-  const alignmentStyles = isPrimary ? "justify-start" : "justify-center";
-
-  // Padding: 8px top/bottom, 8px left, 12px right for primary
-  const paddingStyles = isPrimary 
-    ? "pl-2 pr-3 py-2" 
-    : "px-4 py-2";
-
-  const variants = {
-    primary: "bg-primary text-[#F6F1EB] hover:bg-[#0E7BB8] disabled:bg-[#A5B1B8] disabled:hover:bg-[#A5B1B8] disabled:cursor-not-allowed focus-visible:ring-primary",
-    secondary: "bg-secondary text-[#F6F1EB] hover:bg-secondary-hover active:bg-secondary-active disabled:bg-[#A5B1B8] disabled:cursor-not-allowed focus-visible:ring-secondary",
-    success: "bg-success text-white hover:bg-success-dark disabled:bg-[#A5B1B8] disabled:cursor-not-allowed focus-visible:ring-success",
-    warning: "bg-warning text-white hover:bg-warning-dark disabled:bg-[#A5B1B8] disabled:cursor-not-allowed focus-visible:ring-warning",
-    error: "bg-error text-white hover:bg-error-dark disabled:bg-[#A5B1B8] disabled:cursor-not-allowed focus-visible:ring-error",
+  const sizeStyles = {
+    sm: "text-xs px-4 py-1.5",
+    md: "text-[13px] px-6 py-2.5",
+    lg: "text-sm px-8 py-3.5",
   };
 
-  // Text color for icon
-  const iconColor = (variant === "primary" || variant === "secondary") 
-    ? "text-[#F6F1EB]" 
-    : "text-white";
+  const variantStyles = {
+    primary: [
+      "bg-primary text-brand-white border-[1.5px] border-primary",
+      "shadow-[0_2px_8px_rgba(31,131,189,0.2)]",
+      "hover:bg-primary-hover hover:border-primary-hover hover:shadow-[0_4px_16px_rgba(31,131,189,0.25)]",
+      "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary disabled:hover:shadow-[0_2px_8px_rgba(31,131,189,0.2)]",
+    ].join(" "),
+    secondary: [
+      "bg-transparent text-secondary border-[1.5px] border-[rgba(89,85,75,0.2)]",
+      "hover:border-[rgba(89,85,75,0.4)] hover:bg-[rgba(89,85,75,0.03)]",
+      "disabled:opacity-50 disabled:cursor-not-allowed",
+    ].join(" "),
+    sage: [
+      "bg-sage text-brand-white border-[1.5px] border-sage",
+      "shadow-[0_2px_8px_rgba(169,193,169,0.25)]",
+      "hover:bg-sage-hover hover:border-sage-hover",
+      "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-sage",
+    ].join(" "),
+    red: [
+      "bg-deepRed text-brand-white border-[1.5px] border-deepRed",
+      "shadow-[0_2px_8px_rgba(125,10,22,0.2)]",
+      "hover:bg-deepRed-hover hover:border-deepRed-hover",
+      "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-deepRed",
+    ].join(" "),
+    ghost: [
+      "bg-transparent text-primary border-[1.5px] border-transparent",
+      "px-1",
+      "hover:bg-[#E8F2F9] hover:border-[#E8F2F9]",
+      "disabled:opacity-50 disabled:cursor-not-allowed",
+    ].join(" "),
+  };
 
   return (
-    <button 
-      className={`${baseStyles} ${cornerStyles} ${alignmentStyles} ${paddingStyles} ${variants[variant]} ${className || ""}`} 
+    <button
+      className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className || ""}`}
       disabled={disabled}
       {...props}
     >
-      {icon && <span className={`flex-shrink-0 ${iconColor}`}>{icon}</span>}
+      {icon && <span className="flex-shrink-0">{icon}</span>}
       <span>{children}</span>
     </button>
   );

@@ -10,14 +10,25 @@ module.exports = {
       colors: {
         // Status & Action Colors
         primary: {
-          DEFAULT: '#0F88CB',
-          hover: '#0D7AB8',
-          active: '#0B6CA3',
+          DEFAULT: '#1F83BD',
+          hover: '#1A6FA0',
+          active: '#165D87',
         },
         secondary: {
-          DEFAULT: '#575040',
-          hover: '#4A4437',
-          active: '#3D382E',
+          DEFAULT: '#59554B',
+          hover: '#4A4740',
+          active: '#3D3A35',
+        },
+        sage: {
+          DEFAULT: '#A9C1A9',
+          light: '#EDF3ED',
+          hover: '#96B496',
+          dark: '#7A9E7A',
+        },
+        deepRed: {
+          DEFAULT: '#7D0A16',
+          light: '#F5E8E9',
+          hover: '#6A0813',
         },
         warning: {
           DEFAULT: '#D98900',
@@ -50,9 +61,11 @@ module.exports = {
         brand: {
           darkBlue: '#1E526F',
           accent: '#E8DDA2',
+          gold: '#E8DDA2',
           black: '#1B2323',
           darkGrey: '#413E36',
           foreground: '#EDE6DE',
+          white: '#FFFDFA',
           highlightYellow: '#FFD60C',
           darkRed: '#902944',
           darkGreen: '#198D54',
@@ -84,6 +97,16 @@ module.exports = {
       letterSpacing: {
         'tight': '-0.01em',
         'normal': '0',
+        'wide': '0.05em',
+        'wider': '0.1em',
+      },
+      borderRadius: {
+        'pill': '999px',
+      },
+      boxShadow: {
+        'ghibli-sm': '0 1px 4px rgba(89, 85, 75, 0.06)',
+        'ghibli-md': '0 4px 16px rgba(89, 85, 75, 0.08)',
+        'ghibli-lg': '0 8px 32px rgba(89, 85, 75, 0.1)',
       },
     },
   },

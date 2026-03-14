@@ -42,6 +42,16 @@ const meta: Meta<typeof ToastNotification> = {
   title: "Components/Toast",
   component: ToastNotification,
   tags: ["autodocs"],
+  parameters: {
+    layout: "centered",
+    backgrounds: { default: "light", values: [{ name: "light", value: "#F5F3EF" }] },
+    docs: {
+      description: {
+        component:
+          "Toast Notification component — matching the Figma design. **Motion design:** API by [Emil Kowalski](https://github.com/emilkowalski).",
+      },
+    },
+  },
   argTypes: {
     header: { control: "text", description: "Header / title text" },
     body: { control: "text", description: "Body description text" },
@@ -53,10 +63,6 @@ const meta: Meta<typeof ToastNotification> = {
     button: { control: "boolean", description: "Show action button" },
     actionLabel: { control: "text", description: "Action button label" },
     closeIcon: { control: "boolean", description: "Show close icon" },
-  },
-  parameters: {
-    layout: "centered",
-    backgrounds: { default: "light", values: [{ name: "light", value: "#F5F3EF" }] },
   },
 };
 export default meta;

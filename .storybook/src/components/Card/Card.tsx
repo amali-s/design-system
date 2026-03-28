@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button } from "../Button/Button";
 
 export interface CardProps {
   /** Small label text above the heading */
@@ -130,34 +131,23 @@ export const Card = ({
         {action && (
           <div className="flex gap-2 items-center justify-end pt-3 mt-auto border-t border-[rgba(89,85,75,0.06)]">
             {secondaryActionLabel && (
-              <button
-                type="button"
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={onSecondaryAction}
                 disabled={isDisabled}
-                className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full font-sans text-xs font-medium text-[#8A867E] border border-[rgba(89,85,75,0.15)] hover:border-[rgba(89,85,75,0.3)] hover:bg-[rgba(89,85,75,0.02)] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {secondaryActionLabel}
-              </button>
+              </Button>
             )}
-            <button
-              type="button"
+            <Button
+              variant={accentColor === "red" ? "danger" : "primary"}
+              size="sm"
               onClick={onAction}
               disabled={isDisabled}
-              className={`
-                inline-flex items-center gap-2 px-5 py-1.5
-                rounded-full font-sans text-xs font-medium
-                transition-all duration-200
-                ${accentColor === "sage"
-                  ? "bg-sage text-brand-white shadow-[0_2px_8px_rgba(169,193,169,0.25)] hover:bg-sage-hover"
-                  : accentColor === "red"
-                    ? "bg-deepRed text-brand-white shadow-[0_2px_8px_rgba(125,10,22,0.2)] hover:bg-deepRed-hover"
-                    : "bg-primary text-brand-white shadow-[0_2px_8px_rgba(31,131,189,0.2)] hover:bg-primary-hover"
-                }
-                disabled:opacity-50 disabled:cursor-not-allowed
-              `}
             >
               {actionLabel}
-            </button>
+            </Button>
           </div>
         )}
       </div>

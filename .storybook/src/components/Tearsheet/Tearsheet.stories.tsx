@@ -1,6 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Tearsheet } from "./Tearsheet";
+import { Button } from "../Button/Button";
 
 const meta: Meta<typeof Tearsheet> = {
   title: "Components/Tearsheet",
@@ -138,12 +139,9 @@ export const CustomTrigger: Story = {
     description: "This tearsheet uses a custom trigger button.",
     primaryActionLabel: "Done",
     trigger: (
-      <button
-        type="button"
-        className="px-4 py-2 rounded-full bg-sage text-brand-white font-sans text-sm font-medium hover:bg-sage-hover transition-colors"
-      >
-        Open with Sage Button
-      </button>
+      <Button variant="secondary" size="md">
+        Open with Secondary Button
+      </Button>
     ),
     children: (
       <p className="font-sans text-sm font-w3 text-secondary">

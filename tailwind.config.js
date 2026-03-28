@@ -10,14 +10,19 @@ module.exports = {
       colors: {
         // Status & Action Colors
         primary: {
-          DEFAULT: '#1F83BD',
-          hover: '#1A6FA0',
-          active: '#165D87',
+          DEFAULT: '#30B6E6',
+          hover: '#2AA3CC',
+          active: '#85CEDE',
+          focus: '#85CEDE',
         },
         secondary: {
-          DEFAULT: '#59554B',
+          DEFAULT: '#575040',
           hover: '#4A4740',
           active: '#3D3A35',
+          gold: '#BF9A49',
+        },
+        disabled: {
+          DEFAULT: '#A5B1B8',
         },
         sage: {
           DEFAULT: '#A9C1A9',
@@ -36,9 +41,9 @@ module.exports = {
           dark: '#B37300',
         },
         error: {
-          DEFAULT: '#ED112E',
+          DEFAULT: '#CC3926',
           light: '#FEE2E5',
-          dark: '#C40D25',
+          dark: '#A52D1E',
         },
         success: {
           DEFAULT: '#14C714',
@@ -90,6 +95,7 @@ module.exports = {
         'w1': '300',
         'w2': '350',
         'w3': '400',
+        'w4': '500',
         'w5': '600',
         'medium': '500',
         'bold': '700',

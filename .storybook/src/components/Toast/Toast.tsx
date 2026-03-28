@@ -32,19 +32,19 @@ const stateStyles: Record<
   { bg: string; borderColor: string; borderWidth: string }
 > = {
   default: {
-    bg: "bg-brand-foreground",           // #EDE6DE
-    borderColor: "border-l-[#BF9A49]",  // gold
-    borderWidth: "border-l-[5px]",
+    bg: "bg-[#F8F7F6]",                 // warm off-white
+    borderColor: "border-l-secondary",   // #575040
+    borderWidth: "border-l-4",
   },
   error: {
-    bg: "bg-[#FAD4CF]",                 // soft pink
-    borderColor: "border-l-[#DC3D29]",  // red
-    borderWidth: "border-l-[6px]",
+    bg: "bg-[#FFEFE6]",                 // warm peach
+    borderColor: "border-l-error",       // #CC3926
+    borderWidth: "border-l-4",
   },
   success: {
-    bg: "bg-[#B3F1D2]",                 // mint green
-    borderColor: "border-l-[#00803F]",  // dark green
-    borderWidth: "border-l-[5px]",
+    bg: "bg-[#E4FBDF]",                 // pale green
+    borderColor: "border-l-[#00803F]",   // dark green
+    borderWidth: "border-l-4",
   },
 };
 
@@ -58,8 +58,8 @@ const CloseIcon = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M1 1L7 7" stroke="#1B2323" strokeWidth="1" strokeLinecap="round" />
-    <path d="M7 1L1 7" stroke="#1B2323" strokeWidth="1" strokeLinecap="round" />
+    <path d="M1 1L7 7" stroke="#1B2323" strokeWidth="1.5" strokeLinecap="round" />
+    <path d="M7 1L1 7" stroke="#1B2323" strokeWidth="1.5" strokeLinecap="round" />
   </svg>
 );
 
@@ -72,12 +72,12 @@ const CloseIcon = () => (
  * - Width: 233px
  * - Border-radius: 8px
  * - Shadow: 0px 4px 4px rgba(0,0,0,0.25)
- * - Left accent border: 5-6px colored by state
- * - Background: #EDE6DE (default), #FAD4CF (error), #B3F1D2 (success)
- * - Header: Rasa Regular, 16px, #1B2323
- * - Body: Hiragino Sans W2, 12px, #59554B
- * - Action: Rasa Light, 14px, #1F83BD with "+" icon
- * - Close: small "×" in top-right corner
+ * - Left accent border: 4px colored by state
+ * - Background: #F8F7F6 (default), #FFEFE6 (error), #E4FBDF (success)
+ * - Header: Hiragino Sans W5, 14px, #1B2323
+ * - Body: Hiragino Sans W2, 14px, #59554B
+ * - Action: Hiragino Sans W5, 14px, #30B6E6
+ * - Close: small "×" in top-right corner, stroke 1.5px
  *
  * For animated toasts, use with Sonner:
  * ```tsx
@@ -122,22 +122,19 @@ export const ToastNotification = ({
       {/* Header row with close icon */}
       <div className="flex items-start justify-between w-full">
         <div className="flex flex-col gap-2 flex-1">
-          {/* Header */}
-          <p className="font-brand text-base font-w3 text-brand-black leading-none">
+          <p className="font-sans text-sm font-w5 text-brand-black leading-none">
             {header}
           </p>
 
-          {/* Body */}
-          <p className="font-sans text-xs font-w2 text-[#59554B] leading-normal">
+          <p className="font-sans text-sm font-w2 text-[#59554B] leading-relaxed">
             {body}
           </p>
 
-          {/* Action button — matches ghost variant from Button component */}
           {button && (
             <button
               type="button"
               onClick={onAction}
-              className="inline-flex items-center justify-center gap-2 px-4 py-1.5 rounded-full font-sans text-xs font-medium text-primary bg-transparent border-[1.5px] border-transparent hover:bg-[#E8F2F9] hover:border-[#E8F2F9] transition-all duration-200 self-start"
+              className="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-[16px] font-sans text-sm font-w4 text-primary bg-transparent hover:bg-[#E8F2F9] transition-all duration-200 self-start"
             >
               {actionLabel}
             </button>

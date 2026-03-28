@@ -9,12 +9,12 @@ export const colors = {
   // Status & Action Colors
   // Used for interactive elements and status indicators
   status: {
-    primary: '#1F83BD',
-    secondary: '#59554B',
+    primary: '#30B6E6',
+    secondary: '#575040',
     sage: '#A9C1A9',
     deepRed: '#7D0A16',
     warning: '#D98900',
-    error: '#ED112E',
+    error: '#CC3926',
     success: '#14C714',
   },
 

@@ -3,14 +3,17 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./Button";
 
 /**
- * The Button component — warm, pill-shaped buttons in the Ghibli x Brand aesthetic.
+ * The Button component — warm, pill-shaped buttons in the Sage design system.
  *
- * Five variants: **Primary** (blue), **Secondary** (outline), **Sage** (green),
- * **Red** (deep red), and **Ghost** (text-only).
+ * Four variants matching the Figma Component Kit:
+ * **Primary** (#30B6E6), **Secondary** (#575040), **Tertiary** (outline),
+ * and **Ghost** (text-only). Plus a **Danger** ghost variant.
  *
  * ## Figma Design
- * View the button designs in Figma:
- * https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Component-kit?node-id=113-90
+ * - [Primary](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=113-90)
+ * - [Secondary](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=116-66)
+ * - [Tertiary](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=116-83)
+ * - [Ghost](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=118-100)
  */
 const meta: Meta<typeof Button> = {
   title: "Components/Button",
@@ -19,7 +22,7 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["primary", "secondary", "sage", "red", "ghost"],
+      options: ["primary", "secondary", "tertiary", "ghost", "danger"],
       description: "The visual style of the button",
     },
     size: {
@@ -35,7 +38,20 @@ const meta: Meta<typeof Button> = {
   parameters: {
     layout: "centered",
     backgrounds: { default: "cream", values: [{ name: "cream", value: "#EDE6DE" }] },
+    docs: {
+      story: {
+        inline: true,
+        iframeHeight: 120,
+      },
+    },
   },
+  decorators: [
+    (Story) => (
+      <div style={{ transform: "scale(1.5)", transformOrigin: "center center" }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 export default meta;
 
@@ -46,35 +62,35 @@ type Story = StoryObj<typeof Button>;
 export const Primary: Story = {
   args: {
     variant: "primary",
-    children: "Begin Journey",
+    children: "Action",
   },
 };
 
 export const Secondary: Story = {
   args: {
     variant: "secondary",
-    children: "Another Time",
+    children: "Action",
   },
 };
 
-export const Sage: Story = {
+export const Tertiary: Story = {
   args: {
-    variant: "sage",
-    children: "Discover",
-  },
-};
-
-export const Red: Story = {
-  args: {
-    variant: "red",
-    children: "Urgent",
+    variant: "tertiary",
+    children: "Action",
   },
 };
 
 export const Ghost: Story = {
   args: {
     variant: "ghost",
-    children: "Read More →",
+    children: "Action",
+  },
+};
+
+export const Danger: Story = {
+  args: {
+    variant: "danger",
+    children: "Action",
   },
 };
 
@@ -108,30 +124,25 @@ export const Disabled: Story = {
 
 // ─── Icons ───────────────────────────────────────────────────
 
-const ArrowIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
 const PlusIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M8 3V13M3 8H13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5 0.5V8.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+    <path d="M1 4.5H9" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
   </svg>
 );
 
 export const WithIcon: Story = {
   args: {
     variant: "primary",
-    children: "Continue",
-    icon: <ArrowIcon />,
+    children: "Action",
+    icon: <PlusIcon />,
   },
 };
 
-export const SageWithIcon: Story = {
+export const SecondaryWithIcon: Story = {
   args: {
-    variant: "sage",
-    children: "Add to Garden",
+    variant: "secondary",
+    children: "Action",
     icon: <PlusIcon />,
   },
 };
@@ -142,22 +153,11 @@ export const AllVariants: Story = {
   name: "All Variants",
   render: () => (
     <div className="flex flex-wrap gap-3 items-center">
-      <Button variant="primary">Primary</Button>
-      <Button variant="sage">Sage</Button>
-      <Button variant="red">Red</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button variant="ghost">Ghost →</Button>
-    </div>
-  ),
-};
-
-export const AllSizes: Story = {
-  name: "All Sizes",
-  render: () => (
-    <div className="flex items-center gap-3">
-      <Button size="sm">Small</Button>
-      <Button size="md">Medium</Button>
-      <Button size="lg">Large</Button>
+      <Button variant="primary" icon={<PlusIcon />}>Action</Button>
+      <Button variant="secondary" icon={<PlusIcon />}>Action</Button>
+      <Button variant="tertiary" icon={<PlusIcon />}>Action</Button>
+      <Button variant="ghost" icon={<PlusIcon />}>Action</Button>
+      <Button variant="danger" icon={<PlusIcon />}>Action</Button>
     </div>
   ),
 };
@@ -166,11 +166,10 @@ export const AllDisabled: Story = {
   name: "Disabled States",
   render: () => (
     <div className="flex flex-wrap gap-3 items-center">
-      <Button variant="primary" disabled>Primary</Button>
-      <Button variant="sage" disabled>Sage</Button>
-      <Button variant="red" disabled>Red</Button>
-      <Button variant="secondary" disabled>Secondary</Button>
-      <Button variant="ghost" disabled>Ghost →</Button>
+      <Button variant="primary" disabled icon={<PlusIcon />}>Action</Button>
+      <Button variant="secondary" disabled icon={<PlusIcon />}>Action</Button>
+      <Button variant="tertiary" disabled icon={<PlusIcon />}>Action</Button>
+      <Button variant="ghost" disabled icon={<PlusIcon />}>Action</Button>
     </div>
   ),
 };
@@ -180,26 +179,18 @@ export const ButtonShowcase: Story = {
   render: () => (
     <div className="flex flex-col gap-8">
       <div>
-        <p className="font-brand text-xl text-secondary mb-4">Primary Actions</p>
+        <p className="font-brand text-xl text-secondary mb-4">Filled Buttons</p>
         <div className="flex flex-wrap gap-3 items-center">
-          <Button variant="primary">Blue Primary</Button>
-          <Button variant="sage">Sage Primary</Button>
-          <Button variant="red">Red Primary</Button>
+          <Button variant="primary" icon={<PlusIcon />}>Action</Button>
+          <Button variant="secondary" icon={<PlusIcon />}>Action</Button>
         </div>
       </div>
       <div>
-        <p className="font-brand text-xl text-secondary mb-4">Secondary & Ghost</p>
+        <p className="font-brand text-xl text-secondary mb-4">Outline & Ghost</p>
         <div className="flex flex-wrap gap-3 items-center">
-          <Button variant="secondary">Secondary</Button>
-          <Button variant="ghost">Ghost Link →</Button>
-        </div>
-      </div>
-      <div>
-        <p className="font-brand text-xl text-secondary mb-4">With Icons</p>
-        <div className="flex flex-wrap gap-3 items-center">
-          <Button variant="primary" icon={<ArrowIcon />}>Continue</Button>
-          <Button variant="sage" icon={<PlusIcon />}>Add Item</Button>
-          <Button variant="secondary" icon={<ArrowIcon />}>Navigate</Button>
+          <Button variant="tertiary" icon={<PlusIcon />}>Action</Button>
+          <Button variant="ghost" icon={<PlusIcon />}>Action</Button>
+          <Button variant="danger" icon={<PlusIcon />}>Action</Button>
         </div>
       </div>
       <div>
@@ -208,6 +199,15 @@ export const ButtonShowcase: Story = {
           <Button variant="primary" size="sm">Small</Button>
           <Button variant="primary" size="md">Default</Button>
           <Button variant="primary" size="lg">Large</Button>
+        </div>
+      </div>
+      <div>
+        <p className="font-brand text-xl text-secondary mb-4">Disabled States</p>
+        <div className="flex flex-wrap gap-3 items-center">
+          <Button variant="primary" disabled>Action</Button>
+          <Button variant="secondary" disabled>Action</Button>
+          <Button variant="tertiary" disabled>Action</Button>
+          <Button variant="ghost" disabled>Action</Button>
         </div>
       </div>
     </div>

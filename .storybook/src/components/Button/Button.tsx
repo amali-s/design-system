@@ -1,25 +1,11 @@
 import * as React from "react";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  /** The visual style of the button */
-  variant?: "primary" | "secondary" | "sage" | "red" | "ghost";
-  /** The size of the button */
+  variant?: "primary" | "secondary" | "tertiary" | "ghost" | "danger";
   size?: "sm" | "md" | "lg";
-  /** Optional icon element rendered before children */
   icon?: React.ReactNode;
 }
 
-/**
- * Button component — Ghibli x Brand aesthetic.
- *
- * Design details:
- * - Shape: Pill-shaped (rounded-full)
- * - Typography: Hiragino Sans, 13px, weight 500
- * - Warm box-shadows with rgba(89,85,75,...) tones
- * - Variants: primary (blue), secondary (outline), sage (green), red, ghost
- * - Hover: Darker shade + deeper shadow
- * - Disabled: opacity-50, cursor-not-allowed
- */
 export const Button = ({
   variant = "primary",
   size = "md",
@@ -31,58 +17,79 @@ export const Button = ({
 }: ButtonProps) => {
   const baseStyles = `
     relative inline-flex items-center justify-center gap-2
-    font-sans font-medium
-    rounded-full
+    font-sans text-sm leading-none
+    rounded-[16px]
     transition-all duration-200
-    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary
+    focus-visible:outline-none
   `;
 
   const sizeStyles = {
-    sm: "text-xs px-4 py-1.5",
-    md: "text-[13px] px-6 py-2.5",
-    lg: "text-sm px-8 py-3.5",
+    sm: "px-4 py-2",
+    md: "px-4 py-2",
+    lg: "text-base px-[18px] py-[10px] rounded-[18px]",
   };
 
   const variantStyles = {
-    primary: [
-      "bg-primary text-brand-white border-[1.5px] border-primary",
-      "shadow-[0_2px_8px_rgba(31,131,189,0.2)]",
-      "hover:bg-primary-hover hover:border-primary-hover hover:shadow-[0_4px_16px_rgba(31,131,189,0.25)]",
-      "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-primary disabled:hover:shadow-[0_2px_8px_rgba(31,131,189,0.2)]",
-    ].join(" "),
-    secondary: [
-      "bg-transparent text-secondary border-[1.5px] border-[rgba(89,85,75,0.2)]",
-      "hover:border-[rgba(89,85,75,0.4)] hover:bg-[rgba(89,85,75,0.03)]",
-      "disabled:opacity-50 disabled:cursor-not-allowed",
-    ].join(" "),
-    sage: [
-      "bg-sage text-brand-white border-[1.5px] border-sage",
-      "shadow-[0_2px_8px_rgba(169,193,169,0.25)]",
-      "hover:bg-sage-hover hover:border-sage-hover",
-      "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-sage",
-    ].join(" "),
-    red: [
-      "bg-deepRed text-brand-white border-[1.5px] border-deepRed",
-      "shadow-[0_2px_8px_rgba(125,10,22,0.2)]",
-      "hover:bg-deepRed-hover hover:border-deepRed-hover",
-      "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-deepRed",
-    ].join(" "),
-    ghost: [
-      "bg-transparent text-primary border-[1.5px] border-transparent",
-      "px-1",
-      "hover:bg-[#E8F2F9] hover:border-[#E8F2F9]",
-      "disabled:opacity-50 disabled:cursor-not-allowed",
+    primary: disabled
+      ? "bg-disabled text-[#f6f1eb] cursor-not-allowed"
+      : [
+          "bg-primary text-[#f6f1eb]",
+          "hover:rounded-[18px] hover:bg-[length:100%_100%]",
+          "focus-visible:ring-1 focus-visible:ring-primary-focus focus-visible:ring-offset-1",
+        ].join(" "),
+
+    secondary: disabled
+      ? "bg-disabled text-[#f6f1eb] cursor-not-allowed"
+      : [
+          "bg-secondary text-brand-white",
+          "hover:rounded-[18px]",
+          "focus-visible:ring-1 focus-visible:ring-secondary-gold focus-visible:ring-offset-1",
+        ].join(" "),
+
+    tertiary: disabled
+      ? "border border-disabled text-disabled cursor-not-allowed"
+      : [
+          "border border-primary text-primary bg-transparent",
+          "hover:text-brand-white",
+          "focus-visible:ring-1 focus-visible:ring-primary-focus focus-visible:ring-offset-1",
+        ].join(" "),
+
+    ghost: disabled
+      ? "text-[#ADABA5] cursor-not-allowed"
+      : [
+          "text-primary bg-transparent",
+          "hover:bg-[#D7DDE0]",
+        ].join(" "),
+
+    danger: [
+      "text-error bg-transparent",
+      disabled ? "opacity-50 cursor-not-allowed" : "hover:bg-[#D7DDE0]",
     ].join(" "),
   };
+
+  const hoverStyle: React.CSSProperties | undefined =
+    disabled ? undefined
+    : variant === "primary"
+      ? { backgroundImage: "linear-gradient(89deg, rgba(255,255,255,0) 0%, rgba(211,250,255,0.5) 92%), linear-gradient(90deg, #30B6E6 0%, #30B6E6 100%)" }
+    : variant === "secondary"
+      ? { backgroundImage: "linear-gradient(-89deg, rgba(191,154,73,0.5) 0%, rgba(102,102,102,0) 99%), linear-gradient(90deg, #575040 0%, #575040 100%)" }
+    : variant === "tertiary"
+      ? { background: "radial-gradient(circle, rgba(48,182,230,1) 0%, rgba(48,182,230,0.5) 100%)" }
+    : undefined;
+
+  const [isHovered, setIsHovered] = React.useState(false);
 
   return (
     <button
       className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className || ""}`}
       disabled={disabled}
+      style={isHovered ? hoverStyle : undefined}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       {...props}
     >
-      {icon && <span className="flex-shrink-0">{icon}</span>}
       <span>{children}</span>
+      {icon && <span className="flex-shrink-0">{icon}</span>}
     </button>
   );
 };

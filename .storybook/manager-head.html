@@ -1,0 +1,72 @@
+<!-- Sage Design System — Storybook Manager Head -->
+
+<!-- Load Rasa (brand heading font) and JetBrains Mono (code font) for the Storybook UI -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Rasa:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap"
+  rel="stylesheet"
+/>
+
+<style>
+  /* ── Sidebar brand title ───────────────────────────────────────────────── */
+  /* Use Rasa for the design system name in the sidebar header */
+  #storybook-explorer-menu *,
+  [data-nodeid] span,
+  .sidebar-header span,
+  button[title="Storybook"] span {
+    font-family: 'Rasa', Georgia, serif !important;
+  }
+
+  /* ── Sidebar tree items — Hiragino Sans ───────────────────────────────── */
+  #storybook-explorer-tree,
+  #storybook-explorer-tree * {
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', system-ui, sans-serif !important;
+  }
+
+  /* ── Toolbar & addons panel ───────────────────────────────────────────── */
+  #storybook-panel-root,
+  .os-content,
+  [role="tablist"] {
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', system-ui, sans-serif !important;
+  }
+
+  /* ── Sage sidebar accent: left border on active story ────────────────── */
+  [data-selected="true"] > a,
+  [aria-current="page"] {
+    border-left: 3px solid #A9C1A9 !important;
+    background-color: rgba(169, 193, 169, 0.15) !important;
+    color: #1E526F !important;
+    font-weight: 600 !important;
+    border-radius: 0 4px 4px 0 !important;
+  }
+
+  /* ── Hover state ──────────────────────────────────────────────────────── */
+  #storybook-explorer-tree a:hover {
+    background-color: rgba(169, 193, 169, 0.1) !important;
+    color: #1E526F !important;
+  }
+
+  /* ── Search input ──────────────────────────────────────────────────────── */
+  input[placeholder*="Find"] {
+    background-color: #FFFDFA !important;
+    border-color: rgba(89, 85, 75, 0.15) !important;
+    color: #1B2323 !important;
+    border-radius: 4px !important;
+  }
+
+  /* ── Scrollbar — sage tinted ───────────────────────────────────────────── */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #EDF3ED;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(169, 193, 169, 0.6);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #A9C1A9;
+  }
+</style>

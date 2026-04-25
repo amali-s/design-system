@@ -19,6 +19,7 @@
     "@chromatic-com/storybook": "^4.1.1",
     "@storybook/addon-a11y": "^9.1.13",
     "@storybook/addon-docs": "^9.1.13",
+    "@storybook/addon-mcp": "^0.6.0",
     "@storybook/addon-onboarding": "^9.1.13",
     "@storybook/addon-vitest": "^9.1.13",
     "@storybook/react-vite": "^9.1.13",

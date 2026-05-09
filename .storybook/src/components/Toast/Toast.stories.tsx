@@ -11,10 +11,14 @@ import type { ToastState } from "./Toast";
  * https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Component-kit?node-id=215-108
  *
  * ## States
- * Three visual states: **Default** (gold/beige), **Error** (pink/red), **Success** (mint/green).
+ * Three visual states, each with its own status icon:
+ * - **Information** — light blue background, blue ⓘ icon
+ * - **Success**     — pale green background, green ✓ icon
+ * - **Error**       — warm peach background, red ! triangle icon
  *
  * ## Features
- * - Optional **action button** (ghost style with "+" icon)
+ * - Status icon (16px) in top-left, color/glyph chosen by state
+ * - Optional **action button** (tertiary pill with "+" icon)
  * - Optional **close icon** (× in top-right)
  *
  * ## Sonner Integration
@@ -57,7 +61,7 @@ const meta: Meta<typeof ToastNotification> = {
     body: { control: "text", description: "Body description text" },
     state: {
       control: "select",
-      options: ["default", "error", "success"],
+      options: ["information", "success", "error"],
       description: "Visual state of the toast",
     },
     button: { control: "boolean", description: "Show action button" },
@@ -71,23 +75,12 @@ type Story = StoryObj<typeof ToastNotification>;
 
 // ─── Static Variants (by state) ──────────────────────────────
 
-export const Default: Story = {
-  name: "Default",
+export const Information: Story = {
+  name: "Information",
   args: {
     header: "Header",
     body: "This is body text.",
-    state: "default",
-    button: true,
-    closeIcon: true,
-  },
-};
-
-export const Error: Story = {
-  name: "Error",
-  args: {
-    header: "Header",
-    body: "This is body text.",
-    state: "error",
+    state: "information",
     button: true,
     closeIcon: true,
   },
@@ -104,16 +97,22 @@ export const Success: Story = {
   },
 };
 
-// ─── With Close Icon Only ────────────────────────────────────
-
-export const DefaultCloseOnly: Story = {
-  name: "Default — Close Only",
-  args: { ...Default.args, button: false },
+export const Error: Story = {
+  name: "Error",
+  args: {
+    header: "Header",
+    body: "This is body text.",
+    state: "error",
+    button: true,
+    closeIcon: true,
+  },
 };
 
-export const ErrorCloseOnly: Story = {
-  name: "Error — Close Only",
-  args: { ...Error.args, button: false },
+// ─── With Close Icon Only ────────────────────────────────────
+
+export const InformationCloseOnly: Story = {
+  name: "Information — Close Only",
+  args: { ...Information.args, button: false },
 };
 
 export const SuccessCloseOnly: Story = {
@@ -121,21 +120,26 @@ export const SuccessCloseOnly: Story = {
   args: { ...Success.args, button: false },
 };
 
-// ─── No Close, No Button ────────────────────────────────────
-
-export const DefaultMinimal: Story = {
-  name: "Default — Minimal",
-  args: { ...Default.args, button: false, closeIcon: false },
+export const ErrorCloseOnly: Story = {
+  name: "Error — Close Only",
+  args: { ...Error.args, button: false },
 };
 
-export const ErrorMinimal: Story = {
-  name: "Error — Minimal",
-  args: { ...Error.args, button: false, closeIcon: false },
+// ─── No Close, No Button ────────────────────────────────────
+
+export const InformationMinimal: Story = {
+  name: "Information — Minimal",
+  args: { ...Information.args, button: false, closeIcon: false },
 };
 
 export const SuccessMinimal: Story = {
   name: "Success — Minimal",
   args: { ...Success.args, button: false, closeIcon: false },
+};
+
+export const ErrorMinimal: Story = {
+  name: "Error — Minimal",
+  args: { ...Error.args, button: false, closeIcon: false },
 };
 
 // ─── Composite: All States Grid ──────────────────────────────
@@ -149,7 +153,7 @@ export const AllStates: Story = {
           With Action + Close
         </p>
         <div className="flex flex-wrap gap-4">
-          <ToastNotification state="default" button closeIcon />
+          <ToastNotification state="information" button closeIcon />
           <ToastNotification state="error" button closeIcon />
           <ToastNotification state="success" button closeIcon />
         </div>
@@ -159,7 +163,7 @@ export const AllStates: Story = {
           Close Only
         </p>
         <div className="flex flex-wrap gap-4">
-          <ToastNotification state="default" button={false} closeIcon />
+          <ToastNotification state="information" button={false} closeIcon />
           <ToastNotification state="error" button={false} closeIcon />
           <ToastNotification state="success" button={false} closeIcon />
         </div>
@@ -169,7 +173,7 @@ export const AllStates: Story = {
           Minimal (no action, no close)
         </p>
         <div className="flex flex-wrap gap-4">
-          <ToastNotification state="default" button={false} closeIcon={false} />
+          <ToastNotification state="information" button={false} closeIcon={false} />
           <ToastNotification state="error" button={false} closeIcon={false} />
           <ToastNotification state="success" button={false} closeIcon={false} />
         </div>
@@ -184,13 +188,13 @@ export const FigmaDesignGrid: Story = {
   name: "Figma Design Grid",
   render: () => (
     <div className="flex flex-col gap-5">
-      <ToastNotification state="default" button closeIcon />
+      <ToastNotification state="information" button closeIcon />
       <ToastNotification state="error" button closeIcon />
       <ToastNotification state="success" button closeIcon />
-      <ToastNotification state="default" button={false} closeIcon />
+      <ToastNotification state="information" button={false} closeIcon />
       <ToastNotification state="error" button={false} closeIcon />
       <ToastNotification state="success" button={false} closeIcon />
-      <ToastNotification state="default" button={false} closeIcon={false} />
+      <ToastNotification state="information" button={false} closeIcon={false} />
       <ToastNotification state="success" button={false} closeIcon={false} />
       <ToastNotification state="error" button={false} closeIcon={false} />
     </div>
@@ -306,16 +310,16 @@ const ToastDemo = () => {
             type="button"
             onClick={() =>
               addToast(
-                "default",
+                "information",
                 "Notification",
-                "This is a default notification.",
+                "This is an informational notification.",
                 true,
                 true,
               )
             }
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-brand-foreground text-secondary border border-[#BF9A49] hover:bg-[#E5DDD4] transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#E0F4FF] text-[#0084D1] border border-[#0084D1] hover:bg-[#CCEAFB] transition-all cursor-pointer"
           >
-            Default Toast
+            Information Toast
           </button>
 
           <button
@@ -354,7 +358,7 @@ const ToastDemo = () => {
             type="button"
             onClick={() =>
               addToast(
-                "default",
+                "information",
                 "Quick note",
                 "Auto-dismisses in 4 seconds.",
                 false,

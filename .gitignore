@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 *storybook.log
 storybook-static
+
+# Claude Code local worktrees (nested copies; do not commit)
+.claude/worktrees/

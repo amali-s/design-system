@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sage Design Tokens — from Figma Component Kit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rasa:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Status & Action */
+      --primary: #1F83BD;
+      --primary-hover: #1A6FA0;
+      --primary-active: #165D87;
+      --secondary: #59554B;
+      --sage: #A9C1A9;
+      --sage-light: #EDF3ED;
+      --deep-red: #7D0A16;
+      --warning: #D98900;
+      --error: #ED112E;
+      --success: #14C714;
+      /* Brand */
+      --brand-dark-blue: #1E526F;
+      --brand-accent: #E8DDA2;
+      --brand-black: #1B2323;
+      --brand-dark-grey: #413E36;
+      --brand-foreground: #EDE6DE;
+      --brand-white: #FFFDFA;
+      --highlight-yellow: #FFD60C;
+      --brand-dark-red: #902944;
+      --brand-dark-green: #198D54;
+      /* Data viz */
+      --data-light-blue: #60E1F0;
+      --data-dark-orange: #875C00;
+      --data-bright-magenta: #FF4978;
+      --data-pale-mustard: #D9D059;
+      --data-dark-blue: #096694;
+      --data-lime-green: #16D113;
+      --data-dark-magenta: #902944;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--brand-foreground);
+      color: var(--brand-black);
+      line-height: 1.5;
+      padding: 48px 64px 96px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 {
+      font-family: 'Rasa', Georgia, serif;
+      font-size: 48px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+      color: var(--brand-black);
+    }
+    .subtitle {
+      font-size: 18px;
+      color: var(--brand-dark-grey);
+      margin-bottom: 48px;
+    }
+    section {
+      background: var(--brand-white);
+      border-radius: 12px;
+      padding: 32px 40px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 4px rgba(89, 85, 75, 0.06);
+    }
+    h2 {
+      font-family: 'Rasa', Georgia, serif;
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--brand-dark-blue);
+    }
+    .section-desc {
+      font-size: 14px;
+      color: var(--brand-dark-grey);
+      margin-bottom: 24px;
+    }
+    .token-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .color-swatch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 120px;
+    }
+    .color-swatch .swatch {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      border: 1px solid rgba(89, 85, 75, 0.06);
+    }
+    .color-swatch .name { font-size: 12px; font-weight: 500; color: var(--brand-black); }
+    .color-swatch .value { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--brand-dark-grey); }
+    .type-row {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(89, 85, 75, 0.06);
+    }
+    .type-row:last-child { border-bottom: none; }
+    .type-name { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--brand-dark-grey); min-width: 120px; }
+    .type-preview { flex: 1; }
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(89, 85, 75, 0.06);
+    }
+    .spacing-row .key { font-family: 'JetBrains Mono', monospace; font-size: 12px; min-width: 80px; }
+    .spacing-row .bar { height: 24px; background: var(--primary); border-radius: 4px; }
+    .spacing-row .value { font-size: 12px; color: var(--brand-dark-grey); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sage Design Tokens</h1>
+    <p class="subtitle">Extracted from Figma Sage Component Kit — colors, typography, spacing</p>
+
+    <section>
+      <h2>Status & Action Colors</h2>
+      <p class="section-desc">Interactive elements, buttons, status indicators</p>
+      <div class="token-grid">
+        <div class="color-swatch"><div class="swatch" style="background:#1F83BD"></div><span class="name">Primary</span><span class="value">#1F83BD</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#59554B"></div><span class="name">Secondary</span><span class="value">#59554B</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#A9C1A9"></div><span class="name">Sage</span><span class="value">#A9C1A9</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#7D0A16"></div><span class="name">Deep Red</span><span class="value">#7D0A16</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#D98900"></div><span class="name">Warning</span><span class="value">#D98900</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#ED112E"></div><span class="name">Error</span><span class="value">#ED112E</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#14C714"></div><span class="name">Success</span><span class="value">#14C714</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Branding & Layout</h2>
+      <p class="section-desc">Core colors for branding, backgrounds, typography</p>
+      <div class="token-grid">
+        <div class="color-swatch"><div class="swatch" style="background:#1E526F"></div><span class="name">Dark Blue</span><span class="value">#1E526F</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#E8DDA2"></div><span class="name">Accent / Gold</span><span class="value">#E8DDA2</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#1B2323"></div><span class="name">Black</span><span class="value">#1B2323</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#413E36"></div><span class="name">Dark Grey</span><span class="value">#413E36</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#EDE6DE;border:1px solid rgba(0,0,0,0.08)"></div><span class="name">Foreground</span><span class="value">#EDE6DE</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#FFFDFA;border:1px solid rgba(0,0,0,0.08)"></div><span class="name">White</span><span class="value">#FFFDFA</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#FFD60C"></div><span class="name">Highlight Yellow</span><span class="value">#FFD60C</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#902944"></div><span class="name">Dark Red</span><span class="value">#902944</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#198D54"></div><span class="name">Dark Green</span><span class="value">#198D54</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Data Visualization</h2>
+      <p class="section-desc">Charts, graphs, tags, data differentiation</p>
+      <div class="token-grid">
+        <div class="color-swatch"><div class="swatch" style="background:#60E1F0"></div><span class="name">Light Blue</span><span class="value">#60E1F0</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#875C00"></div><span class="name">Dark Orange</span><span class="value">#875C00</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#FF4978"></div><span class="name">Bright Magenta</span><span class="value">#FF4978</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#D9D059"></div><span class="name">Pale Mustard</span><span class="value">#D9D059</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#096694"></div><span class="name">Dark Blue</span><span class="value">#096694</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#16D113"></div><span class="name">Lime Green</span><span class="value">#16D113</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#902944"></div><span class="name">Dark Magenta</span><span class="value">#902944</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Typography</h2>
+      <p class="section-desc">Font families, sizes, weights</p>
+      <div class="type-row">
+        <span class="type-name">pageTitle1</span>
+        <span class="type-preview" style="font-family:Rasa,Georgia,serif;font-size:36px;font-weight:700;letter-spacing:-0.01em">Rasa Bold 36px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-name">heading6</span>
+        <span class="type-preview" style="font-size:24px;font-weight:350">Heading 6 — 24px</span>
+      </div>
+      <div class="type-row">
+        <span class="type-name">heading4</span>
+        <span class="type-preview" style="font-size:20px;font-weight:600">Heading 4 — 20px Semibold</span>
+      </div>
+      <div class="type-row">
+        <span class="type-name">body2</span>
+        <span class="type-preview" style="font-size:16px;font-weight:400;line-height:1.6">Body 2 — 16px Regular</span>
+      </div>
+      <div class="type-row">
+        <span class="type-name">body1</span>
+        <span class="type-preview" style="font-size:14px;font-weight:400">Body 1 — 14px Regular</span>
+      </div>
+      <div class="type-row">
+        <span class="type-name">label1</span>
+        <span class="type-preview" style="font-size:12px;font-weight:350">Label 1 — 12px</span>
+      </div>
+    </section>
+
+    <section>
+      <h2>Spacing Scale</h2>
+      <p class="section-desc">4px base unit — 0, 2, 4, 8, 12, 16, 20, 24, 32, 48, 64px</p>
+      <div class="spacing-row"><span class="key">0</span><div class="bar" style="width:0"></div><span class="value">0</span></div>
+      <div class="spacing-row"><span class="key">1</span><div class="bar" style="width:4px"></div><span class="value">4px</span></div>
+      <div class="spacing-row"><span class="key">2</span><div class="bar" style="width:8px"></div><span class="value">8px</span></div>
+      <div class="spacing-row"><span class="key">3</span><div class="bar" style="width:12px"></div><span class="value">12px</span></div>
+      <div class="spacing-row"><span class="key">4</span><div class="bar" style="width:16px"></div><span class="value">16px</span></div>
+      <div class="spacing-row"><span class="key">6</span><div class="bar" style="width:24px"></div><span class="value">24px</span></div>
+      <div class="spacing-row"><span class="key">8</span><div class="bar" style="width:32px"></div><span class="value">32px</span></div>
+      <div class="spacing-row"><span class="key">12</span><div class="bar" style="width:48px"></div><span class="value">48px</span></div>
+      <div class="spacing-row"><span class="key">16</span><div class="bar" style="width:64px"></div><span class="value">64px</span></div>
+    </section>
+
+    <section>
+      <h2>Border Radius & Shadows</h2>
+      <p class="section-desc">Rounded corners and elevation</p>
+      <div style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end">
+        <div style="width:64px;height:64px;background:var(--primary);border-radius:4px"></div>
+        <div style="width:64px;height:64px;background:var(--primary);border-radius:8px"></div>
+        <div style="width:64px;height:64px;background:var(--primary);border-radius:12px"></div>
+        <div style="width:64px;height:64px;background:var(--primary);border-radius:999px"></div>
+      </div>
+      <p style="font-size:12px;color:var(--brand-dark-grey);margin-top:16px">sm: 4px · md: 8px · lg: 12px · pill: 999px</p>
+      <p style="font-size:12px;color:var(--brand-dark-grey);margin-top:8px">Shadows: ghibli-sm · ghibli-md · ghibli-lg</p>
+    </section>
+  </div>
+</body>
+</html>

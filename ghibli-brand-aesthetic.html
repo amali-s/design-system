@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ghibli x Brand — Design System Aesthetic</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rasa:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #EDE6DE;
+    --blue: #1F83BD;
+    --deep-red: #7D0A16;
+    --warm-grey: #59554B;
+    --gold: #E8DDA2;
+    --white: #FFFDFA;
+    --sage: #A9C1A9;
+
+    --blue-light: #E8F2F9;
+    --blue-hover: #1A6FA0;
+    --red-light: #F5E8E9;
+    --sage-light: #EDF3ED;
+    --gold-light: #F9F6E8;
+    --grey-light: #B5B1A9;
+    --grey-muted: #8A867E;
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-pill: 999px;
+
+    --shadow-sm: 0 1px 4px rgba(89,85,75,0.06);
+    --shadow-md: 0 4px 16px rgba(89,85,75,0.08);
+    --shadow-lg: 0 8px 32px rgba(89,85,75,0.1);
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--warm-grey);
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── PAGE LAYOUT ─── */
+  .page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  .page-title {
+    font-family: 'Rasa', Georgia, serif;
+    font-size: 56px;
+    font-weight: 400;
+    color: var(--warm-grey);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .page-subtitle {
+    font-family: 'Rasa', Georgia, serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--grey-muted);
+    margin-bottom: 48px;
+    font-style: italic;
+  }
+
+  .section {
+    margin-bottom: 56px;
+  }
+  .section-title {
+    font-family: 'Rasa', Georgia, serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--warm-grey);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(89,85,75,0.12);
+  }
+
+  /* ─── COLOR PALETTE ─── */
+  .palette {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .swatch {
+    width: 120px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    background: var(--white);
+  }
+  .swatch-color {
+    height: 80px;
+    position: relative;
+  }
+  .swatch-info {
+    padding: 10px 12px;
+  }
+  .swatch-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--warm-grey);
+    margin-bottom: 2px;
+  }
+  .swatch-hex {
+    font-size: 11px;
+    color: var(--grey-muted);
+    font-family: 'JetBrains Mono', Menlo, monospace;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  .type-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-sm);
+  }
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(89,85,75,0.06);
+  }
+  .type-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .type-meta {
+    flex-shrink: 0;
+    width: 140px;
+    font-size: 11px;
+    color: var(--grey-light);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .type-meta span {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--grey-light);
+    margin-top: 2px;
+  }
+
+  .t-page-title {
+    font-family: 'Rasa', Georgia, serif;
+    font-size: 56px;
+    font-weight: 400;
+    color: var(--warm-grey);
+    line-height: 1;
+  }
+  .t-heading-1 {
+    font-family: 'Rasa', Georgia, serif;
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--warm-grey);
+    line-height: 1.15;
+  }
+  .t-heading-2 {
+    font-family: 'Rasa', Georgia, serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--warm-grey);
+    line-height: 1.2;
+  }
+  .t-body-1 {
+    font-family: 'Hiragino Sans', system-ui, sans-serif;
+    font-size: 16px;
+    color: var(--warm-grey);
+    line-height: 1.6;
+  }
+  .t-body-2 {
+    font-family: 'Hiragino Sans', system-ui, sans-serif;
+    font-size: 14px;
+    color: var(--grey-muted);
+    line-height: 1.6;
+  }
+  .t-label {
+    font-family: 'Hiragino Sans', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--grey-muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  /* ─── CARDS ─── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--white);
+    border: 1px solid rgba(89,85,75,0.08);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.3s, transform 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+  .card-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+  }
+  .card-label.blue { color: var(--blue); }
+  .card-label.sage { color: #6B9E6B; }
+  .card-label.red { color: var(--deep-red); }
+  .card-label.gold { color: #9E9040; }
+  .card-heading {
+    font-family: 'Rasa', Georgia, serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--warm-grey);
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+  .card-body {
+    font-size: 13px;
+    color: var(--grey-muted);
+    line-height: 1.7;
+    flex: 1;
+  }
+  .card-footer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(89,85,75,0.06);
+  }
+  .card-accent-bar {
+    height: 4px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  /* Card with image slot */
+  .card-image-slot {
+    height: 120px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--grey-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ─── BUTTONS ─── */
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border-radius: var(--radius-pill);
+    font-family: 'Hiragino Sans', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1.5px solid transparent;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--blue);
+    color: var(--white);
+    border-color: var(--blue);
+    box-shadow: 0 2px 8px rgba(31,131,189,0.2);
+  }
+  .btn-primary:hover { background: var(--blue-hover); border-color: var(--blue-hover); box-shadow: 0 4px 16px rgba(31,131,189,0.25); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--warm-grey);
+    border-color: rgba(89,85,75,0.2);
+  }
+  .btn-secondary:hover { border-color: rgba(89,85,75,0.4); background: rgba(89,85,75,0.03); }
+  .btn-sage {
+    background: var(--sage);
+    color: var(--white);
+    border-color: var(--sage);
+    box-shadow: 0 2px 8px rgba(169,193,169,0.25);
+  }
+  .btn-sage:hover { background: #96B496; border-color: #96B496; }
+  .btn-red {
+    background: var(--deep-red);
+    color: var(--white);
+    border-color: var(--deep-red);
+    box-shadow: 0 2px 8px rgba(125,10,22,0.2);
+  }
+  .btn-red:hover { background: #6A0813; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--blue);
+    border-color: transparent;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  .btn-ghost:hover { background: var(--blue-light); border-color: var(--blue-light); }
+  .btn-sm {
+    padding: 6px 16px;
+    font-size: 12px;
+  }
+
+  /* ─── BADGES ─── */
+  .badge-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .badge-blue { background: var(--blue-light); color: var(--blue); }
+  .badge-sage { background: var(--sage-light); color: #5A8A5A; }
+  .badge-red { background: var(--red-light); color: var(--deep-red); }
+  .badge-gold { background: var(--gold-light); color: #8A7F3A; }
+  .badge-grey { background: rgba(89,85,75,0.06); color: var(--grey-muted); }
+
+  /* ─── FORM ELEMENTS ─── */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 400px;
+  }
+  .input-wrapper { display: flex; flex-direction: column; gap: 6px; }
+  .input-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--warm-grey);
+  }
+  .input {
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid rgba(89,85,75,0.15);
+    background: var(--white);
+    color: var(--warm-grey);
+    font-family: 'Hiragino Sans', system-ui, sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .input::placeholder { color: var(--grey-light); }
+  .input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(31,131,189,0.1); }
+  .input-error { border-color: var(--deep-red); }
+  .input-error:focus { box-shadow: 0 0 0 3px rgba(125,10,22,0.08); }
+  .input-hint {
+    font-size: 11px;
+    color: var(--grey-muted);
+  }
+  .input-hint.error { color: var(--deep-red); }
+
+  .textarea {
+    padding: 12px 16px;
+    border-radius: var(--radius-md);
+    border: 1.5px solid rgba(89,85,75,0.15);
+    background: var(--white);
+    color: var(--warm-grey);
+    font-family: 'Hiragino Sans', system-ui, sans-serif;
+    font-size: 14px;
+    outline: none;
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .textarea:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(31,131,189,0.1); }
+
+  /* ─── ALERT / BANNER ─── */
+  .alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .alert-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 1px;
+  }
+  .alert-blue {
+    background: var(--blue-light);
+    color: var(--blue);
+  }
+  .alert-blue .alert-icon { background: var(--blue); color: var(--white); }
+  .alert-sage {
+    background: var(--sage-light);
+    color: #4A7A4A;
+  }
+  .alert-sage .alert-icon { background: var(--sage); color: var(--white); }
+  .alert-red {
+    background: var(--red-light);
+    color: var(--deep-red);
+  }
+  .alert-red .alert-icon { background: var(--deep-red); color: var(--white); }
+  .alert-gold {
+    background: var(--gold-light);
+    color: #7A7030;
+  }
+  .alert-gold .alert-icon { background: #C4B84A; color: var(--white); }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(89,85,75,0.12), transparent);
+    margin: 12px 0;
+  }
+
+  /* ─── NAV PREVIEW ─── */
+  .nav-preview {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 16px 28px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .nav-brand {
+    font-family: 'Rasa', Georgia, serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--warm-grey);
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+  }
+  .nav-links li {
+    font-size: 13px;
+    color: var(--grey-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .nav-links li:hover { color: var(--blue); }
+  .nav-links li.active { color: var(--blue); font-weight: 600; }
+
+  /* ─── SPACING & RADIUS PREVIEW ─── */
+  .radius-row {
+    display: flex;
+    gap: 20px;
+    align-items: end;
+  }
+  .radius-sample {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .radius-box {
+    width: 56px;
+    height: 56px;
+    background: var(--white);
+    border: 1.5px solid rgba(89,85,75,0.12);
+    box-shadow: var(--shadow-sm);
+  }
+  .radius-label {
+    font-size: 10px;
+    color: var(--grey-light);
+    text-align: center;
+  }
+
+  /* ─── COMPONENT ROW LAYOUT ─── */
+  .component-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 700px) {
+    .component-row { grid-template-columns: 1fr; }
+  }
+  .component-box {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    box-shadow: var(--shadow-sm);
+  }
+  .component-box h4 {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--grey-light);
+    margin-bottom: 20px;
+  }
+
+  .sub-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--grey-light);
+    margin-bottom: 16px;
+  }
+
+  /* ─── DARK SECTION PREVIEW ─── */
+  .dark-section {
+    background: var(--warm-grey);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    color: var(--cream);
+  }
+  .dark-section .section-title {
+    color: var(--cream);
+    border-bottom-color: rgba(237,230,222,0.15);
+  }
+  .dark-card {
+    background: rgba(255,253,250,0.06);
+    border: 1px solid rgba(255,253,250,0.1);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+  }
+  .dark-card .card-label { color: var(--sage); }
+  .dark-card .card-heading { color: var(--cream); }
+  .dark-card .card-body { color: rgba(237,230,222,0.6); }
+  .dark-btn-primary {
+    background: var(--blue);
+    color: var(--white);
+    border-color: var(--blue);
+  }
+  .dark-btn-secondary {
+    background: transparent;
+    color: var(--cream);
+    border-color: rgba(237,230,222,0.2);
+  }
+
+  /* ─── STACKED LAYOUT PREVIEW ─── */
+  .preview-frame {
+    background: var(--cream);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(89,85,75,0.08);
+    padding: 24px;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══ HEADER ═══ -->
+  <div class="page-title">Ghibli x Brand</div>
+  <div class="page-subtitle">A warm, organic design system rooted in nature and craft</div>
+
+  <!-- ═══ PALETTE ═══ -->
+  <div class="section">
+    <div class="section-title">Color Palette</div>
+    <div class="palette">
+      <div class="swatch"><div class="swatch-color" style="background:#EDE6DE"></div><div class="swatch-info"><div class="swatch-name">Cream</div><div class="swatch-hex">#EDE6DE</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#FFFDFA"></div><div class="swatch-info"><div class="swatch-name">White</div><div class="swatch-hex">#FFFDFA</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#1F83BD"></div><div class="swatch-info"><div class="swatch-name">Blue</div><div class="swatch-hex">#1F83BD</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#A9C1A9"></div><div class="swatch-info"><div class="swatch-name">Sage</div><div class="swatch-hex">#A9C1A9</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#7D0A16"></div><div class="swatch-info"><div class="swatch-name">Deep Red</div><div class="swatch-hex">#7D0A16</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#E8DDA2"></div><div class="swatch-info"><div class="swatch-name">Gold</div><div class="swatch-hex">#E8DDA2</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#59554B"></div><div class="swatch-info"><div class="swatch-name">Warm Grey</div><div class="swatch-hex">#59554B</div></div></div>
+    </div>
+  </div>
+
+  <!-- ═══ TYPOGRAPHY ═══ -->
+  <div class="section">
+    <div class="section-title">Typography</div>
+    <div class="type-stack">
+      <div class="type-row">
+        <div class="type-meta">Page Title<span>Rasa 56 / 400</span></div>
+        <div class="t-page-title">Gentle paths</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">Heading 1<span>Rasa 36 / 500</span></div>
+        <div class="t-heading-1">Through the Forest</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">Heading 2<span>Rasa 24 / 500</span></div>
+        <div class="t-heading-2">Where the Wind Carries You</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">Body 1<span>Hiragino 16 / 400</span></div>
+        <div class="t-body-1">Every journey begins with a single step into the unknown. The wind knows the way even when you don't.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">Body 2<span>Hiragino 14 / 400</span></div>
+        <div class="t-body-2">Supporting text that provides context and detail without competing for attention.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-meta">Label<span>Hiragino 12 / 600</span></div>
+        <div class="t-label">Category Label</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ CORNER RADII ═══ -->
+  <div class="section">
+    <div class="section-title">Corner Radius</div>
+    <div class="radius-row">
+      <div class="radius-sample"><div class="radius-box" style="border-radius:8px"></div><div class="radius-label">8px<br>Small</div></div>
+      <div class="radius-sample"><div class="radius-box" style="border-radius:12px"></div><div class="radius-label">12px<br>Medium</div></div>
+      <div class="radius-sample"><div class="radius-box" style="border-radius:16px"></div><div class="radius-label">16px<br>Large</div></div>
+      <div class="radius-sample"><div class="radius-box" style="border-radius:50%"></div><div class="radius-label">Full<br>Circle</div></div>
+      <div class="radius-sample"><div class="radius-box" style="border-radius:999px;width:80px;height:40px"></div><div class="radius-label">Pill</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ NAVIGATION ═══ -->
+  <div class="section">
+    <div class="section-title">Navigation</div>
+    <div class="nav-preview">
+      <div class="nav-brand">Totoro</div>
+      <ul class="nav-links">
+        <li class="active">Home</li>
+        <li>Explore</li>
+        <li>Stories</li>
+        <li>About</li>
+      </ul>
+      <button class="btn btn-primary btn-sm">Get Started</button>
+    </div>
+  </div>
+
+  <!-- ═══ CARDS ═══ -->
+  <div class="section">
+    <div class="section-title">Cards</div>
+    <div class="card-grid">
+
+      <div class="card">
+        <div class="card-accent-bar" style="background:linear-gradient(90deg, var(--blue), var(--sage))"></div>
+        <div class="card-label blue">Exploration</div>
+        <div class="card-heading">A Path Through the Trees</div>
+        <div class="card-body">The forest spirits watch over travelers who walk with a gentle heart. Every journey begins with a single step.</div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-sm">Begin</button>
+          <button class="btn btn-secondary btn-sm">Later</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-image-slot" style="background: linear-gradient(135deg, var(--sage-light), var(--gold-light))">Image Slot</div>
+        <div class="card-label sage">Nature</div>
+        <div class="card-heading">The Garden Awakens</div>
+        <div class="card-body">Wildflowers push through the old stone walls. Spring doesn't wait for permission.</div>
+        <div class="card-footer">
+          <button class="btn btn-sage btn-sm">Discover</button>
+          <button class="btn btn-ghost btn-sm">Read More &rarr;</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-accent-bar" style="background:var(--gold)"></div>
+        <div class="card-label gold">Archive</div>
+        <div class="card-heading">Letters from the Hilltop</div>
+        <div class="card-body">Handwritten notes carried by the wind, each one a memory pressed between the pages of an old book.</div>
+        <div class="badge-row" style="margin-top:12px">
+          <span class="badge badge-gold">Memoir</span>
+          <span class="badge badge-grey">1998</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-accent-bar" style="background:var(--deep-red)"></div>
+        <div class="card-label red">Important</div>
+        <div class="card-heading">The Flame Still Burns</div>
+        <div class="card-body">Some stories refuse to end quietly. They smolder beneath the surface, waiting for the right moment to reignite.</div>
+        <div class="card-footer">
+          <button class="btn btn-red btn-sm">Urgent</button>
+          <button class="btn btn-secondary btn-sm">Dismiss</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ BUTTONS ═══ -->
+  <div class="section">
+    <div class="section-title">Buttons</div>
+    <div class="component-row">
+      <div class="component-box">
+        <h4>Primary Actions</h4>
+        <div class="btn-row" style="margin-bottom:16px">
+          <button class="btn btn-primary">Blue Primary</button>
+          <button class="btn btn-sage">Sage Primary</button>
+          <button class="btn btn-red">Red Primary</button>
+        </div>
+        <h4>Secondary & Ghost</h4>
+        <div class="btn-row">
+          <button class="btn btn-secondary">Secondary</button>
+          <button class="btn btn-ghost">Ghost Link &rarr;</button>
+        </div>
+      </div>
+      <div class="component-box">
+        <h4>Sizes</h4>
+        <div class="btn-row" style="margin-bottom:16px">
+          <button class="btn btn-primary btn-sm">Small</button>
+          <button class="btn btn-primary">Default</button>
+          <button class="btn btn-primary" style="padding:14px 32px;font-size:15px">Large</button>
+        </div>
+        <h4>Badges</h4>
+        <div class="badge-row">
+          <span class="badge badge-blue">Stream</span>
+          <span class="badge badge-sage">Forest</span>
+          <span class="badge badge-red">Alert</span>
+          <span class="badge badge-gold">Archive</span>
+          <span class="badge badge-grey">Draft</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FORM ELEMENTS ═══ -->
+  <div class="section">
+    <div class="section-title">Form Elements</div>
+    <div class="component-row">
+      <div class="component-box">
+        <h4>Inputs</h4>
+        <div class="form-group">
+          <div class="input-wrapper">
+            <label class="input-label">Name</label>
+            <input class="input" placeholder="What should we call you?" />
+          </div>
+          <div class="input-wrapper">
+            <label class="input-label">Email</label>
+            <input class="input input-error" value="invalid-email" />
+            <span class="input-hint error">Please enter a valid email</span>
+          </div>
+          <div class="input-wrapper">
+            <label class="input-label">Message</label>
+            <textarea class="textarea" placeholder="Write something kind..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="component-box">
+        <h4>Alerts</h4>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="alert alert-blue"><div class="alert-icon">i</div><div>A gentle breeze carries news from the valley. Something wonderful this way comes.</div></div>
+          <div class="alert alert-sage"><div class="alert-icon">&#10003;</div><div>The seeds have been planted successfully. Growth will follow in time.</div></div>
+          <div class="alert alert-gold"><div class="alert-icon">!</div><div>The old bridge needs repair before the next rainfall. Please plan accordingly.</div></div>
+          <div class="alert alert-red"><div class="alert-icon">&#10007;</div><div>The path ahead is blocked. Consider an alternate route through the hills.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DARK MODE ═══ -->
+  <div class="section">
+    <div class="section-title">Dark Surface</div>
+    <div class="dark-section">
+      <div class="component-row">
+        <div class="dark-card">
+          <div class="card-label" style="color:var(--sage)">Evening</div>
+          <div class="card-heading" style="color:var(--cream)">Under the Stars</div>
+          <div class="card-body" style="color:rgba(237,230,222,0.6)">The campfire crackles while the forest hums its ancient lullaby. Tomorrow is another adventure.</div>
+          <div class="card-footer" style="border-top-color:rgba(237,230,222,0.08)">
+            <button class="btn dark-btn-primary btn-sm">Rest Here</button>
+            <button class="btn dark-btn-secondary btn-sm">Keep Going</button>
+          </div>
+        </div>
+        <div class="dark-card">
+          <div class="card-label" style="color:var(--gold)">Twilight</div>
+          <div class="card-heading" style="color:var(--cream)">The Lantern Festival</div>
+          <div class="card-body" style="color:rgba(237,230,222,0.6)">Paper lanterns rise into the violet sky, carrying wishes from the villagers below. Each light a small hope.</div>
+          <div style="display:flex;gap:8px;margin-top:16px">
+            <span class="badge" style="background:rgba(169,193,169,0.15);color:var(--sage)">Ceremony</span>
+            <span class="badge" style="background:rgba(232,221,162,0.15);color:var(--gold)">Seasonal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

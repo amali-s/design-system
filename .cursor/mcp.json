@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "design-system-storybook-mcp": {
+      "url": "http://localhost:6006/mcp"
+    }
+  }
+}

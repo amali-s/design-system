@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>90s Anime Design System Aesthetics</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono:wght@400;700&family=Zen+Maru+Gothic:wght@300;400;500;700&family=Bebas+Neue&family=Share+Tech+Mono&family=Caveat:wght@400;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0f;
+    color: #eee;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    overflow-x: hidden;
+  }
+
+  .page-header {
+    text-align: center;
+    padding: 60px 20px 40px;
+  }
+  .page-header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 6px;
+    background: linear-gradient(135deg, #ff6b9d, #c084fc, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+  }
+  .page-header p {
+    color: #888;
+    font-size: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .tab {
+    padding: 10px 20px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background: transparent;
+    color: #999;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .tab:hover { border-color: #666; color: #ccc; }
+  .tab.active { border-color: var(--accent); color: var(--accent); background: rgba(255,255,255,0.03); }
+
+  .panels { max-width: 1100px; margin: 0 auto; padding: 20px; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ───── PANEL LAYOUT ───── */
+  .aesthetic-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 32px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 768px) {
+    .aesthetic-grid { grid-template-columns: 1fr; }
+  }
+
+  .token-sidebar h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #666;
+    margin-bottom: 16px;
+  }
+
+  .color-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .color-swatch {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0;
+  }
+  .color-info { font-size: 12px; }
+  .color-info .name { color: #ccc; }
+  .color-info .hex { color: #666; font-family: 'Space Mono', monospace; font-size: 11px; }
+
+  .type-sample { margin-bottom: 8px; }
+  .type-label { font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+
+  .component-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .preview-section h4 {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #555;
+    margin-bottom: 12px;
+  }
+
+  /* ───── 1. SAILOR MOON / MAGICAL GIRL ───── */
+  .magical-girl {
+    --accent: #ff6b9d;
+    --bg: #1a1025;
+    --surface: linear-gradient(135deg, #2d1b4e 0%, #1a1025 100%);
+    --card-bg: linear-gradient(160deg, rgba(255,182,216,0.08), rgba(162,130,255,0.06));
+  }
+
+  .mg-card {
+    background: linear-gradient(160deg, rgba(255,182,216,0.1), rgba(162,130,255,0.08));
+    border: 1px solid rgba(255,107,157,0.2);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .mg-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,182,216,0.06) 0%, transparent 60%);
+    animation: sparkle-drift 8s ease-in-out infinite;
+  }
+  @keyframes sparkle-drift {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, 20px); }
+  }
+  .mg-card > * { position: relative; z-index: 1; }
+  .mg-card .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #c084fc;
+    margin-bottom: 8px;
+  }
+  .mg-card h3 {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: #ffd6e8;
+    margin-bottom: 12px;
+  }
+  .mg-card p {
+    font-size: 13px;
+    color: #b8a0cc;
+    line-height: 1.6;
+  }
+  .mg-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 10px 24px;
+    border-radius: 24px;
+    border: none;
+    background: linear-gradient(135deg, #ff6b9d, #c084fc);
+    color: white;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255,107,157,0.3);
+    transition: box-shadow 0.3s;
+  }
+  .mg-btn:hover { box-shadow: 0 0 30px rgba(255,107,157,0.5); }
+  .mg-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 10px 24px;
+    border-radius: 24px;
+    border: 1px solid rgba(255,107,157,0.4);
+    background: transparent;
+    color: #ff6b9d;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    margin-left: 8px;
+  }
+
+  .mg-sparkles {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 18px;
+    opacity: 0.5;
+  }
+
+  .mg-input {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(192,132,252,0.3);
+    background: rgba(255,255,255,0.04);
+    color: #ffd6e8;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 13px;
+    outline: none;
+    margin-bottom: 8px;
+  }
+  .mg-input::placeholder { color: #7a5f8f; }
+
+  .mg-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 12px;
+    font-size: 11px;
+    background: rgba(255,107,157,0.15);
+    color: #ff6b9d;
+    border: 1px solid rgba(255,107,157,0.2);
+  }
+  .mg-badge.purple {
+    background: rgba(192,132,252,0.15);
+    color: #c084fc;
+    border-color: rgba(192,132,252,0.2);
+  }
+
+  /* ───── 2. EVANGELION / MECHA ───── */
+  .evangelion {
+    --accent: #ff6b00;
+  }
+
+  .eva-card {
+    background: #0c0c0c;
+    border: 1px solid #ff6b00;
+    padding: 0;
+    position: relative;
+    clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+  }
+  .eva-card-header {
+    background: #ff6b00;
+    color: #000;
+    padding: 8px 16px;
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .eva-card-body {
+    padding: 20px;
+  }
+  .eva-card-body h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 16px;
+    color: #ff6b00;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  .eva-card-body p {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: #888;
+    line-height: 1.7;
+  }
+  .eva-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 28px;
+    border: 2px solid #ff6b00;
+    background: transparent;
+    color: #ff6b00;
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .eva-btn:hover { background: #ff6b00; color: #000; }
+  .eva-btn-filled {
+    display: inline-block;
+    margin-top: 16px;
+    margin-left: 8px;
+    padding: 10px 28px;
+    border: 2px solid #ff6b00;
+    background: #ff6b00;
+    color: #000;
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .eva-warning {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-left: 3px solid #ff6b00;
+    background: rgba(255,107,0,0.06);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: #ff6b00;
+    margin-top: 12px;
+  }
+
+  .eva-status-bar {
+    display: flex;
+    gap: 2px;
+    margin-top: 12px;
+  }
+  .eva-status-bar span {
+    height: 4px;
+    flex: 1;
+    background: #ff6b00;
+    opacity: 0.3;
+  }
+  .eva-status-bar span.filled { opacity: 1; }
+
+  .eva-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #333;
+    background: #111;
+    color: #ff6b00;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    outline: none;
+  }
+  .eva-input:focus { border-color: #ff6b00; }
+
+  /* ───── 3. COWBOY BEBOP / NEO-NOIR ───── */
+  .bebop {
+    --accent: #e8956a;
+  }
+
+  .bebop-card {
+    background: #1c1814;
+    border: 1px solid #3d352c;
+    border-radius: 12px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bebop-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.8' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .bebop-card > * { position: relative; z-index: 1; }
+  .bebop-card .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #8a7e6f;
+    margin-bottom: 12px;
+  }
+  .bebop-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: #e8d5c4;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .bebop-card p {
+    font-size: 13px;
+    color: #8a7e6f;
+    line-height: 1.7;
+  }
+  .bebop-btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 28px;
+    border-radius: 8px;
+    border: none;
+    background: #e8956a;
+    color: #1c1814;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .bebop-btn:hover { background: #f0a57d; }
+  .bebop-btn-ghost {
+    display: inline-block;
+    margin-top: 20px;
+    margin-left: 8px;
+    padding: 12px 28px;
+    border-radius: 8px;
+    border: 1px solid #3d352c;
+    background: transparent;
+    color: #8a7e6f;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 2px;
+    cursor: pointer;
+  }
+
+  .bebop-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #3d352c, transparent);
+    margin: 16px 0;
+  }
+
+  .bebop-input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #3d352c;
+    background: rgba(255,255,255,0.02);
+    color: #e8d5c4;
+    font-size: 13px;
+    outline: none;
+  }
+  .bebop-input::placeholder { color: #5a5047; }
+
+  /* ───── 4. GHOST IN THE SHELL / CYBER ───── */
+  .gits {
+    --accent: #00e5ff;
+  }
+
+  .gits-card {
+    background: rgba(0,229,255,0.03);
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 2px;
+    padding: 24px;
+    position: relative;
+    backdrop-filter: blur(4px);
+  }
+  .gits-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #00e5ff, transparent);
+  }
+  .gits-card .label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #00e5ff;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .gits-card h3 {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 16px;
+    color: #e0f7fa;
+    margin-bottom: 12px;
+  }
+  .gits-card p {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: rgba(0,229,255,0.5);
+    line-height: 1.7;
+  }
+  .gits-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 8px 24px;
+    border: 1px solid rgba(0,229,255,0.4);
+    border-radius: 2px;
+    background: rgba(0,229,255,0.08);
+    color: #00e5ff;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .gits-btn:hover { background: rgba(0,229,255,0.15); box-shadow: 0 0 20px rgba(0,229,255,0.15); }
+  .gits-btn-solid {
+    display: inline-block;
+    margin-top: 16px;
+    margin-left: 8px;
+    padding: 8px 24px;
+    border: 1px solid #00e5ff;
+    border-radius: 2px;
+    background: #00e5ff;
+    color: #0a1a1f;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .gits-scan-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,229,255,0.3), transparent);
+    margin: 16px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .gits-scan-line::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 1px;
+    background: #00e5ff;
+    animation: scan 3s linear infinite;
+  }
+  @keyframes scan {
+    0% { left: -60px; }
+    100% { left: 100%; }
+  }
+
+  .gits-input {
+    width: 100%;
+    padding: 8px 14px;
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 2px;
+    background: rgba(0,229,255,0.03);
+    color: #e0f7fa;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    outline: none;
+  }
+  .gits-input:focus { border-color: rgba(0,229,255,0.5); }
+
+  .gits-tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 2px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: #00e5ff;
+  }
+  .gits-tag.magenta { border-color: rgba(255,0,170,0.3); color: #ff00aa; }
+
+  /* ───── 5. GHIBLI / SLICE OF LIFE ───── */
+  .ghibli {
+    --accent: #6b9e78;
+  }
+
+  .ghibli-card {
+    background: #faf5ee;
+    border: 1px solid #e0d5c4;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 2px 16px rgba(107,90,60,0.06);
+  }
+  .ghibli-card .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #a09080;
+    margin-bottom: 8px;
+  }
+  .ghibli-card h3 {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #4a3f30;
+    margin-bottom: 12px;
+  }
+  .ghibli-card p {
+    font-size: 13px;
+    color: #7a6e5e;
+    line-height: 1.8;
+  }
+  .ghibli-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 28px;
+    border-radius: 24px;
+    border: none;
+    background: #6b9e78;
+    color: #fff;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(107,158,120,0.25);
+    transition: background 0.3s;
+  }
+  .ghibli-btn:hover { background: #7db18a; }
+  .ghibli-btn-outline {
+    display: inline-block;
+    margin-top: 16px;
+    margin-left: 8px;
+    padding: 10px 28px;
+    border-radius: 24px;
+    border: 1px solid #d0c5b0;
+    background: transparent;
+    color: #7a6e5e;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .ghibli-input {
+    width: 100%;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 1px solid #e0d5c4;
+    background: #fff;
+    color: #4a3f30;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 13px;
+    outline: none;
+  }
+  .ghibli-input::placeholder { color: #c0b5a0; }
+  .ghibli-input:focus { border-color: #6b9e78; }
+
+  .ghibli-badge {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 12px;
+    font-size: 11px;
+    background: #eef5ef;
+    color: #6b9e78;
+  }
+  .ghibli-badge.warm {
+    background: #fef0e6;
+    color: #c47a50;
+  }
+
+  /* ───── 6. DRAGON BALL / SHONEN ───── */
+  .shonen {
+    --accent: #ff5722;
+  }
+
+  .shonen-card {
+    background: #141414;
+    border: 3px solid #ff5722;
+    border-radius: 4px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .shonen-card::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 80px;
+    height: 80px;
+    background: #ff5722;
+    transform: rotate(45deg);
+    opacity: 0.15;
+  }
+  .shonen-card > * { position: relative; z-index: 1; }
+  .shonen-card .label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: #ff5722;
+    margin-bottom: 8px;
+  }
+  .shonen-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: #fff;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+  .shonen-card p {
+    font-size: 13px;
+    color: #999;
+    line-height: 1.6;
+  }
+  .shonen-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 12px 32px;
+    border: 3px solid #ff5722;
+    border-radius: 4px;
+    background: #ff5722;
+    color: #fff;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.15s;
+    transform: skewX(-3deg);
+  }
+  .shonen-btn:hover { transform: skewX(-3deg) scale(1.05); }
+  .shonen-btn-outline {
+    display: inline-block;
+    margin-top: 16px;
+    margin-left: 8px;
+    padding: 12px 32px;
+    border: 3px solid #ff5722;
+    border-radius: 4px;
+    background: transparent;
+    color: #ff5722;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transform: skewX(-3deg);
+  }
+
+  .shonen-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #333;
+    border-radius: 4px;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 13px;
+    outline: none;
+  }
+  .shonen-input:focus { border-color: #ff5722; }
+
+  .shonen-power-bar {
+    height: 8px;
+    border-radius: 4px;
+    background: #222;
+    overflow: hidden;
+    margin-top: 12px;
+  }
+  .shonen-power-bar .fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #ff5722, #ffab00);
+    transition: width 0.5s;
+  }
+
+  /* ───── UTILITIES ───── */
+  .flex-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .mt-12 { margin-top: 12px; }
+  .mt-16 { margin-top: 16px; }
+  .gap-16 { gap: 16px; }
+  .section-gap { margin-top: 24px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>90s Anime Aesthetics</h1>
+  <p>Six visual directions for a design system inspired by iconic 90s anime</p>
+</div>
+
+<div class="tabs" id="tabs">
+  <button class="tab active" data-panel="magical-girl" style="--accent:#ff6b9d">Magical Girl</button>
+  <button class="tab" data-panel="evangelion" style="--accent:#ff6b00">Evangelion</button>
+  <button class="tab" data-panel="bebop" style="--accent:#e8956a">Cowboy Bebop</button>
+  <button class="tab" data-panel="gits" style="--accent:#00e5ff">Ghost in the Shell</button>
+  <button class="tab" data-panel="ghibli" style="--accent:#6b9e78">Ghibli</button>
+  <button class="tab" data-panel="shonen" style="--accent:#ff5722">Shonen</button>
+</div>
+
+<div class="panels">
+
+  <!-- ═══ MAGICAL GIRL ═══ -->
+  <div class="panel active" id="magical-girl">
+    <div class="aesthetic-grid magical-girl">
+      <div class="token-sidebar">
+        <h3>Colors</h3>
+        <div class="color-row"><div class="color-swatch" style="background:#ff6b9d"></div><div class="color-info"><div class="name">Rose</div><div class="hex">#ff6b9d</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#c084fc"></div><div class="color-info"><div class="name">Lavender</div><div class="hex">#c084fc</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#ffd6e8"></div><div class="color-info"><div class="name">Petal</div><div class="hex">#ffd6e8</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#1a1025"></div><div class="color-info"><div class="name">Deep Violet</div><div class="hex">#1a1025</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#60a5fa"></div><div class="color-info"><div class="name">Moon Blue</div><div class="hex">#60a5fa</div></div></div>
+
+        <h3 style="margin-top:28px">Typography</h3>
+        <div class="type-sample"><div class="type-label">Display</div><div style="font-family:'Zen Maru Gothic';font-size:24px;color:#ffd6e8;font-weight:500">Moonlight</div></div>
+        <div class="type-sample"><div class="type-label">Body</div><div style="font-family:'Zen Maru Gothic';font-size:14px;color:#b8a0cc">Soft, round humanist sans</div></div>
+
+        <h3 style="margin-top:28px">Radius</h3>
+        <div style="display:flex;gap:8px;align-items:end">
+          <div style="width:32px;height:32px;border:1px solid rgba(255,107,157,0.3);border-radius:8px"></div>
+          <div style="width:32px;height:32px;border:1px solid rgba(255,107,157,0.3);border-radius:16px"></div>
+          <div style="width:32px;height:32px;border:1px solid rgba(255,107,157,0.3);border-radius:50%"></div>
+        </div>
+      </div>
+
+      <div class="component-preview">
+        <div class="preview-section">
+          <h4>Card</h4>
+          <div class="mg-card">
+            <div class="mg-sparkles">&#10024;</div>
+            <div class="label">Transformation</div>
+            <h3>Crystal Power Sequence</h3>
+            <p>Harness the power of the Silver Crystal to protect those you love. Each transformation brings you closer to your true form.</p>
+            <div>
+              <button class="mg-btn">&#10024; Transform</button>
+              <button class="mg-btn-secondary">Learn More</button>
+            </div>
+          </div>
+        </div>
+        <div class="preview-section">
+          <h4>Form Elements</h4>
+          <input class="mg-input" placeholder="Search the cosmos..." />
+          <div class="flex-row mt-12">
+            <span class="mg-badge">&#9733; Celestial</span>
+            <span class="mg-badge purple">&#9790; Lunar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ EVANGELION ═══ -->
+  <div class="panel" id="evangelion">
+    <div class="aesthetic-grid evangelion">
+      <div class="token-sidebar">
+        <h3>Colors</h3>
+        <div class="color-row"><div class="color-swatch" style="background:#ff6b00"></div><div class="color-info"><div class="name">Warning Orange</div><div class="hex">#ff6b00</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#7b1fa2"></div><div class="color-info"><div class="name">Unit Purple</div><div class="hex">#7b1fa2</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#4caf50"></div><div class="color-info"><div class="name">Sync Green</div><div class="hex">#4caf50</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#0c0c0c"></div><div class="color-info"><div class="name">Void Black</div><div class="hex">#0c0c0c</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#ff1744"></div><div class="color-info"><div class="name">Alert Red</div><div class="hex">#ff1744</div></div></div>
+
+        <h3 style="margin-top:28px">Typography</h3>
+        <div class="type-sample"><div class="type-label">Display</div><div style="font-family:'Orbitron';font-size:20px;color:#ff6b00;letter-spacing:2px">NERV HQ</div></div>
+        <div class="type-sample"><div class="type-label">Body</div><div style="font-family:'Space Mono';font-size:12px;color:#888">Tight monospace data</div></div>
+
+        <h3 style="margin-top:28px">Corners</h3>
+        <div style="display:flex;gap:8px;align-items:end">
+          <div style="width:32px;height:32px;border:1px solid #ff6b00;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px))"></div>
+          <div style="width:32px;height:32px;border:1px solid #ff6b00"></div>
+        </div>
+      </div>
+
+      <div class="component-preview">
+        <div class="preview-section">
+          <h4>Card</h4>
+          <div class="eva-card">
+            <div class="eva-card-header">
+              <span>MAGI SYSTEM // STATUS</span>
+              <span>&#9679; ACTIVE</span>
+            </div>
+            <div class="eva-card-body">
+              <h3>Synchronization Rate</h3>
+              <p>Current pilot neural synchronization metrics. Maintain above 40% threshold for operational capacity.</p>
+              <div class="eva-status-bar">
+                <span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span class="filled"></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="eva-warning">&#9888; PATTERN BLUE DETECTED — STANDBY</div>
+              <div>
+                <button class="eva-btn">DEPLOY</button>
+                <button class="eva-btn-filled">ENGAGE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="preview-section">
+          <h4>Form Elements</h4>
+          <input class="eva-input" placeholder="ENTER ACCESS CODE_" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ COWBOY BEBOP ═══ -->
+  <div class="panel" id="bebop">
+    <div class="aesthetic-grid bebop">
+      <div class="token-sidebar">
+        <h3>Colors</h3>
+        <div class="color-row"><div class="color-swatch" style="background:#e8956a"></div><div class="color-info"><div class="name">Sunset</div><div class="hex">#e8956a</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#c47a78"></div><div class="color-info"><div class="name">Dusty Rose</div><div class="hex">#c47a78</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#8a9a6a"></div><div class="color-info"><div class="name">Olive</div><div class="hex">#8a9a6a</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#1c1814"></div><div class="color-info"><div class="name">Smoke</div><div class="hex">#1c1814</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#e8d5c4"></div><div class="color-info"><div class="name">Cream</div><div class="hex">#e8d5c4</div></div></div>
+
+        <h3 style="margin-top:28px">Typography</h3>
+        <div class="type-sample"><div class="type-label">Display</div><div style="font-family:'Bebas Neue';font-size:28px;color:#e8d5c4;letter-spacing:3px">SEE YOU</div></div>
+        <div class="type-sample"><div class="type-label">Body</div><div style="font-size:13px;color:#8a7e6f">Warm, understated sans</div></div>
+
+        <h3 style="margin-top:28px">Radius</h3>
+        <div style="display:flex;gap:8px;align-items:end">
+          <div style="width:32px;height:32px;border:1px solid #3d352c;border-radius:4px"></div>
+          <div style="width:32px;height:32px;border:1px solid #3d352c;border-radius:8px"></div>
+          <div style="width:32px;height:32px;border:1px solid #3d352c;border-radius:12px"></div>
+        </div>
+      </div>
+
+      <div class="component-preview">
+        <div class="preview-section">
+          <h4>Card</h4>
+          <div class="bebop-card">
+            <div class="label">Session #26</div>
+            <h3>THE REAL FOLK BLUES</h3>
+            <div class="bebop-divider"></div>
+            <p>The stars are not afraid to appear like fireflies. Everything flows, and nothing abides. Carry that weight.</p>
+            <div>
+              <button class="bebop-btn">EXPLORE</button>
+              <button class="bebop-btn-ghost">LATER</button>
+            </div>
+          </div>
+        </div>
+        <div class="preview-section">
+          <h4>Form Elements</h4>
+          <input class="bebop-input" placeholder="Search the Bebop archives..." />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ GHOST IN THE SHELL ═══ -->
+  <div class="panel" id="gits">
+    <div class="aesthetic-grid gits">
+      <div class="token-sidebar">
+        <h3>Colors</h3>
+        <div class="color-row"><div class="color-swatch" style="background:#00e5ff"></div><div class="color-info"><div class="name">Cyan</div><div class="hex">#00e5ff</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#ff00aa"></div><div class="color-info"><div class="name">Magenta</div><div class="hex">#ff00aa</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#ffab00"></div><div class="color-info"><div class="name">Amber</div><div class="hex">#ffab00</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#0a1a1f"></div><div class="color-info"><div class="name">Deep Dark</div><div class="hex">#0a1a1f</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#e0f7fa"></div><div class="color-info"><div class="name">Ice</div><div class="hex">#e0f7fa</div></div></div>
+
+        <h3 style="margin-top:28px">Typography</h3>
+        <div class="type-sample"><div class="type-label">Display</div><div style="font-family:'Share Tech Mono';font-size:18px;color:#00e5ff;letter-spacing:3px">SECTION_9</div></div>
+        <div class="type-sample"><div class="type-label">Body</div><div style="font-family:'Share Tech Mono';font-size:12px;color:rgba(0,229,255,0.5)">Monospaced terminal</div></div>
+
+        <h3 style="margin-top:28px">Corners</h3>
+        <div style="display:flex;gap:8px;align-items:end">
+          <div style="width:32px;height:32px;border:1px solid rgba(0,229,255,0.3);border-radius:2px"></div>
+          <div style="width:32px;height:32px;border:1px solid rgba(0,229,255,0.3);border-radius:0"></div>
+        </div>
+      </div>
+
+      <div class="component-preview">
+        <div class="preview-section">
+          <h4>Card</h4>
+          <div class="gits-card">
+            <div class="label">NET_PROTOCOL::042</div>
+            <h3>Neural_Link Established</h3>
+            <div class="gits-scan-line"></div>
+            <p>Cyberspace connection active. Ghost integrity verified. Proceed with dive sequence at your discretion.</p>
+            <div class="flex-row mt-16">
+              <span class="gits-tag">ENCRYPTED</span>
+              <span class="gits-tag magenta">LEVEL_5</span>
+            </div>
+            <div>
+              <button class="gits-btn">INITIATE</button>
+              <button class="gits-btn-solid">DIVE IN</button>
+            </div>
+          </div>
+        </div>
+        <div class="preview-section">
+          <h4>Form Elements</h4>
+          <input class="gits-input" placeholder="query://search_net..." />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ GHIBLI ═══ -->
+  <div class="panel" id="ghibli">
+    <div class="aesthetic-grid ghibli">
+      <div class="token-sidebar">
+        <h3>Colors</h3>
+        <div class="color-row"><div class="color-swatch" style="background:#6b9e78"></div><div class="color-info"><div class="name">Forest</div><div class="hex">#6b9e78</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#88c4e0"></div><div class="color-info"><div class="name">Sky</div><div class="hex">#88c4e0</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#c47a50"></div><div class="color-info"><div class="name">Terracotta</div><div class="hex">#c47a50</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#faf5ee"></div><div class="color-info"><div class="name">Parchment</div><div class="hex">#faf5ee</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#4a3f30"></div><div class="color-info"><div class="name">Earth</div><div class="hex">#4a3f30</div></div></div>
+
+        <h3 style="margin-top:28px">Typography</h3>
+        <div class="type-sample"><div class="type-label">Display</div><div style="font-family:'Zen Maru Gothic';font-size:22px;color:#4a3f30;font-weight:700">Totoro</div></div>
+        <div class="type-sample"><div class="type-label">Body</div><div style="font-family:'Zen Maru Gothic';font-size:13px;color:#7a6e5e">Friendly, rounded sans</div></div>
+
+        <h3 style="margin-top:28px">Radius</h3>
+        <div style="display:flex;gap:8px;align-items:end">
+          <div style="width:32px;height:32px;border:1px solid #e0d5c4;border-radius:8px;background:#faf5ee"></div>
+          <div style="width:32px;height:32px;border:1px solid #e0d5c4;border-radius:16px;background:#faf5ee"></div>
+          <div style="width:32px;height:32px;border:1px solid #e0d5c4;border-radius:50%;background:#faf5ee"></div>
+        </div>
+      </div>
+
+      <div class="component-preview">
+        <div class="preview-section">
+          <h4>Card</h4>
+          <div class="ghibli-card">
+            <div class="label">Exploration</div>
+            <h3>A Path Through the Trees</h3>
+            <p>The forest spirits watch over travelers who walk with a gentle heart. Every journey begins with a single step into the unknown.</p>
+            <div class="flex-row mt-12">
+              <span class="ghibli-badge">Nature</span>
+              <span class="ghibli-badge warm">Adventure</span>
+            </div>
+            <div>
+              <button class="ghibli-btn">Begin Journey</button>
+              <button class="ghibli-btn-outline">Another Time</button>
+            </div>
+          </div>
+        </div>
+        <div class="preview-section">
+          <h4>Form Elements</h4>
+          <input class="ghibli-input" placeholder="What are you looking for?" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SHONEN ═══ -->
+  <div class="panel" id="shonen">
+    <div class="aesthetic-grid shonen">
+      <div class="token-sidebar">
+        <h3>Colors</h3>
+        <div class="color-row"><div class="color-swatch" style="background:#ff5722"></div><div class="color-info"><div class="name">Blaze</div><div class="hex">#ff5722</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#2196f3"></div><div class="color-info"><div class="name">Ki Blue</div><div class="hex">#2196f3</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#ffab00"></div><div class="color-info"><div class="name">Power Gold</div><div class="hex">#ffab00</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#141414"></div><div class="color-info"><div class="name">Void</div><div class="hex">#141414</div></div></div>
+        <div class="color-row"><div class="color-swatch" style="background:#ffffff"></div><div class="color-info"><div class="name">Flash White</div><div class="hex">#ffffff</div></div></div>
+
+        <h3 style="margin-top:28px">Typography</h3>
+        <div class="type-sample"><div class="type-label">Display</div><div style="font-family:'Bebas Neue';font-size:28px;color:#fff;letter-spacing:3px;font-style:italic">POWER UP</div></div>
+        <div class="type-sample"><div class="type-label">Body</div><div style="font-size:13px;color:#999">Bold, impactful sans</div></div>
+
+        <h3 style="margin-top:28px">Corners</h3>
+        <div style="display:flex;gap:8px;align-items:end">
+          <div style="width:32px;height:32px;border:2px solid #ff5722;border-radius:2px"></div>
+          <div style="width:36px;height:32px;border:2px solid #ff5722;border-radius:2px;transform:skewX(-5deg)"></div>
+        </div>
+      </div>
+
+      <div class="component-preview">
+        <div class="preview-section">
+          <h4>Card</h4>
+          <div class="shonen-card">
+            <div class="label">SAGA // ARC 04</div>
+            <h3>FINAL FORM UNLOCKED</h3>
+            <p>Push beyond your limits. The battle isn't over until you've given everything. Break through every barrier.</p>
+            <div class="shonen-power-bar"><div class="fill" style="width:72%"></div></div>
+            <div>
+              <button class="shonen-btn">FIGHT!</button>
+              <button class="shonen-btn-outline">RETREAT</button>
+            </div>
+          </div>
+        </div>
+        <div class="preview-section">
+          <h4>Form Elements</h4>
+          <input class="shonen-input" placeholder="Enter your battle name..." />
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.panel).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>

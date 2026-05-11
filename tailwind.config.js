@@ -75,6 +75,9 @@ module.exports = {
           darkRed: '#902944',
           darkGreen: '#198D54',
         },
+
+        /** Figma / Sage surfaces — form fields, layered UI */
+        layer1: '#FFF8F0',
       },
       fontFamily: {
         brand: ['Rasa', 'Georgia', 'serif'],

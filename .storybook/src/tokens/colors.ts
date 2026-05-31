@@ -67,6 +67,7 @@ export const semantic = {
     red: '#F5E8E9',                     // red tint
     gold: '#F9F6E8',                    // gold tint
     dark: colors.brand.black,
+    Layer1: '#FFF8F0',                 //layer 1 component
   },
 
   // Border colors

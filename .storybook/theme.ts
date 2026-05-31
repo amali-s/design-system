@@ -4,7 +4,7 @@ import { create } from 'storybook/theming/create';
  * Sage Design System — Storybook Theme
  *
  * Palette: sage-tinted sidebar, warm cream canvas, brand navy accents
- * Fonts: Rasa (brand headings), Hiragino Sans (UI), JetBrains Mono (code)
+ * Fonts: Petrona (brand headings), Hiragino Sans (UI), JetBrains Mono (code)
  */
 export const sageTheme = create({
   base: 'light',
@@ -26,8 +26,8 @@ export const sageTheme = create({
   appBorderRadius: 4,
 
   // ── Typography ────────────────────────────────────────────────────────────
-  // Rasa loads via manager-head.html; Hiragino falls back gracefully
-  fontBase: '"Rasa", "Hiragino Sans", "Hiragino Kaku Gothic ProN", system-ui, sans-serif',
+  // Petrona loads via manager-head.html; Hiragino falls back gracefully
+  fontBase: '"Petrona", "Hiragino Sans", "Hiragino Kaku Gothic ProN", system-ui, sans-serif',
   fontCode: '"JetBrains Mono", Menlo, monospace',
 
   // ── Text ──────────────────────────────────────────────────────────────────

@@ -2,13 +2,13 @@
  * Design System Typography Tokens
  * 
  * Font Families:
- * - Rasa: Branding headers, main page titles
+ * - Petrona: Branding headers, main page titles
  * - Hiragino Sans: Page headers, section headers, body text
  */
 
 export const fontFamily = {
   // Branding font - for main page titles
-  brand: ['Rasa', 'Georgia', 'serif'],
+  brand: ['Petrona', 'Georgia', 'serif'],
   // UI font - for headers, body, labels
   sans: ['Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'system-ui', 'sans-serif'],
   // Code font
@@ -33,8 +33,8 @@ export const fontWeight = {
   w2: '350',      // Hiragino W2 - Book
   w3: '400',      // Hiragino W3 - Regular
   w5: '600',      // Hiragino W5 - Semibold
-  medium: '500',  // Rasa Medium
-  bold: '700',    // Rasa Bold
+  medium: '500',  // Petrona Medium
+  bold: '700',    // Petrona Bold
 } as const;
 
 export const lineHeight = {
@@ -52,7 +52,7 @@ export const letterSpacing = {
  * Pre-composed text styles matching your type scale
  */
 export const textStyles = {
-  // Page Titles - Rasa (Branding)
+  // Page Titles - Petrona (Branding)
   pageTitle1: {
     fontFamily: fontFamily.brand,
     fontSize: '4rem',        // 64px

@@ -31,7 +31,7 @@ const TypographyPage = () => (
         Typography
       </h1>
       <p className="text-base font-w3 text-brand-darkGrey mb-12">
-        A complete type scale using Rasa for branding and Hiragino Sans for UI text.
+        A complete type scale using Petrona for branding and Hiragino Sans for UI text.
       </p>
 
       {/* Font Families */}
@@ -45,7 +45,7 @@ const TypographyPage = () => (
               <span className="text-sm font-mono text-brand-darkGrey">font-brand</span>
             </div>
             <p className="font-brand text-3xl font-bold text-brand-black mb-2">
-              Rasa
+              Petrona
             </p>
             <p className="text-sm text-brand-darkGrey">
               Used for branding headers and main page titles. A serif font with personality.
@@ -67,15 +67,15 @@ const TypographyPage = () => (
         </div>
       </section>
 
-      {/* Page Titles - Rasa */}
+      {/* Page Titles - Petrona */}
       <section className="mb-16">
         <h2 className="text-xl font-w5 text-brand-darkBlue mb-2">Page Titles</h2>
-        <p className="text-sm text-brand-darkGrey mb-6">Rasa font for branding and main page titles</p>
+        <p className="text-sm text-brand-darkGrey mb-6">Petrona font for branding and main page titles</p>
         
         <div className="bg-brand-foreground rounded-2xl p-6">
           <TypeStyleRow
             name="Page Title 1"
-            fontFamily="Rasa"
+            fontFamily="Petrona"
             fontSize="64px"
             fontWeight="Bold"
             letterSpacing="-1%"
@@ -83,7 +83,7 @@ const TypographyPage = () => (
           />
           <TypeStyleRow
             name="Page Title 2"
-            fontFamily="Rasa"
+            fontFamily="Petrona"
             fontSize="64px"
             fontWeight="Medium"
             letterSpacing="-1%"
@@ -232,7 +232,7 @@ const TypographyPage = () => (
         
         <div className="font-mono text-sm bg-brand-foreground p-6 rounded-2xl overflow-x-auto">
           <p className="text-brand-darkGrey mb-2">// Font families</p>
-          <p><span className="text-data-darkBlue">font-brand</span> <span className="text-brand-darkGrey">// Rasa</span></p>
+          <p><span className="text-data-darkBlue">font-brand</span> <span className="text-brand-darkGrey">// Petrona</span></p>
           <p><span className="text-data-darkBlue">font-sans</span> <span className="text-brand-darkGrey">// Hiragino Sans</span></p>
           
           <p className="text-brand-darkGrey mt-4 mb-2">// Font weights (Hiragino)</p>
@@ -241,7 +241,7 @@ const TypographyPage = () => (
           <p><span className="text-data-darkBlue">font-w3</span> <span className="text-brand-darkGrey">// 400</span></p>
           <p><span className="text-data-darkBlue">font-w5</span> <span className="text-brand-darkGrey">// 600</span></p>
           
-          <p className="text-brand-darkGrey mt-4 mb-2">// Font weights (Rasa)</p>
+          <p className="text-brand-darkGrey mt-4 mb-2">// Font weights (Petrona)</p>
           <p><span className="text-data-darkBlue">font-medium</span> <span className="text-brand-darkGrey">// 500</span></p>
           <p><span className="text-data-darkBlue">font-bold</span> <span className="text-brand-darkGrey">// 700</span></p>
           
@@ -261,7 +261,7 @@ const meta: Meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Typography system using Rasa for branding and Hiragino Sans for UI text.',
+        component: 'Typography system using Petrona for branding and Hiragino Sans for UI text.',
       },
     },
   },

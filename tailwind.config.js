@@ -80,7 +80,8 @@ module.exports = {
         layer1: '#FFF8F0',
       },
       fontFamily: {
-        brand: ['Rasa', 'Georgia', 'serif'],
+        brand: ['Petrona', 'Georgia', 'serif'],
+        petrona: ['Petrona', 'Georgia', 'serif'],
         sans: ['Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'Menlo', 'monospace'],
       },

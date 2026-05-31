@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Card as CardComponent } from "./Card";
-import { CardPageDemo } from "./CardPageDemo";
+import { ProfilePageDemo } from "./ProfilePageDemo";
 
 function StateCell({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -13,12 +13,12 @@ function StateCell({ label, children }: { label: string; children: React.ReactNo
 }
 
 /**
- * Content card — all states on one page.
+ * Profile card — all states on one page.
  *
- * [Figma — Card](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=129-673)
+ * [Figma — Profile](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=503-207)
  */
 const meta: Meta<typeof CardComponent> = {
-  title: "Components/Card/Card",
+  title: "Components/Card/Profile",
   component: CardComponent,
   parameters: {
     layout: "padded",
@@ -30,24 +30,24 @@ export default meta;
 
 type Story = StoryObj<typeof CardComponent>;
 
-/** Story id: `components-card-card--states` */
+/** Story id: `components-card-profile--states` */
 export const States: Story = {
   render: () => (
     <div className="flex flex-col gap-10">
       <div>
         <p className="mb-4 font-brand text-xl text-brand-darkGrey">Layouts</p>
         <div className="flex flex-wrap items-start gap-8">
-          <StateCell label="Default (slot + action)">
-            <CardComponent variant="card" state="enabled" showSlot action />
+          <StateCell label="Default">
+            <CardComponent variant="profile" state="enabled" action={false} hearted={false} />
           </StateCell>
-          <StateCell label="No slot">
-            <CardComponent variant="card" state="enabled" showSlot={false} action />
+          <StateCell label="With ghost action">
+            <CardComponent variant="profile" state="enabled" action hearted={false} />
           </StateCell>
-          <StateCell label="No action">
-            <CardComponent variant="card" state="enabled" showSlot action={false} />
+          <StateCell label="Hearted">
+            <CardComponent variant="profile" state="enabled" action={false} hearted />
           </StateCell>
-          <StateCell label="Minimal">
-            <CardComponent variant="card" state="enabled" showSlot={false} action={false} />
+          <StateCell label="Hearted + ghost action">
+            <CardComponent variant="profile" state="enabled" action hearted />
           </StateCell>
         </div>
       </div>
@@ -55,11 +55,11 @@ export const States: Story = {
       <div>
         <p className="mb-4 font-brand text-xl text-brand-darkGrey">Interaction states</p>
         <div className="flex flex-wrap items-start gap-8">
-          <StateCell label="Hover">
-            <CardComponent variant="card" state="hover" showSlot action />
+          <StateCell label="Hover (ghost action)">
+            <CardComponent variant="profile" state="hover" action hearted={false} />
           </StateCell>
-          <StateCell label="Disabled">
-            <CardComponent variant="card" state="disabled" showSlot action />
+          <StateCell label="Disabled (ghost action)">
+            <CardComponent variant="profile" state="disabled" action hearted />
           </StateCell>
         </div>
       </div>
@@ -67,10 +67,10 @@ export const States: Story = {
   ),
 };
 
-/** Story id: `components-card-card--demo` */
+/** Story id: `components-card-profile--demo` */
 export const Demo: Story = {
   name: "Demo",
-  render: () => <CardPageDemo />,
+  render: () => <ProfilePageDemo />,
   parameters: {
     layout: "fullscreen",
     backgrounds: { default: "foreground", values: [{ name: "foreground", value: "#EDE6DE" }] },

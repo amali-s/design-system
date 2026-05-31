@@ -38,7 +38,7 @@ export interface TearsheetProps {
  * - Slides up from bottom with smooth animation
  * - Overlay: semi-transparent black
  * - Content: brand-white background, rounded top corners
- * - Header: title (Rasa), optional description
+ * - Header: title (Petrona), optional description
  * - Footer: primary + secondary actions
  * - Uses design system typography and colors
  */

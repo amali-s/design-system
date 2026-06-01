@@ -69,14 +69,14 @@ export const States: Story = {
 export const Demo: Story = {
   name: "Interactive Demos",
   render: () => (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-10 bg-brand-white">
       <CardPageDemo />
       <ProfilePageDemo />
     </div>
   ),
   parameters: {
     layout: "fullscreen",
-    backgrounds: { default: "foreground", values: [{ name: "foreground", value: "#EDE6DE" }] },
+    backgrounds: { default: "white", values: [{ name: "white", value: "#FFFDFA" }] },
   },
 };
 

@@ -109,7 +109,7 @@ export const States: Story = {
 export const Demo: Story = {
   name: "Demo",
   render: () => (
-    <div className="max-w-[360px] rounded-xl bg-brand-foreground p-6">
+    <div className="max-w-[360px] rounded-xl bg-brand-white p-6">
       <header className="mb-6">
         <p className="font-sans text-xs font-medium uppercase tracking-wider text-[#827A64]">Spaces</p>
         <h1 className="mt-1 font-brand text-2xl font-medium text-brand-darkBlue">Details</h1>
@@ -145,6 +145,6 @@ export const Demo: Story = {
     </div>
   ),
   parameters: {
-    backgrounds: { default: "foreground", values: [{ name: "foreground", value: "#EDE6DE" }] },
+    backgrounds: { default: "white", values: [{ name: "white", value: "#FFFDFA" }] },
   },
 };

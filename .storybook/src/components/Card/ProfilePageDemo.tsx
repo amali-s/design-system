@@ -68,7 +68,7 @@ export function ProfilePageDemo() {
   const selected = SPACES.find((s) => s.id === selectedId);
 
   return (
-    <div className="min-h-[640px] w-full max-w-[1100px] rounded-xl bg-brand-foreground p-8">
+    <div className="min-h-[640px] w-full max-w-[1100px] rounded-xl bg-brand-white p-8">
       <header className="mb-8 border-b border-[rgba(89,85,75,0.12)] pb-6">
         <p className="font-sans text-xs font-medium uppercase tracking-wider text-[#827A64]">Spaces</p>
         <h1 className="mt-1 font-brand text-3xl font-medium text-brand-darkBlue">Near you</h1>

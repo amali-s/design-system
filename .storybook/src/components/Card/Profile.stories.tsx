@@ -73,6 +73,6 @@ export const Demo: Story = {
   render: () => <ProfilePageDemo />,
   parameters: {
     layout: "fullscreen",
-    backgrounds: { default: "foreground", values: [{ name: "foreground", value: "#EDE6DE" }] },
+    backgrounds: { default: "white", values: [{ name: "white", value: "#FFFDFA" }] },
   },
 };

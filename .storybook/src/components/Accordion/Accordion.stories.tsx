@@ -19,6 +19,7 @@ function StateCell({ label, children }: { label: string; children: React.ReactNo
 const meta: Meta<typeof AccordionItem> = {
   title: "Components/Accordion",
   component: AccordionItem,
+  tags: ["autodocs"],
   parameters: {
     layout: "padded",
     backgrounds: { default: "layer1", values: [{ name: "layer1", value: "#FFF8F0" }] },

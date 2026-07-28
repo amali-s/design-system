@@ -10,8 +10,8 @@ module.exports = {
       colors: {
         // Status & Action Colors
         primary: {
-          DEFAULT: '#30B6E6',
-          hover: '#2AA3CC',
+          DEFAULT: '#1AAED8',
+          hover: '#1599C0',
           active: '#85CEDE',
           focus: '#85CEDE',
         },
@@ -36,9 +36,10 @@ module.exports = {
           hover: '#6A0813',
         },
         warning: {
-          DEFAULT: '#D98900',
-          light: '#FFF3CD',
-          dark: '#B37300',
+          DEFAULT: '#F6C12F',
+          light: '#FFF8E0',
+          dark: '#D98900',
+          yellow: '#FFB80F',
         },
         error: {
           DEFAULT: '#CC3926',
@@ -80,9 +81,12 @@ module.exports = {
         layer1: '#FFF8F0',
       },
       fontFamily: {
-        brand: ['Petrona', 'Georgia', 'serif'],
-        petrona: ['Petrona', 'Georgia', 'serif'],
-        sans: ['Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'system-ui', 'sans-serif'],
+        brand: ['Rethink Sans', 'system-ui', 'sans-serif'],
+        // Alias kept for existing component classNames
+        petrona: ['Rethink Sans', 'system-ui', 'sans-serif'],
+        sans: ['Rethink Sans', 'system-ui', 'sans-serif'],
+        body: ['Spectral', 'Georgia', 'serif'],
+        serif: ['Spectral', 'Georgia', 'serif'],
         mono: ['JetBrains Mono', 'Menlo', 'monospace'],
       },
       fontSize: {

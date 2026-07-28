@@ -4,7 +4,7 @@ import { create } from 'storybook/theming/create';
  * Sage Design System — Storybook Theme
  *
  * Palette: sage-tinted sidebar, warm cream canvas, brand navy accents
- * Fonts: Petrona (brand headings), Hiragino Sans (UI), JetBrains Mono (code)
+ * Fonts: Rethink Sans (headings/UI), Spectral (body), JetBrains Mono (code)
  */
 export const sageTheme = create({
   base: 'light',
@@ -16,7 +16,7 @@ export const sageTheme = create({
   // ── Core palette ─────────────────────────────────────────────────────────
   // Primary = brand navy; secondary = action cyan
   colorPrimary:   '#1E526F',   // brand.darkBlue
-  colorSecondary: '#30B6E6',   // status.primary (cyan)
+  colorSecondary: '#1AAED8',   // status.primary
 
   // ── App shell ─────────────────────────────────────────────────────────────
   appBg:          '#EDF3ED',   // semantic.background.sage  ← sidebar / panel bg
@@ -26,8 +26,7 @@ export const sageTheme = create({
   appBorderRadius: 4,
 
   // ── Typography ────────────────────────────────────────────────────────────
-  // Petrona loads via manager-head.html; Hiragino falls back gracefully
-  fontBase: '"Petrona", "Hiragino Sans", "Hiragino Kaku Gothic ProN", system-ui, sans-serif',
+  fontBase: '"Rethink Sans", system-ui, sans-serif',
   fontCode: '"JetBrains Mono", Menlo, monospace',
 
   // ── Text ──────────────────────────────────────────────────────────────────

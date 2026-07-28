@@ -1,19 +1,20 @@
 /**
- * Design System Color Tokens — Ghibli x Brand
+ * Design System Color Tokens — Sage
  *
  * A warm, organic palette inspired by nature and craft.
  * Colors are organized by their purpose and usage context.
+ * Values synced from Figma Sage Component kit (Light theme).
  */
 
 export const colors = {
   // Status & Action Colors
   // Used for interactive elements and status indicators
   status: {
-    primary: '#30B6E6',
+    primary: '#1AAED8',
     secondary: '#575040',
     sage: '#A9C1A9',
     deepRed: '#7D0A16',
-    warning: '#D98900',
+    warning: '#F6C12F',
     error: '#CC3926',
     success: '#14C714',
   },
@@ -82,8 +83,8 @@ export const semantic = {
   // Interactive states
   interactive: {
     default: colors.status.primary,
-    hover: '#1A6FA0',
-    active: '#165D87',
+    hover: '#1599C0',
+    active: '#1285A8',
     disabled: '#B5B1A9',
   },
 

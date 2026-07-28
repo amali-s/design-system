@@ -6,19 +6,19 @@
   <title>Sage Design Tokens — from Figma Component Kit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Petrona:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700&family=Spectral:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       /* Status & Action */
-      --primary: #1F83BD;
-      --primary-hover: #1A6FA0;
-      --primary-active: #165D87;
-      --secondary: #59554B;
+      --primary: #1AAED8;
+      --primary-hover: #1599C0;
+      --primary-active: #1285A8;
+      --secondary: #575040;
       --sage: #A9C1A9;
       --sage-light: #EDF3ED;
       --deep-red: #7D0A16;
-      --warning: #D98900;
-      --error: #ED112E;
+      --warning: #F6C12F;
+      --error: #CC3926;
       --success: #14C714;
       /* Brand */
       --brand-dark-blue: #1E526F;
@@ -41,7 +41,7 @@
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Inter', system-ui, sans-serif;
+      font-family: 'Spectral', Georgia, serif;
       background: var(--brand-foreground);
       color: var(--brand-black);
       line-height: 1.5;
@@ -49,7 +49,7 @@
     }
     .container { max-width: 1200px; margin: 0 auto; }
     h1 {
-      font-family: 'Petrona', Georgia, serif;
+      font-family: 'Rethink Sans', system-ui, sans-serif;
       font-size: 48px;
       font-weight: 600;
       letter-spacing: -0.01em;
@@ -69,7 +69,7 @@
       box-shadow: 0 1px 4px rgba(89, 85, 75, 0.06);
     }
     h2 {
-      font-family: 'Petrona', Georgia, serif;
+      font-family: 'Rethink Sans', system-ui, sans-serif;
       font-size: 24px;
       font-weight: 500;
       margin-bottom: 8px;
@@ -131,12 +131,12 @@
       <h2>Status & Action Colors</h2>
       <p class="section-desc">Interactive elements, buttons, status indicators</p>
       <div class="token-grid">
-        <div class="color-swatch"><div class="swatch" style="background:#1F83BD"></div><span class="name">Primary</span><span class="value">#1F83BD</span></div>
-        <div class="color-swatch"><div class="swatch" style="background:#59554B"></div><span class="name">Secondary</span><span class="value">#59554B</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#1AAED8"></div><span class="name">Primary</span><span class="value">#1AAED8</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#575040"></div><span class="name">Secondary</span><span class="value">#575040</span></div>
         <div class="color-swatch"><div class="swatch" style="background:#A9C1A9"></div><span class="name">Sage</span><span class="value">#A9C1A9</span></div>
         <div class="color-swatch"><div class="swatch" style="background:#7D0A16"></div><span class="name">Deep Red</span><span class="value">#7D0A16</span></div>
-        <div class="color-swatch"><div class="swatch" style="background:#D98900"></div><span class="name">Warning</span><span class="value">#D98900</span></div>
-        <div class="color-swatch"><div class="swatch" style="background:#ED112E"></div><span class="name">Error</span><span class="value">#ED112E</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#F6C12F"></div><span class="name">Warning</span><span class="value">#F6C12F</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#CC3926"></div><span class="name">Error</span><span class="value">#CC3926</span></div>
         <div class="color-swatch"><div class="swatch" style="background:#14C714"></div><span class="name">Success</span><span class="value">#14C714</span></div>
       </div>
     </section>
@@ -176,27 +176,27 @@
       <p class="section-desc">Font families, sizes, weights</p>
       <div class="type-row">
         <span class="type-name">pageTitle1</span>
-        <span class="type-preview" style="font-family:Petrona,Georgia,serif;font-size:36px;font-weight:700;letter-spacing:-0.01em">Petrona Bold 36px</span>
+        <span class="type-preview" style="font-family:'Rethink Sans',system-ui,sans-serif;font-size:36px;font-weight:700;letter-spacing:-0.01em">Rethink Sans Bold 36px</span>
       </div>
       <div class="type-row">
         <span class="type-name">heading6</span>
-        <span class="type-preview" style="font-size:24px;font-weight:350">Heading 6 — 24px</span>
+        <span class="type-preview" style="font-family:'Rethink Sans',system-ui,sans-serif;font-size:24px;font-weight:400">Heading 6 — 24px Regular</span>
       </div>
       <div class="type-row">
         <span class="type-name">heading4</span>
-        <span class="type-preview" style="font-size:20px;font-weight:600">Heading 4 — 20px Semibold</span>
+        <span class="type-preview" style="font-family:'Rethink Sans',system-ui,sans-serif;font-size:20px;font-weight:500">Heading 4 — 20px Medium</span>
       </div>
       <div class="type-row">
         <span class="type-name">body2</span>
-        <span class="type-preview" style="font-size:16px;font-weight:400;line-height:1.6">Body 2 — 16px Regular</span>
+        <span class="type-preview" style="font-family:Spectral,Georgia,serif;font-size:16px;font-weight:300;line-height:1.5">Body 2 — Spectral Light 16px</span>
       </div>
       <div class="type-row">
         <span class="type-name">body1</span>
-        <span class="type-preview" style="font-size:14px;font-weight:400">Body 1 — 14px Regular</span>
+        <span class="type-preview" style="font-family:Spectral,Georgia,serif;font-size:14px;font-weight:300">Body 1 — Spectral Light 14px</span>
       </div>
       <div class="type-row">
         <span class="type-name">label1</span>
-        <span class="type-preview" style="font-size:12px;font-weight:350">Label 1 — 12px</span>
+        <span class="type-preview" style="font-family:Spectral,Georgia,serif;font-size:12px;font-weight:300;letter-spacing:-0.06em">Label 1 — Spectral Light 12px</span>
       </div>
     </section>
 

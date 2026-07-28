@@ -130,8 +130,8 @@ const AddIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
   >
-    <path d="M5 0.5V8.5" stroke="#30B6E6" strokeWidth="1" strokeLinecap="round" />
-    <path d="M1 4.5H9" stroke="#30B6E6" strokeWidth="1" strokeLinecap="round" />
+    <path d="M5 0.5V8.5" stroke="#1AAED8" strokeWidth="1" strokeLinecap="round" />
+    <path d="M1 4.5H9" stroke="#1AAED8" strokeWidth="1" strokeLinecap="round" />
   </svg>
 );
 
@@ -159,9 +159,9 @@ const stateBackground: Record<Exclude<ToastState, "default">, string> = {
  *     • Success     → green circle with "✓"
  *     • Error       → red triangle with "!"
  * - Background: #E0F4FF (information), #E2FBDC (success), #FFE5E0 (error)
- * - Header: Hiragino Sans W5, 14px, #1B2323
- * - Body:   Hiragino Sans W2, 14px, #59554B
- * - Action: tertiary pill button (#30B6E6 border + label) with "+" icon
+ * - Header: Rethink Sans Medium, 14px, #1B2323
+ * - Body:   Spectral Light, 14px, #59554B
+ * - Action: tertiary pill button (#1AAED8 border + label) with "+" icon
  * - Close:  small "×" in top-right corner, stroke 1.5px
  *
  * For animated toasts, use with Sonner:

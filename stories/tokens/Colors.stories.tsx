@@ -52,10 +52,10 @@ const ColorsPage = () => (
         title="Status & Action Colors" 
         description="Used for interactive elements, buttons, and status indicators."
       >
-        <ColorSwatch name="Primary" hex="#0F88CB" />
+        <ColorSwatch name="Primary" hex="#1AAED8" />
         <ColorSwatch name="Secondary" hex="#575040" />
-        <ColorSwatch name="Warning" hex="#D98900" />
-        <ColorSwatch name="Error" hex="#ED112E" />
+        <ColorSwatch name="Warning" hex="#F6C12F" />
+        <ColorSwatch name="Error" hex="#CC3926" />
         <ColorSwatch name="Success" hex="#14C714" />
       </ColorGroup>
 
@@ -90,8 +90,9 @@ const ColorsPage = () => (
         <h3 className="text-xl font-semibold text-brand-darkBlue mb-4">Usage in Tailwind CSS</h3>
         <div className="font-mono text-sm bg-white p-4 rounded-lg border border-brand-darkGrey/20">
           <p className="text-brand-darkGrey">// Status colors</p>
-          <p><span className="text-data-darkBlue">bg-primary</span> <span className="text-brand-darkGrey">// #0F88CB</span></p>
-          <p><span className="text-data-darkBlue">text-error</span> <span className="text-brand-darkGrey">// #ED112E</span></p>
+          <p><span className="text-data-darkBlue">bg-primary</span> <span className="text-brand-darkGrey">// #1AAED8</span></p>
+          <p><span className="text-data-darkBlue">text-error</span> <span className="text-brand-darkGrey">// #CC3926</span></p>
+          <p><span className="text-data-darkBlue">bg-warning</span> <span className="text-brand-darkGrey">// #F6C12F</span></p>
           <p className="mt-2 text-brand-darkGrey">// Data visualization</p>
           <p><span className="text-data-darkBlue">bg-data-lightBlue</span> <span className="text-brand-darkGrey">// #60E1F0</span></p>
           <p><span className="text-data-darkBlue">bg-data-brightMagenta</span> <span className="text-brand-darkGrey">// #FF4978</span></p>

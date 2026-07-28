@@ -6,7 +6,7 @@ import { Button } from "./Button";
  * The Button component — warm, pill-shaped buttons in the Sage design system.
  *
  * Four variants matching the Figma Component Kit:
- * **Primary** (#30B6E6), **Secondary** (#575040), **Tertiary** (outline),
+ * **Primary** (#1AAED8), **Secondary** (#575040), **Tertiary** (outline),
  * and **Ghost** (text-only). Plus a **Danger** ghost variant.
  *
  * ## Figma Design

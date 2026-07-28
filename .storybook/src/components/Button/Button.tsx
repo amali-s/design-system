@@ -29,6 +29,8 @@ const primaryInteractionStyle = (
     willChange: "transform",
     // Same transition on every state so the browser never restarts mid-tween
     transition: PRIMARY_TRANSITION,
+    // Faster taps on mobile; avoids 300ms double-tap zoom delay
+    touchAction: "manipulation",
   };
 
   if (interaction === "hover") {
@@ -70,17 +72,25 @@ export const Button = ({
   onMouseLeave,
   onMouseDown,
   onMouseUp,
+  onPointerEnter,
+  onPointerLeave,
+  onPointerDown,
+  onPointerUp,
+  onPointerCancel,
   onBlur,
   style,
   ...props
 }: ButtonProps) => {
   const [interaction, setInteraction] = React.useState<PrimaryInteraction>("enabled");
   const isPrimaryInteractive = variant === "primary" && !disabled;
+  // Track an active press so window-level release can clear it (finger/mouse up outside)
+  const pressPointerId = React.useRef<number | null>(null);
 
   const baseStyles = `
     relative inline-flex items-center justify-center gap-2
     font-sans text-sm font-medium leading-none tracking-tight
     focus-visible:outline-none
+    touch-manipulation
     ${variant === "primary" ? "" : "transition-all duration-200 ease-in-out"}
   `;
 
@@ -141,50 +151,106 @@ export const Button = ({
     ? primaryInteractionStyle(interaction, size)
     : undefined;
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const releasePress = React.useCallback(() => {
+    pressPointerId.current = null;
+    setInteraction("enabled");
+  }, []);
+
+  // ── Pointer events cover mouse, touch, and pen with one path ───────────
+
+  const handlePointerEnter = (e: React.PointerEvent<HTMLButtonElement>) => {
     if (!disabled) {
-      if (variant === "primary") setInteraction("hover");
-      if (variant === "secondary") setSecondaryHovered(true);
+      // Hover grow is desktop-only; touch should go straight to press
+      if (variant === "primary" && e.pointerType === "mouse") {
+        setInteraction("hover");
+      }
+      if (variant === "secondary" && e.pointerType === "mouse") {
+        setSecondaryHovered(true);
+      }
     }
+    onPointerEnter?.(e);
+  };
+
+  const handlePointerLeave = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (!disabled) {
+      // Don't clear press on leave while capturing — wait for pointerup
+      if (variant === "primary" && pressPointerId.current === null) {
+        setInteraction("enabled");
+      }
+      if (variant === "secondary") setSecondaryHovered(false);
+    }
+    onPointerLeave?.(e);
+  };
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
+    // Primary press: mouse left-click, or any touch/pen contact
+    const isPrimaryPress =
+      isPrimaryInteractive &&
+      (e.pointerType !== "mouse" || e.button === 0);
+
+    if (isPrimaryPress) {
+      pressPointerId.current = e.pointerId;
+      setInteraction("pressed");
+      // Keep receiving ups even if the finger/cursor slides off the button
+      e.currentTarget.setPointerCapture(e.pointerId);
+    }
+    onPointerDown?.(e);
+  };
+
+  const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (isPrimaryInteractive && pressPointerId.current === e.pointerId) {
+      releasePress();
+      if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      }
+    }
+    onPointerUp?.(e);
+  };
+
+  const handlePointerCancel = (e: React.PointerEvent<HTMLButtonElement>) => {
+    if (isPrimaryInteractive && pressPointerId.current === e.pointerId) {
+      releasePress();
+    }
+    onPointerCancel?.(e);
+  };
+
+  // Forward legacy mouse handlers for consumers; primary state is pointer-driven
+  const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
     onMouseEnter?.(e);
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!disabled) {
-      if (variant === "primary") setInteraction("enabled");
-      if (variant === "secondary") setSecondaryHovered(false);
-    }
     onMouseLeave?.(e);
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Figma: MOUSE_DOWN → Click (pressed) with inner shadow
-    if (isPrimaryInteractive && e.button === 0) {
-      setInteraction("pressed");
-    }
     onMouseDown?.(e);
   };
 
   const handleMouseUp = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Figma: MOUSE_UP → Enabled
-    if (isPrimaryInteractive) {
-      setInteraction("enabled");
-    }
     onMouseUp?.(e);
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
-    if (isPrimaryInteractive) setInteraction("enabled");
+    if (isPrimaryInteractive) releasePress();
     onBlur?.(e);
   };
 
-  // Release outside the button still returns to Enabled
+  // Safety net: if press is somehow stuck (capture lost), clear on any window up
   React.useEffect(() => {
     if (!isPrimaryInteractive || interaction !== "pressed") return;
-    const onWindowMouseUp = () => setInteraction("enabled");
-    window.addEventListener("mouseup", onWindowMouseUp);
-    return () => window.removeEventListener("mouseup", onWindowMouseUp);
-  }, [isPrimaryInteractive, interaction]);
+    const onWindowUp = () => releasePress();
+    window.addEventListener("pointerup", onWindowUp);
+    window.addEventListener("pointercancel", onWindowUp);
+    window.addEventListener("touchend", onWindowUp);
+    window.addEventListener("touchcancel", onWindowUp);
+    return () => {
+      window.removeEventListener("pointerup", onWindowUp);
+      window.removeEventListener("pointercancel", onWindowUp);
+      window.removeEventListener("touchend", onWindowUp);
+      window.removeEventListener("touchcancel", onWindowUp);
+    };
+  }, [isPrimaryInteractive, interaction, releasePress]);
 
   return (
     <button
@@ -192,6 +258,11 @@ export const Button = ({
       disabled={disabled}
       style={{ ...primaryStyle, ...secondaryHoverStyle, ...style }}
       {...props}
+      onPointerEnter={handlePointerEnter}
+      onPointerLeave={handlePointerLeave}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerCancel}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseDown={handleMouseDown}

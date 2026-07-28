@@ -6,30 +6,28 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   icon?: React.ReactNode;
 }
 
-type PrimaryInteraction = "enabled" | "hover" | "pressed";
+type PressInteraction = "enabled" | "hover" | "pressed";
 
-/** Primary motion — transform-based so the grow stays on the compositor (no layout thrash) */
-const PRIMARY_MS = 200;
-const PRIMARY_EASE = "ease-in-out";
-const PRIMARY_TRANSITION = `transform ${PRIMARY_MS}ms ${PRIMARY_EASE}, box-shadow ${PRIMARY_MS}ms ${PRIMARY_EASE}, background-image ${PRIMARY_MS}ms ${PRIMARY_EASE}`;
+/** Shared motion — transform-based so the grow stays on the compositor */
+const MOTION_MS = 200;
+const MOTION_EASE = "ease-in-out";
+const MOTION_TRANSITION = `transform ${MOTION_MS}ms ${MOTION_EASE}, box-shadow ${MOTION_MS}ms ${MOTION_EASE}, background-image ${MOTION_MS}ms ${MOTION_EASE}`;
+
+const sizePadding = (size: "sm" | "md" | "lg") =>
+  size === "lg" ? "12px 16px" : "8px 12px";
 
 const primaryInteractionStyle = (
-  interaction: PrimaryInteraction,
+  interaction: PressInteraction,
   size: "sm" | "md" | "lg",
 ): React.CSSProperties => {
-  const isLarge = size === "lg";
-  const padding = isLarge ? "12px 16px" : "8px 12px";
-
   const base: React.CSSProperties = {
     backgroundColor: "#1AAED8",
     borderRadius: 32,
-    padding,
+    padding: sizePadding(size),
     border: "none",
     transformOrigin: "center center",
     willChange: "transform",
-    // Same transition on every state so the browser never restarts mid-tween
-    transition: PRIMARY_TRANSITION,
-    // Faster taps on mobile; avoids 300ms double-tap zoom delay
+    transition: MOTION_TRANSITION,
     touchAction: "manipulation",
   };
 
@@ -52,10 +50,151 @@ const primaryInteractionStyle = (
     };
   }
 
-  // enabled
   return {
     ...base,
     backgroundImage: "none",
+    boxShadow: "none",
+    transform: "scale(1)",
+  };
+};
+
+/** Secondary — Figma node 116:66 (Default / Hover / Click / Focus / Disabled) */
+const secondaryInteractionStyle = (
+  interaction: PressInteraction,
+  size: "sm" | "md" | "lg",
+): React.CSSProperties => {
+  const base: React.CSSProperties = {
+    backgroundColor: "#575040",
+    borderRadius: 24,
+    padding: sizePadding(size),
+    border: "none",
+    transformOrigin: "center center",
+    willChange: "transform",
+    transition: MOTION_TRANSITION,
+    touchAction: "manipulation",
+  };
+
+  if (interaction === "hover") {
+    return {
+      ...base,
+      // Match primary: grow on hover without a gradient overlay
+      backgroundImage: "none",
+      boxShadow: "none",
+      transform: "scale(1.06)",
+    };
+  }
+
+  if (interaction === "pressed") {
+    return {
+      ...base,
+      // Figma Click: brown gradient + inner shadow
+      backgroundImage:
+        "linear-gradient(264.21deg, rgba(73,50,0,0.6) 2.9%, rgba(150,144,130,0.06) 98.25%), linear-gradient(90deg, #575040 0%, #575040 100%)",
+      boxShadow: "inset -1px 4px 4px 0px #453F30",
+      transform: "scale(1)",
+    };
+  }
+
+  return {
+    ...base,
+    backgroundImage: "none",
+    boxShadow: "none",
+    transform: "scale(1)",
+  };
+};
+
+/** Danger / Error — Figma Primary Type=Error (329:197 / 650:1563 / 650:1573) */
+const dangerInteractionStyle = (
+  interaction: PressInteraction,
+  size: "sm" | "md" | "lg",
+): React.CSSProperties => {
+  const base: React.CSSProperties = {
+    backgroundColor: "#CC3926",
+    borderRadius: 32,
+    padding: sizePadding(size),
+    border: "none",
+    transformOrigin: "center center",
+    willChange: "transform",
+    transition: MOTION_TRANSITION,
+    touchAction: "manipulation",
+  };
+
+  if (interaction === "hover") {
+    return {
+      ...base,
+      // Match primary/secondary: grow on hover without a gradient overlay
+      backgroundImage: "none",
+      boxShadow: "none",
+      transform: "scale(1.06)",
+    };
+  }
+
+  if (interaction === "pressed") {
+    return {
+      ...base,
+      // Figma Click: red gradient + inner shadow
+      backgroundImage:
+        "linear-gradient(263.63deg, rgba(110,2,2,0.2) 1.87%, rgba(247,189,189,0.08) 96.35%), linear-gradient(90deg, #CC3926 0%, #CC3926 100%)",
+      boxShadow: "inset -2px 2px 4px 0px rgba(135,2,2,0.25)",
+      transform: "scale(1)",
+    };
+  }
+
+  return {
+    ...base,
+    backgroundImage: "none",
+    boxShadow: "none",
+    transform: "scale(1)",
+  };
+};
+
+/** Tertiary — Figma node 116:83 (Enabled / Hover / Click / Disabled) */
+const tertiaryInteractionStyle = (
+  interaction: PressInteraction,
+  size: "sm" | "md" | "lg",
+): React.CSSProperties => {
+  const base: React.CSSProperties = {
+    borderRadius: 24,
+    padding: sizePadding(size),
+    transformOrigin: "center center",
+    willChange: "transform",
+    transition: `transform ${MOTION_MS}ms ${MOTION_EASE}, box-shadow ${MOTION_MS}ms ${MOTION_EASE}, background-color ${MOTION_MS}ms ${MOTION_EASE}, color ${MOTION_MS}ms ${MOTION_EASE}, border-color ${MOTION_MS}ms ${MOTION_EASE}`,
+    touchAction: "manipulation",
+  };
+
+  if (interaction === "hover") {
+    return {
+      ...base,
+      // Figma Hover: fill primary, white label + scale grow
+      backgroundColor: "#1AAED8",
+      backgroundImage: "none",
+      color: "#FFFDFA",
+      border: "0.5px solid transparent",
+      boxShadow: "none",
+      transform: "scale(1.06)",
+    };
+  }
+
+  if (interaction === "pressed") {
+    return {
+      ...base,
+      // Figma Click: filled + inset shadow
+      backgroundColor: "#1AAED8",
+      backgroundImage: "none",
+      color: "#FFFDFA",
+      border: "0.5px solid transparent",
+      boxShadow: "inset -1px 3px 4px 0px #1795B9",
+      transform: "scale(1)",
+    };
+  }
+
+  // enabled — outline
+  return {
+    ...base,
+    backgroundColor: "transparent",
+    backgroundImage: "none",
+    color: "#1AAED8",
+    border: "0.5px solid #1AAED8",
     boxShadow: "none",
     transform: "scale(1)",
   };
@@ -81,9 +220,13 @@ export const Button = ({
   style,
   ...props
 }: ButtonProps) => {
-  const [interaction, setInteraction] = React.useState<PrimaryInteraction>("enabled");
-  const isPrimaryInteractive = variant === "primary" && !disabled;
-  // Track an active press so window-level release can clear it (finger/mouse up outside)
+  const [interaction, setInteraction] = React.useState<PressInteraction>("enabled");
+  const isPressInteractive =
+    (variant === "primary" ||
+      variant === "secondary" ||
+      variant === "tertiary" ||
+      variant === "danger") &&
+    !disabled;
   const pressPointerId = React.useRef<number | null>(null);
 
   const baseStyles = `
@@ -91,7 +234,7 @@ export const Button = ({
     font-sans text-sm font-medium leading-none tracking-tight
     focus-visible:outline-none
     touch-manipulation
-    ${variant === "primary" ? "" : "transition-all duration-200 ease-in-out"}
+    ${isPressInteractive ? "" : "transition-all duration-200 ease-in-out"}
   `;
 
   const sizeStyles = {
@@ -109,18 +252,16 @@ export const Button = ({
         ].join(" "),
 
     secondary: disabled
-      ? "bg-disabled text-[#f6f1eb] cursor-not-allowed rounded-2xl px-3 py-1"
+      ? "bg-disabled text-[#D0D3D3] cursor-not-allowed rounded-2xl px-3 py-2"
       : [
-          "bg-secondary text-brand-white rounded-2xl px-3 py-1",
-          "hover:rounded-[18px]",
+          "text-brand-white border-0",
           "focus-visible:ring-1 focus-visible:ring-secondary-gold focus-visible:ring-offset-1",
         ].join(" "),
 
     tertiary: disabled
-      ? "border border-disabled text-disabled cursor-not-allowed rounded-2xl px-3 py-1"
+      ? "border-[0.75px] border-disabled text-disabled bg-transparent cursor-not-allowed rounded-2xl px-3 py-2"
       : [
-          "border-[0.5px] border-primary text-primary bg-transparent rounded-2xl px-3 py-1",
-          "hover:bg-primary hover:text-brand-white",
+          "bg-transparent",
           "focus-visible:ring-1 focus-visible:ring-primary-focus focus-visible:ring-offset-1",
         ].join(" "),
 
@@ -131,74 +272,60 @@ export const Button = ({
           "hover:bg-[#D7DDE0]",
         ].join(" "),
 
-    danger: [
-      "text-error bg-transparent rounded-2xl px-3 py-1",
-      disabled ? "opacity-50 cursor-not-allowed" : "hover:bg-[#D7DDE0]",
-    ].join(" "),
+    danger: disabled
+      ? "bg-disabled text-[#f6f1eb] cursor-not-allowed rounded-[32px] px-3.5 py-1.5"
+      : [
+          "text-[#f6f1eb] border-0",
+          "focus-visible:ring-1 focus-visible:ring-error focus-visible:ring-offset-1",
+        ].join(" "),
   };
 
-  const [secondaryHovered, setSecondaryHovered] = React.useState(false);
-
-  const secondaryHoverStyle: React.CSSProperties | undefined =
-    !disabled && variant === "secondary" && secondaryHovered
-      ? {
-          backgroundImage:
-            "linear-gradient(-89deg, rgba(191,154,73,0.5) 0%, rgba(102,102,102,0) 99%), linear-gradient(90deg, #575040 0%, #575040 100%)",
-        }
-      : undefined;
-
-  const primaryStyle = isPrimaryInteractive
-    ? primaryInteractionStyle(interaction, size)
-    : undefined;
+  const pressStyle = !isPressInteractive
+    ? undefined
+    : variant === "secondary"
+      ? secondaryInteractionStyle(interaction, size)
+      : variant === "tertiary"
+        ? tertiaryInteractionStyle(interaction, size)
+        : variant === "danger"
+          ? dangerInteractionStyle(interaction, size)
+          : primaryInteractionStyle(interaction, size);
 
   const releasePress = React.useCallback(() => {
     pressPointerId.current = null;
     setInteraction("enabled");
   }, []);
 
-  // ── Pointer events cover mouse, touch, and pen with one path ───────────
+  // ── Pointer events cover mouse, touch, and pen for press-interactive variants ─
 
   const handlePointerEnter = (e: React.PointerEvent<HTMLButtonElement>) => {
-    if (!disabled) {
-      // Hover grow is desktop-only; touch should go straight to press
-      if (variant === "primary" && e.pointerType === "mouse") {
-        setInteraction("hover");
-      }
-      if (variant === "secondary" && e.pointerType === "mouse") {
-        setSecondaryHovered(true);
-      }
+    if (isPressInteractive && e.pointerType === "mouse") {
+      setInteraction("hover");
     }
     onPointerEnter?.(e);
   };
 
   const handlePointerLeave = (e: React.PointerEvent<HTMLButtonElement>) => {
-    if (!disabled) {
-      // Don't clear press on leave while capturing — wait for pointerup
-      if (variant === "primary" && pressPointerId.current === null) {
-        setInteraction("enabled");
-      }
-      if (variant === "secondary") setSecondaryHovered(false);
+    if (isPressInteractive && pressPointerId.current === null) {
+      setInteraction("enabled");
     }
     onPointerLeave?.(e);
   };
 
   const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
-    // Primary press: mouse left-click, or any touch/pen contact
-    const isPrimaryPress =
-      isPrimaryInteractive &&
+    const isValidPress =
+      isPressInteractive &&
       (e.pointerType !== "mouse" || e.button === 0);
 
-    if (isPrimaryPress) {
+    if (isValidPress) {
       pressPointerId.current = e.pointerId;
       setInteraction("pressed");
-      // Keep receiving ups even if the finger/cursor slides off the button
       e.currentTarget.setPointerCapture(e.pointerId);
     }
     onPointerDown?.(e);
   };
 
   const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
-    if (isPrimaryInteractive && pressPointerId.current === e.pointerId) {
+    if (isPressInteractive && pressPointerId.current === e.pointerId) {
       releasePress();
       if (e.currentTarget.hasPointerCapture(e.pointerId)) {
         e.currentTarget.releasePointerCapture(e.pointerId);
@@ -208,13 +335,12 @@ export const Button = ({
   };
 
   const handlePointerCancel = (e: React.PointerEvent<HTMLButtonElement>) => {
-    if (isPrimaryInteractive && pressPointerId.current === e.pointerId) {
+    if (isPressInteractive && pressPointerId.current === e.pointerId) {
       releasePress();
     }
     onPointerCancel?.(e);
   };
 
-  // Forward legacy mouse handlers for consumers; primary state is pointer-driven
   const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
     onMouseEnter?.(e);
   };
@@ -232,13 +358,12 @@ export const Button = ({
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
-    if (isPrimaryInteractive) releasePress();
+    if (isPressInteractive) releasePress();
     onBlur?.(e);
   };
 
-  // Safety net: if press is somehow stuck (capture lost), clear on any window up
   React.useEffect(() => {
-    if (!isPrimaryInteractive || interaction !== "pressed") return;
+    if (!isPressInteractive || interaction !== "pressed") return;
     const onWindowUp = () => releasePress();
     window.addEventListener("pointerup", onWindowUp);
     window.addEventListener("pointercancel", onWindowUp);
@@ -250,13 +375,13 @@ export const Button = ({
       window.removeEventListener("touchend", onWindowUp);
       window.removeEventListener("touchcancel", onWindowUp);
     };
-  }, [isPrimaryInteractive, interaction, releasePress]);
+  }, [isPressInteractive, interaction, releasePress]);
 
   return (
     <button
       className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className || ""}`}
       disabled={disabled}
-      style={{ ...primaryStyle, ...secondaryHoverStyle, ...style }}
+      style={{ ...pressStyle, ...style }}
       {...props}
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}

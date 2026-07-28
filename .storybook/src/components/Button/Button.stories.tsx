@@ -7,13 +7,14 @@ import { Button } from "./Button";
  *
  * Four variants matching the Figma Component Kit:
  * **Primary** (#1AAED8), **Secondary** (#575040), **Tertiary** (outline),
- * and **Ghost** (text-only). Plus a **Danger** ghost variant.
+ * **Ghost** (text-only), and **Danger** / error filled (#CC3926).
  *
  * ## Figma Design
  * - [Primary](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=113-90)
  * - [Secondary](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=116-66)
  * - [Tertiary](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=116-83)
  * - [Ghost](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=118-100)
+ * - [Error / Danger](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=329-197)
  */
 const meta: Meta<typeof Button> = {
   title: "Components/Button",

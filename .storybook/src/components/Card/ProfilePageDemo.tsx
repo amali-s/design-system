@@ -72,7 +72,7 @@ export function ProfilePageDemo() {
       <header className="mb-8 border-b border-[rgba(89,85,75,0.12)] pb-6">
         <p className="font-sans text-xs font-medium uppercase tracking-wider text-[#827A64]">Spaces</p>
         <h1 className="mt-1 font-brand text-3xl font-medium text-brand-darkBlue">Near you</h1>
-        <p className="mt-2 max-w-xl font-sans text-sm font-light text-[#59554b]">
+        <p className="mt-2 max-w-xl font-body text-sm font-light text-[#59554b]">
           Profile cards list bookable spaces. Hearts persist per card on this page; ghost
           actions simulate booking without leaving the demo.
         </p>
@@ -124,10 +124,10 @@ export function ProfilePageDemo() {
         <p className="font-sans text-xs font-medium uppercase tracking-wider text-[#827A64]">
           Page activity
         </p>
-        <p className="mt-2 font-sans text-sm font-light leading-relaxed text-[#59554b]">{activity}</p>
+        <p className="mt-2 font-body text-sm font-light leading-relaxed text-[#59554b]">{activity}</p>
         {selected ? (
           <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-[rgba(89,85,75,0.08)] pt-4">
-            <p className="font-petrona text-lg text-brand-black">{selected.heading}</p>
+            <p className="font-heading text-lg text-brand-black">{selected.heading}</p>
             <span className="font-sans text-xs text-[#6c7275]">
               {selected.spaceType} · {selected.neighborhood}
             </span>

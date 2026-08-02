@@ -219,7 +219,7 @@ export const ToastNotification = ({
               {header}
             </p>
 
-            <p className="font-sans text-sm font-w2 text-[#59554B] leading-relaxed tracking-tight">
+            <p className="font-body text-sm font-w2 text-[#59554B] leading-relaxed tracking-tight">
               {body}
             </p>
 

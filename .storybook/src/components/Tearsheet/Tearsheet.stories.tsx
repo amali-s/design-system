@@ -51,7 +51,7 @@ export const Default: Story = {
     primaryActionLabel: "Confirm",
     secondaryActionLabel: "Cancel",
     children: (
-      <div className="font-sans text-sm font-w3 text-secondary space-y-4">
+      <div className="font-body text-sm font-w3 text-secondary space-y-4">
         <p>
           This is the tearsheet content area. It can contain any content you need
           — forms, lists, details, or mixed layouts.
@@ -102,7 +102,7 @@ export const MinimalContent: Story = {
   args: {
     title: "Quick Info",
     children: (
-      <p className="font-sans text-sm font-w3 text-[#8A867E]">
+      <p className="font-body text-sm font-w3 text-[#8A867E]">
         A minimal tearsheet with just a title and simple content. No footer
         actions.
       </p>
@@ -117,7 +117,7 @@ export const LongContent: Story = {
     primaryActionLabel: "I Accept",
     secondaryActionLabel: "Decline",
     children: (
-      <div className="font-sans text-sm font-w3 text-secondary space-y-4">
+      <div className="font-body text-sm font-w3 text-secondary space-y-4">
         {Array.from({ length: 8 }).map((_, i) => (
           <p key={i}>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
@@ -144,7 +144,7 @@ export const CustomTrigger: Story = {
       </Button>
     ),
     children: (
-      <p className="font-sans text-sm font-w3 text-secondary">
+      <p className="font-body text-sm font-w3 text-secondary">
         You can pass any React node as the trigger prop to customize how the
         tearsheet is opened.
       </p>

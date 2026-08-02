@@ -79,14 +79,25 @@ module.exports = {
 
         /** Figma / Sage surfaces — form fields, layered UI */
         layer1: '#FFF8F0',
+        /** Figma "Layer 1 Hover" — row/surface hover fill */
+        layer1Hover: '#FAF7E1',
+        /** Figma "Neutral text" — secondary copy, hairline borders */
+        neutralText: '#6C7275',
       },
       fontFamily: {
+        // ── Headings & UI — Rethink Sans ──
+        /** Section and component headings */
+        heading: ['Rethink Sans', 'system-ui', 'sans-serif'],
+        /** Branding and page titles */
         brand: ['Rethink Sans', 'system-ui', 'sans-serif'],
-        // Alias kept for existing component classNames
-        petrona: ['Rethink Sans', 'system-ui', 'sans-serif'],
+        /** UI chrome — buttons, chips, micro-labels */
         sans: ['Rethink Sans', 'system-ui', 'sans-serif'],
+
+        // ── Reading text — Spectral ──
+        /** Body copy, field labels, helper text (Figma "Body 1" / "Label 1") */
         body: ['Spectral', 'Georgia', 'serif'],
         serif: ['Spectral', 'Georgia', 'serif'],
+
         mono: ['JetBrains Mono', 'Menlo', 'monospace'],
       },
       fontSize: {

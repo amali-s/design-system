@@ -25,7 +25,7 @@ export const TextBox = React.forwardRef<HTMLTextAreaElement, TextBoxProps>(funct
 
   return (
     <div className={`flex w-full max-w-[314px] flex-col gap-2 ${containerClassName || ""}`}>
-      <label htmlFor={boxId} className="font-sans text-sm font-light leading-[1.5] text-[#6c7275]">
+      <label htmlFor={boxId} className="font-body text-sm font-light leading-[1.5] text-[#6c7275]">
         {label}
       </label>
       <div
@@ -41,7 +41,7 @@ export const TextBox = React.forwardRef<HTMLTextAreaElement, TextBoxProps>(funct
           disabled={disabled}
           aria-describedby={helperText ? helperId : undefined}
           className={[
-            "min-h-[40px] w-full resize-y bg-transparent font-sans text-sm font-light leading-[1.5]",
+            "min-h-[40px] w-full resize-y bg-transparent font-body text-sm font-light leading-[1.5]",
             "text-brand-black placeholder:text-[#6c7275]",
             "focus-visible:outline-none",
             disabled ? "cursor-not-allowed text-[#ADABA5] placeholder:text-[#ADABA5]/80" : "",
@@ -51,7 +51,7 @@ export const TextBox = React.forwardRef<HTMLTextAreaElement, TextBoxProps>(funct
         />
       </div>
       {helperText ? (
-        <p id={helperId} className="font-sans text-xs font-light leading-[1.4] tracking-[-0.72px] text-[#6c7275]">
+        <p id={helperId} className="font-body text-xs font-light leading-[1.4] tracking-[-0.72px] text-[#6c7275]">
           {helperText}
         </p>
       ) : null}

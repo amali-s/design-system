@@ -42,13 +42,16 @@ const TypographyPage = () => (
           <div className="p-6 bg-brand-foreground rounded-2xl">
             <div className="flex items-center gap-3 mb-3">
               <span className="px-2 py-1 text-xs font-medium bg-primary text-white rounded">Headings</span>
-              <span className="text-sm font-mono text-brand-darkGrey">font-brand / font-sans</span>
+              <span className="text-sm font-mono text-brand-darkGrey">font-heading / font-brand / font-sans</span>
             </div>
             <p className="font-brand text-3xl font-medium text-brand-black mb-2">
               Rethink Sans
             </p>
             <p className="font-body text-sm font-light text-brand-darkGrey">
-              Used for branding headers, section headings, and UI actions.
+              <code className="font-mono text-xs">font-heading</code> for section and component
+              headings, <code className="font-mono text-xs">font-brand</code> for page titles,
+              <code className="font-mono text-xs"> font-sans</code> for UI chrome — buttons, chips,
+              and micro-labels.
             </p>
           </div>
           
@@ -61,7 +64,8 @@ const TypographyPage = () => (
               Spectral
             </p>
             <p className="font-body text-sm font-light text-brand-darkGrey">
-              Used for body copy and labels. A serif with warmth and readability.
+              Used for body copy, field labels, and helper text (Figma &ldquo;Body 1&rdquo; and
+              &ldquo;Label 1&rdquo;). A serif with warmth and readability.
             </p>
           </div>
         </div>

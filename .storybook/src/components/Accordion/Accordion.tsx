@@ -1,12 +1,42 @@
 import * as React from "react";
 
-const ACCORDION_WIDTH_PX = 320;
+/** Figma frames every accordion variant at 536px */
+const ACCORDION_WIDTH_PX = 536;
 /** Horizontal padding on accordion rows (Figma: 12px) */
 const ROW_PADDING_PX = 12;
-/** Gap between slot and text column on fill accordions (Figma: 8px) */
-const FILL_SLOT_GAP_PX = 8;
+/** Top padding (Figma: 12px) */
+const ROW_PADDING_TOP_PX = 12;
+/** Bottom padding — 12px collapsed, 8px expanded */
+const ROW_PADDING_BOTTOM_COLLAPSED_PX = 12;
+const ROW_PADDING_BOTTOM_EXPANDED_PX = 8;
 
-export type AccordionType = "fill" | "inline";
+/**
+ * Shared motion. Figma has no prototype data on this node, so these are tuned by
+ * eye rather than exported — same plain-CSS-transition approach as `Button.tsx`.
+ */
+const MOTION_EXPAND_MS = 220;
+const MOTION_HOVER_MS = 150;
+/** Collapsed → Expanded */
+const EASE_EXPAND = "ease-in-out";
+/**
+ * Expanded → Collapsed — "ease-in-out-back", the commonly quoted easeInOutBack.
+ * Only the chevron can actually render it: `transform` is unclamped, so the flick
+ * past 180° and back reads.
+ */
+const EASE_COLLAPSE_CHEVRON = "cubic-bezier(0.68, -0.6, 0.32, 1.6)";
+/**
+ * The panel can't use that curve. Interpolating `grid-template-rows` 1fr → 0fr
+ * clamps below 0fr, and anything above 1fr renders identically to 1fr (the row is
+ * content-bound), so the overshoot is invisible in both directions and only eats
+ * duration — measured, the panel hit 0 at 150ms of 220ms and sat there. `max-height`
+ * has the same content ceiling. So the panel keeps easeInOutBack's control points on
+ * x (same snappy in-out rhythm) with the y overshoot removed.
+ */
+const EASE_COLLAPSE_PANEL = "cubic-bezier(0.68, 0, 0.32, 1)";
+/** Enabled → Hover */
+const EASE_HOVER_IN = "ease-out";
+/** Hover → Enabled */
+const EASE_HOVER_OUT = "ease-in";
 
 export interface AccordionTag {
   label: string;
@@ -18,18 +48,14 @@ export interface AccordionItemProps {
   value?: string;
   /** Small label above the title (e.g. address) */
   eyebrow?: string;
-  /** Petrona heading */
+  /** Rethink Sans heading */
   title?: string;
-  /** Panel body — hidden when collapsed */
+  /** Panel body — collapsed to zero height when closed */
   children?: React.ReactNode;
   tags?: AccordionTag[];
-  /** Show left accent slot block */
-  showSlot?: boolean;
-  slot?: React.ReactNode;
   /** Copy control beside eyebrow */
   showCopy?: boolean;
   onCopy?: () => void;
-  type?: AccordionType;
   disabled?: boolean;
   expanded?: boolean;
   defaultExpanded?: boolean;
@@ -38,7 +64,6 @@ export interface AccordionItemProps {
 }
 
 export interface AccordionProps {
-  type?: AccordionType;
   /** Allow more than one panel open at a time */
   allowMultiple?: boolean;
   value?: string[];
@@ -58,7 +83,6 @@ const DEFAULT_DESCRIPTION =
   "Description of the location and a summary of the reviews themselves so a user can see what they should expect.";
 
 type AccordionContextValue = {
-  type: AccordionType;
   allowMultiple: boolean;
   openValues: string[];
   toggle: (value: string) => void;
@@ -78,10 +102,10 @@ function ChevronIcon({ expanded }: { expanded: boolean }) {
       viewBox="0 0 12 6"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={[
-        "shrink-0 text-[#827A64] transition-transform duration-200",
-        expanded ? "rotate-180" : "",
-      ].join(" ")}
+      className={["shrink-0 text-[#827A64]", expanded ? "rotate-180" : ""].join(" ")}
+      style={{
+        transition: `transform ${MOTION_EXPAND_MS}ms ${expanded ? EASE_EXPAND : EASE_COLLAPSE_CHEVRON}`,
+      }}
       aria-hidden
     >
       <path d="M1 1L6 5L11 1" stroke="currentColor" strokeWidth={1} strokeLinecap="round" strokeLinejoin="round" />
@@ -98,31 +122,40 @@ function CopyIcon() {
   );
 }
 
-function AccordionSlot({ tall, children }: { tall?: boolean; children?: React.ReactNode }) {
+/**
+ * Tag checkmark — Figma "check yes" (6×5px box, stroke overflows per the inset).
+ */
+function CheckIcon() {
   return (
-    <div
-      className={[
-        "flex shrink-0 items-center justify-center overflow-hidden rounded-xl bg-brand-accent font-sans text-sm font-light text-brand-black",
-        tall ? "h-[121px] w-[74px] rounded-bl-xl rounded-tl-xl" : "h-[86px] w-[63px]",
-      ].join(" ")}
-    >
-      {children ?? "Slot"}
-    </div>
+    <span className="relative block h-[5px] w-[6px] shrink-0" aria-hidden>
+      <span className="absolute inset-[-10%_-8.33%_-16.48%_-8.33%]">
+        <svg
+          viewBox="0 0 7.00005 6.32387"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="block size-full max-w-none"
+        >
+          <path
+            d="M0.500026 2.64288L2.68184 5.50003L6.50003 0.500026"
+            stroke="currentColor"
+            strokeLinecap="round"
+          />
+        </svg>
+      </span>
+    </span>
   );
 }
 
-function AccordionTags({ tags, disabled }: { tags: AccordionTag[]; disabled?: boolean }) {
+function AccordionTags({ tags }: { tags: AccordionTag[] }) {
   return (
+    // Tag text/icon stay "Neutral text" in every row state, including disabled.
     <div className="flex flex-wrap gap-2">
       {tags.map((tag) => (
         <span
           key={tag.label}
-          className={[
-            "inline-flex items-center gap-1 rounded-xl bg-brand-foreground px-2 py-1 font-sans text-[8px] font-normal tracking-[-0.32px]",
-            disabled ? "text-[#ADABA5]" : "text-[#827A64]",
-          ].join(" ")}
+          className="inline-flex items-center gap-1 rounded-xl bg-[#FBF8E9] px-2 py-1 font-sans text-[8px] font-normal tracking-[-0.32px] text-neutralText"
         >
-          {tag.icon}
+          {tag.icon ?? <CheckIcon />}
           {tag.label}
         </span>
       ))}
@@ -131,7 +164,7 @@ function AccordionTags({ tags, disabled }: { tags: AccordionTag[]; disabled?: bo
 }
 
 /**
- * Sage Component Kit accordion item — disclosure row from Figma.
+ * Sage Component Kit accordion item — inline disclosure row from Figma.
  *
  * [Figma — Accordion](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=463-186)
  */
@@ -141,11 +174,8 @@ export function AccordionItem({
   title = "Title of row",
   children,
   tags = DEFAULT_TAGS,
-  showSlot = true,
-  slot,
   showCopy = true,
   onCopy,
-  type: typeProp,
   disabled = false,
   expanded: expandedProp,
   defaultExpanded = false,
@@ -155,7 +185,6 @@ export function AccordionItem({
   const ctx = useAccordionContext();
   const autoId = React.useId();
   const value = valueProp ?? autoId;
-  const type = typeProp ?? ctx?.type ?? "fill";
 
   const isControlled = expandedProp !== undefined;
   const [internalExpanded, setInternalExpanded] = React.useState(defaultExpanded);
@@ -183,13 +212,11 @@ export function AccordionItem({
 
   const showTags = tags.length > 0;
   const body = children ?? DEFAULT_DESCRIPTION;
-  const hasSlot = showSlot && type === "fill";
 
   const shellClass = [
-    "flex w-full flex-col overflow-hidden",
-    type === "fill" ? "rounded-xl" : "border-b border-brand-black/40",
-    type === "fill" && !disabled ? "bg-layer1" : "",
-    type === "fill" && disabled ? "bg-layer1 opacity-60" : "",
+    "flex w-full flex-col overflow-hidden rounded-lg border-b",
+    disabled ? "border-disabled" : "border-neutralText",
+    isHover ? "bg-layer1Hover" : "bg-transparent",
     className || "",
   ].join(" ");
 
@@ -197,104 +224,105 @@ export function AccordionItem({
     maxWidth: ACCORDION_WIDTH_PX,
     paddingLeft: ROW_PADDING_PX,
     paddingRight: ROW_PADDING_PX,
-    paddingTop: type === "fill" ? 12 : 12,
-    paddingBottom: type === "fill" ? 8 : 8,
-    ...(type === "fill" && isHover
-      ? {
-          backgroundImage:
-            "linear-gradient(90deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.2) 100%), linear-gradient(90deg, #FFF8F0 0%, #FFF8F0 100%)",
-        }
-      : type === "fill"
-        ? { backgroundColor: "#FFF8F0" }
-        : {}),
+    paddingTop: ROW_PADDING_TOP_PX,
+    paddingBottom: expanded ? ROW_PADDING_BOTTOM_EXPANDED_PX : ROW_PADDING_BOTTOM_COLLAPSED_PX,
+    transition: `background-color ${MOTION_HOVER_MS}ms ${isHover ? EASE_HOVER_IN : EASE_HOVER_OUT}`,
   };
 
   const muted = disabled;
   const eyebrowClass = muted ? "text-[#ADABA5]" : "text-[#827A64]";
   const titleClass = muted ? "text-[#ADABA5]" : "text-brand-black";
-  const bodyClass = muted ? "text-[#ADABA5]" : "text-[#6c7275]";
+  const bodyClass = muted ? "text-[#ADABA5]" : "text-neutralText";
 
   return (
     <div
       className={shellClass}
       style={shellStyle}
-      data-accordion-type={type}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <div className="flex w-full min-w-0 flex-col gap-3">
-        <div
-          className="flex w-full min-w-0 items-start"
-          style={hasSlot ? { gap: FILL_SLOT_GAP_PX } : undefined}
-        >
-          {hasSlot && <AccordionSlot tall={!expanded}>{slot}</AccordionSlot>}
+      {/* Header block + chevron row — 12px apart, chevron flush right */}
+      <div className="flex w-full min-w-0 flex-col items-end gap-3">
+        <div className="flex w-full min-w-0 flex-col">
+          {/* Text block and tags row — 16px apart */}
+          <div className="flex w-full min-w-0 flex-col gap-4">
+            {/* Eyebrow and title — 8px apart */}
+            <div className="flex w-full min-w-0 flex-col gap-2">
+              <div className="flex items-center gap-2">
+                {/* Figma "Label 1" — Spectral Light 12 */}
+                <span className={`font-body text-xs font-light tracking-[-0.72px] ${eyebrowClass}`}>
+                  {eyebrow}
+                </span>
+                {showCopy && (
+                  <button
+                    type="button"
+                    aria-label="Copy address"
+                    disabled={disabled}
+                    onClick={onCopy}
+                    className={[
+                      "inline-flex shrink-0 items-center outline-none focus:outline-none focus-visible:outline-none",
+                      disabled ? "cursor-not-allowed opacity-50" : "hover:opacity-80",
+                    ].join(" ")}
+                  >
+                    <CopyIcon />
+                  </button>
+                )}
+              </div>
 
-          <div className="flex min-w-0 flex-1 flex-col gap-2">
-            <div className="flex items-center gap-2">
-              <span className={`font-sans text-xs font-light tracking-[-0.72px] ${eyebrowClass}`}>
-                {eyebrow}
-              </span>
-              {showCopy && (
-                <button
-                  type="button"
-                  aria-label="Copy address"
-                  disabled={disabled}
-                  onClick={onCopy}
-                  className={[
-                    "inline-flex shrink-0 items-center outline-none focus:outline-none focus-visible:outline-none",
-                    disabled ? "cursor-not-allowed opacity-50" : "hover:opacity-80",
-                  ].join(" ")}
-                >
-                  <CopyIcon />
-                </button>
-              )}
-            </div>
-
-            <button
-              type="button"
-              id={headerId}
-              disabled={disabled}
-              aria-expanded={expanded}
-              aria-controls={panelId}
-              onClick={toggle}
-              className="flex w-full flex-col gap-3 text-left outline-none focus:outline-none focus-visible:outline-none"
-            >
-              <div className="flex w-full flex-col gap-2">
+              <button
+                type="button"
+                id={headerId}
+                disabled={disabled}
+                aria-expanded={expanded}
+                aria-controls={panelId}
+                onClick={toggle}
+                className="flex w-full text-left outline-none focus:outline-none focus-visible:outline-none"
+              >
                 <h3
-                  className={`font-petrona text-xl font-light tracking-[-0.4px] leading-tight ${titleClass}`}
+                  className={`font-heading text-xl font-light tracking-[-0.4px] leading-tight ${titleClass}`}
                 >
                   {title}
                 </h3>
-                {showTags && <AccordionTags tags={tags} disabled={disabled} />}
-              </div>
+              </button>
+            </div>
 
-              <div
-                id={panelId}
-                role="region"
-                aria-labelledby={headerId}
-                hidden={!expanded}
-                className={expanded ? "block w-full" : "hidden"}
-              >
-                <p className={`font-sans text-sm font-light leading-[1.5] ${bodyClass}`}>{body}</p>
-              </div>
-            </button>
+            {showTags && <AccordionTags tags={tags} />}
+          </div>
+
+          {/* Description — grid-rows 0fr → 1fr so the disclosure can transition */}
+          <div
+            id={panelId}
+            role="region"
+            aria-labelledby={headerId}
+            aria-hidden={!expanded}
+            className="grid w-full"
+            style={{
+              gridTemplateRows: expanded ? "1fr" : "0fr",
+              transition: `grid-template-rows ${MOTION_EXPAND_MS}ms ${
+                expanded ? EASE_EXPAND : EASE_COLLAPSE_PANEL
+              }`,
+            }}
+          >
+            <div className="overflow-hidden">
+              {/* Padding lives inside the clipped area so it collapses with the panel */}
+              {/* Figma "Body 1" — Spectral Light 14 */}
+              <p className={`pt-3 font-body text-sm font-light leading-[1.5] ${bodyClass}`}>{body}</p>
+            </div>
           </div>
         </div>
 
         {/* Chevron — always bottom-right, aligned to 12px row padding */}
-        <div className="flex w-full justify-end">
-          <button
-            type="button"
-            disabled={disabled}
-            aria-expanded={expanded}
-            aria-controls={panelId}
-            aria-label={expanded ? `Collapse ${title}` : `Expand ${title}`}
-            onClick={toggle}
-            className="inline-flex shrink-0 items-center justify-center outline-none focus:outline-none focus-visible:outline-none"
-          >
-            <ChevronIcon expanded={expanded} />
-          </button>
-        </div>
+        <button
+          type="button"
+          disabled={disabled}
+          aria-expanded={expanded}
+          aria-controls={panelId}
+          aria-label={expanded ? `Collapse ${title}` : `Expand ${title}`}
+          onClick={toggle}
+          className="inline-flex shrink-0 items-center justify-center outline-none focus:outline-none focus-visible:outline-none"
+        >
+          <ChevronIcon expanded={expanded} />
+        </button>
       </div>
     </div>
   );
@@ -304,7 +332,6 @@ export function AccordionItem({
  * Vertically stacked accordion — one or more panels open depending on `allowMultiple`.
  */
 export function Accordion({
-  type = "fill",
   allowMultiple = false,
   value: valueProp,
   defaultValue = [],
@@ -333,7 +360,7 @@ export function Accordion({
   };
 
   return (
-    <AccordionContext.Provider value={{ type, allowMultiple, openValues, toggle }}>
+    <AccordionContext.Provider value={{ allowMultiple, openValues, toggle }}>
       <div className={["flex w-full flex-col", className || ""].join(" ")} style={{ maxWidth: ACCORDION_WIDTH_PX }}>
         {children}
       </div>

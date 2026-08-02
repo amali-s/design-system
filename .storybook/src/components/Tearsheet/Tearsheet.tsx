@@ -38,7 +38,7 @@ export interface TearsheetProps {
  * - Slides up from bottom with smooth animation
  * - Overlay: semi-transparent black
  * - Content: brand-white background, rounded top corners
- * - Header: title (Petrona), optional description
+ * - Header: title (Rethink Sans), optional description
  * - Footer: primary + secondary actions
  * - Uses design system typography and colors
  */
@@ -96,7 +96,7 @@ export const Tearsheet = ({
                   {title}
                 </h2>
                 {description && (
-                  <p className="font-sans text-sm font-w3 text-[#8A867E] mt-1">
+                  <p className="font-body text-sm font-w3 text-[#8A867E] mt-1">
                     {description}
                   </p>
                 )}

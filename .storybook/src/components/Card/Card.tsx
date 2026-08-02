@@ -239,17 +239,17 @@ function StandardCard({
             isHover && !muted ? "border-[#d5d8d9]" : "",
           ].join(" ")}
         >
-          <p className={`font-sans text-xs font-light tracking-[-0.72px] ${muted ? "" : "text-[#827A64]"}`}>
+          <p className={`font-body text-xs font-light tracking-[-0.72px] ${muted ? "" : "text-[#827A64]"}`}>
             {label}
           </p>
-          <h3 className={`font-petrona text-xl font-light tracking-[-0.4px] ${muted ? "" : "text-brand-black"}`}>
+          <h3 className={`font-heading text-xl font-light tracking-[-0.4px] ${muted ? "" : "text-brand-black"}`}>
             {heading}
           </h3>
         </div>
 
         <div className="flex w-full flex-col gap-4">
           {showSlot && (slot ?? <CardSlotBlock />)}
-          <p className={`font-sans text-sm font-light leading-[1.5] ${muted ? "text-[#ADABA5]" : "text-[#59554b]"}`}>
+          <p className={`font-body text-sm font-light leading-[1.5] ${muted ? "text-[#ADABA5]" : "text-[#59554b]"}`}>
             {body}
           </p>
         </div>
@@ -321,12 +321,12 @@ function ProfileCard({
               disabled={isDisabled}
               onHeartToggle={onHeartToggle}
             />
-            <h3 className={`font-petrona text-xl font-normal leading-tight ${titleClass}`}>{heading}</h3>
+            <h3 className={`font-heading text-xl font-normal leading-tight ${titleClass}`}>{heading}</h3>
           </div>
 
           <ProfileTags tags={tags!} disabled={isDisabled} />
 
-          <p className={`font-sans text-sm font-light leading-[1.5] ${bodyClass}`}>{body}</p>
+          <p className={`font-body text-sm font-light leading-[1.5] ${bodyClass}`}>{body}</p>
 
           {action && (
             <div className="shrink-0 self-end">
@@ -355,7 +355,7 @@ function ProfileCard({
 /**
  * Sage Component Kit cards — two variants from Figma.
  *
- * - **card**: Label, Petrona heading, optional slot, body, ghost action
+ * - **card**: Label, Rethink Sans heading, optional slot, body, ghost action
  * - **profile**: Image slot, space meta, heart, tags, description, optional ghost action
  */
 export const Card = ({

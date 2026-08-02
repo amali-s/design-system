@@ -299,7 +299,7 @@ const ToastDemo = () => {
         <p className="font-brand text-xl text-secondary">
           Interactive Toast Demo
         </p>
-        <p className="font-sans text-[13px] text-[#8A867E] mb-2">
+        <p className="font-body text-[13px] text-[#8A867E] mb-2">
           Click buttons to trigger toasts. They stack like Sonner — newest
           on top, older ones behind with a depth effect. Hover over the
           toast area to expand the stack. Toasts auto-dismiss after 4 s.

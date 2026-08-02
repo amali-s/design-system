@@ -84,7 +84,7 @@ export function Dropdown({
         <span className="flex w-full items-center justify-between gap-2">
           <span
             className={[
-              "font-sans text-sm font-light leading-[1.5]",
+              "font-body text-sm font-light leading-[1.5]",
               showPlaceholder ? "text-[#6c7275]" : "text-brand-black",
             ].join(" ")}
           >
@@ -108,7 +108,7 @@ export function Dropdown({
               aria-selected={value === opt}
               onClick={() => commit(opt)}
               className={[
-                "bg-layer1 px-2 py-2 text-left font-sans text-sm font-light leading-[1.5] text-brand-black",
+                "bg-layer1 px-2 py-2 text-left font-body text-sm font-light leading-[1.5] text-brand-black",
                 "hover:bg-brand-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
                 i === 0 ? "rounded-t-lg" : "",
                 i === options.length - 1 ? "rounded-b-lg" : "",

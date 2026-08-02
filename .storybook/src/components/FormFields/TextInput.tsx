@@ -16,7 +16,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(func
 
   return (
     <div className={`flex w-full max-w-[240px] flex-col gap-2 ${className || ""}`}>
-      <label htmlFor={inputId} className="font-sans text-xs font-light leading-[1.4] tracking-[-0.72px] text-brand-black">
+      <label htmlFor={inputId} className="font-body text-xs font-light leading-[1.4] tracking-[-0.72px] text-brand-black">
         {label}
       </label>
       <input
@@ -25,7 +25,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(func
         disabled={disabled}
         aria-describedby={helperText ? helperId : undefined}
         className={[
-          "h-8 w-full rounded-lg border-0 bg-layer1 px-2 py-2 font-sans text-sm font-light leading-[1.5]",
+          "h-8 w-full rounded-lg border-0 bg-layer1 px-2 py-2 font-body text-sm font-light leading-[1.5]",
           "text-brand-black placeholder:text-disabled",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
           disabled ? "cursor-not-allowed text-disabled placeholder:text-disabled/80" : "",
@@ -34,7 +34,7 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(func
         {...inputProps}
       />
       {helperText ? (
-        <p id={helperId} className="font-sans text-xs font-light leading-[1.4] tracking-[-0.72px] text-[#6c7275]">
+        <p id={helperId} className="font-body text-xs font-light leading-[1.4] tracking-[-0.72px] text-[#6c7275]">
           {helperText}
         </p>
       ) : null}

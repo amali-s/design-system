@@ -22,7 +22,7 @@ function ChevronIcon({ open, className }: { open: boolean; className?: string })
       viewBox="0 0 12 6"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`shrink-0 transition-transform duration-150 ${open ? "rotate-180" : ""} ${className || ""}`}
+      className={`shrink-0 transition-transform duration-200 ease-in-out ${open ? "scale-y-[-1]" : "scale-y-[1]"} ${className || ""}`}
       aria-hidden
     >
       <path d="M1 1L6 5L11 1" stroke="currentColor" strokeWidth={1} strokeLinecap="round" strokeLinejoin="round" />
@@ -94,11 +94,17 @@ export function Dropdown({
         </span>
       </button>
 
-      {open && !disabled && (
+      {!disabled && (
         <div
           id={listId}
           role="listbox"
-          className="absolute left-0 right-0 top-[calc(100%-1px)] z-10 flex flex-col shadow-[0px_4px_2px_rgba(0,0,0,0.25)]"
+          className={[
+            "absolute left-0 right-0 top-[calc(100%-1px)] z-10 flex flex-col shadow-[0px_4px_2px_rgba(0,0,0,0.25)] will-change-transform origin-top transition-all duration-200",
+            open
+              ? "opacity-100 scale-y-100 pointer-events-auto ease-in-out"
+              : "opacity-0 scale-y-0 pointer-events-none",
+          ].join(" ")}
+          style={!open ? { transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)" } : undefined}
         >
           {options.map((opt, i) => (
             <button
@@ -109,7 +115,10 @@ export function Dropdown({
               onClick={() => commit(opt)}
               className={[
                 "bg-layer1 px-2 py-2 text-left font-body text-sm font-light leading-[1.5] text-brand-black",
-                "hover:bg-brand-foreground/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
+                "transition-colors duration-150 ease-out",
+                "hover:bg-[#8A7C5E]/20",
+                "active:bg-[#8A7C5E]/30 active:transition-colors active:duration-100 active:ease-in-out",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
                 i === 0 ? "rounded-t-lg" : "",
                 i === options.length - 1 ? "rounded-b-lg" : "",
               ].join(" ")}

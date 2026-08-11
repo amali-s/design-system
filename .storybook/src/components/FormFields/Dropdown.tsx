@@ -30,6 +30,23 @@ function ChevronIcon({ open, className }: { open: boolean; className?: string })
   );
 }
 
+/** Check mark shown against the currently-selected option (Figma "check yes"). */
+function CheckIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      width={12}
+      height={8}
+      viewBox="0 0 12 8"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={`shrink-0 ${className || ""}`}
+      aria-hidden
+    >
+      <path d="M1 4L4.5 7L11 1" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export function Dropdown({
   options = DEFAULT_OPTIONS,
   placeholder = "Select a value",
@@ -48,13 +65,15 @@ export function Dropdown({
   const rootRef = React.useRef<HTMLDivElement>(null);
   const listId = React.useId();
 
+  // Dismiss on outside interaction. `pointerdown` covers mouse, touch, and pen
+  // so a tap outside on a mobile device closes the menu just like a click.
   React.useEffect(() => {
     if (!open) return;
-    const onDocMouseDown = (e: MouseEvent) => {
+    const onDocPointerDown = (e: PointerEvent) => {
       if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
     };
-    document.addEventListener("mousedown", onDocMouseDown);
-    return () => document.removeEventListener("mousedown", onDocMouseDown);
+    document.addEventListener("pointerdown", onDocPointerDown);
+    return () => document.removeEventListener("pointerdown", onDocPointerDown);
   }, [open]);
 
   const commit = (next: string) => {
@@ -66,6 +85,12 @@ export function Dropdown({
   const display = value ?? "";
   const showPlaceholder = !value;
 
+  const textColor = disabled
+    ? "text-textDisabled"
+    : showPlaceholder
+      ? "text-[#6c7275]"
+      : "text-brand-black";
+
   return (
     <div ref={rootRef} className={`relative inline-block min-w-[168px] ${className || ""}`}>
       <button
@@ -76,21 +101,20 @@ export function Dropdown({
         aria-expanded={open}
         aria-controls={listId}
         onClick={() => !disabled && setOpen((o) => !o)}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") setOpen(false);
+        }}
         className={[
-          "flex h-9 w-full cursor-pointer flex-col items-stretch overflow-hidden rounded-lg border-0 bg-layer1 p-2 text-left",
-          disabled ? "cursor-not-allowed opacity-60" : "",
+          "flex h-9 w-full flex-col items-stretch overflow-hidden rounded-lg border-0 bg-layer1 p-2 text-left",
+          "touch-manipulation transition-colors duration-150",
+          disabled ? "cursor-not-allowed" : "cursor-pointer active:bg-[#8A7C5E]/10",
         ].join(" ")}
       >
         <span className="flex w-full items-center justify-between gap-2">
-          <span
-            className={[
-              "font-body text-sm font-light leading-[1.5]",
-              showPlaceholder ? "text-[#6c7275]" : "text-brand-black",
-            ].join(" ")}
-          >
+          <span className={["font-body text-sm font-light leading-[1.5]", textColor].join(" ")}>
             {showPlaceholder ? placeholder : display}
           </span>
-          <ChevronIcon open={open} className={showPlaceholder ? "text-[#6c7275]" : "text-brand-black"} />
+          <ChevronIcon open={open} className={textColor} />
         </span>
       </button>
 
@@ -106,26 +130,31 @@ export function Dropdown({
           ].join(" ")}
           style={!open ? { transitionTimingFunction: "cubic-bezier(0.34, 1.56, 0.64, 1)" } : undefined}
         >
-          {options.map((opt, i) => (
-            <button
-              key={opt}
-              type="button"
-              role="option"
-              aria-selected={value === opt}
-              onClick={() => commit(opt)}
-              className={[
-                "bg-layer1 px-2 py-2 text-left font-body text-sm font-light leading-[1.5] text-brand-black",
-                "transition-colors duration-150 ease-out",
-                "hover:bg-[#8A7C5E]/20",
-                "active:bg-[#8A7C5E]/30 active:transition-colors active:duration-100 active:ease-in-out",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
-                i === 0 ? "rounded-t-lg" : "",
-                i === options.length - 1 ? "rounded-b-lg" : "",
-              ].join(" ")}
-            >
-              {opt}
-            </button>
-          ))}
+          {options.map((opt, i) => {
+            const selected = value === opt;
+            return (
+              <button
+                key={opt}
+                type="button"
+                role="option"
+                aria-selected={selected}
+                onClick={() => commit(opt)}
+                className={[
+                  "flex items-center justify-between gap-2 bg-layer1 px-2 py-2 text-left font-body text-sm font-light leading-[1.5] text-brand-black",
+                  "touch-manipulation transition-colors duration-150 ease-out",
+                  "hover:bg-[#8A7C5E]/20",
+                  "active:bg-[#8A7C5E]/30 active:transition-colors active:duration-100 active:ease-in-out",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
+                  selected ? "bg-[#8A7C5E]/20" : "",
+                  i === 0 ? "rounded-t-lg" : "",
+                  i === options.length - 1 ? "rounded-b-lg" : "",
+                ].join(" ")}
+              >
+                <span>{opt}</span>
+                {selected && <CheckIcon className="text-brand-black" />}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>

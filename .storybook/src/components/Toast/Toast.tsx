@@ -130,17 +130,17 @@ const AddIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
   >
-    <path d="M5 0.5V8.5" stroke="#1AAED8" strokeWidth="1" strokeLinecap="round" />
-    <path d="M1 4.5H9" stroke="#1AAED8" strokeWidth="1" strokeLinecap="round" />
+    <path d="M5 0.5V8.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+    <path d="M1 4.5H9" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
   </svg>
 );
 
 /* ─── State → background color ────────────────────────────── */
 
 const stateBackground: Record<Exclude<ToastState, "default">, string> = {
-  information: "bg-[#E0F4FF]", // light blue
-  success: "bg-[#E2FBDC]",     // pale green
-  error: "bg-[#FFE5E0]",       // warm peach
+  information: "bg-[#edf8ff]", // light blue
+  success: "bg-[#eafbe7]",     // pale green
+  error: "bg-[#fff2f0]",       // warm peach
 };
 
 /* ─── Presentational Toast Component ──────────────────────── */
@@ -158,10 +158,10 @@ const stateBackground: Record<Exclude<ToastState, "default">, string> = {
  *     • Information → blue circle with "i"
  *     • Success     → green circle with "✓"
  *     • Error       → red triangle with "!"
- * - Background: #E0F4FF (information), #E2FBDC (success), #FFE5E0 (error)
+ * - Background: #edf8ff (information), #eafbe7 (success), #fff2f0 (error)
  * - Header: Rethink Sans Medium, 14px, #1B2323
- * - Body:   Spectral Light, 14px, #59554B
- * - Action: tertiary pill button (#1AAED8 border + label) with "+" icon
+ * - Body:   Spectral Light, 14px, #4b5459 (Text secondary)
+ * - Action: borderless ghost button (Primary action #0095cc label) with "+" icon
  * - Close:  small "×" in top-right corner, stroke 1.5px
  *
  * For animated toasts, use with Sonner:
@@ -219,7 +219,7 @@ export const ToastNotification = ({
               {header}
             </p>
 
-            <p className="font-body text-sm font-w2 text-[#59554B] leading-relaxed tracking-tight">
+            <p className="font-body text-sm font-w2 text-textSecondary leading-relaxed tracking-[-0.84px]">
               {body}
             </p>
 
@@ -227,7 +227,7 @@ export const ToastNotification = ({
               <button
                 type="button"
                 onClick={onAction}
-                className="inline-flex items-center justify-center gap-2 px-3 py-1 rounded-[16px] border-[0.5px] border-solid border-primary font-sans text-sm font-w5 text-primary bg-transparent hover:bg-[#E8F2F9] transition-all duration-200 self-start"
+                className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-[16px] font-sans text-sm font-w4 text-primaryAction bg-transparent hover:bg-primaryAction/10 transition-all duration-200 self-start"
               >
                 <span className="leading-none">{actionLabel}</span>
                 <AddIcon />

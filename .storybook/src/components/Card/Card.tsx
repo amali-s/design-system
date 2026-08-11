@@ -81,7 +81,7 @@ function CardSlotBlock({ tall }: { tall?: boolean }) {
   return (
     <div
       className={[
-        "flex w-full items-center justify-center overflow-hidden bg-brand-accent font-sans text-sm font-light text-brand-black",
+        "flex w-full items-center justify-center overflow-hidden bg-surfaceAccent font-body text-sm font-light text-black",
         tall ? "h-[118px]" : "h-10",
       ].join(" ")}
     >
@@ -111,10 +111,10 @@ function CardActionLink({
           onClick?.();
         }}
         className={[
-          "inline-flex items-center gap-2 rounded-2xl border px-3 py-1 font-sans text-sm font-medium leading-none",
+          "inline-flex items-center gap-2 rounded-2xl border px-3 py-2 font-sans text-sm font-medium leading-none",
           disabled
-            ? "cursor-not-allowed border-disabled text-disabled"
-            : "border-primary text-primary hover:bg-primary/5",
+            ? "cursor-not-allowed border-textDisabled text-textDisabled"
+            : "border-primaryAction text-primaryAction hover:bg-primaryAction/10",
         ].join(" ")}
       >
         {label}
@@ -132,8 +132,8 @@ function CardActionLink({
         onClick?.();
       }}
       className={[
-        "inline-flex items-center gap-2 rounded-2xl px-3 py-1 font-sans text-sm font-medium leading-none",
-        disabled ? "cursor-not-allowed text-[#ADABA5]" : "text-primary hover:bg-[#D7DDE0]/60",
+        "inline-flex items-center gap-2 rounded-2xl px-3 py-2 font-sans text-sm font-medium leading-none",
+        disabled ? "cursor-not-allowed text-textDisabled" : "text-primaryAction hover:bg-primaryAction/10",
       ].join(" ")}
     >
       {label}
@@ -155,7 +155,7 @@ function ProfileMeta({
   disabled?: boolean;
   onHeartToggle?: () => void;
 }) {
-  const muted = disabled ? "text-[#ADABA5]" : "text-[#6c7275]";
+  const muted = disabled ? "text-textDisabled" : "text-[#6c7275]";
 
   return (
     <div className="flex w-full items-center justify-between">
@@ -172,7 +172,7 @@ function ProfileMeta({
           e.stopPropagation();
           onHeartToggle?.();
         }}
-        className={disabled ? "cursor-not-allowed text-[#ADABA5]" : hearted ? "text-deepRed" : "text-[#6c7275]"}
+        className={disabled ? "cursor-not-allowed text-textDisabled" : hearted ? "text-deepRed" : "text-[#6c7275]"}
       >
         <HeartIcon filled={hearted} />
       </button>
@@ -188,7 +188,7 @@ function ProfileTags({ tags, disabled }: { tags: CardTag[]; disabled?: boolean }
           key={tag.label}
           className={[
             "inline-flex items-center gap-1 rounded-xl bg-data-paleMustard px-2 py-1 font-sans text-[8px] font-normal tracking-[-0.32px]",
-            disabled ? "text-[#ADABA5]" : "text-[#59554b]",
+            disabled ? "text-textDisabled" : "text-textSecondary",
           ].join(" ")}
         >
           {tag.label}
@@ -214,42 +214,32 @@ function StandardCard({
   const isHover = state === "hover";
   const muted = isDisabled;
 
-  const containerStyle: React.CSSProperties | undefined = isHover
-    ? {
-        backgroundImage:
-          "linear-gradient(90deg, rgba(232, 221, 162, 0.2) 0%, rgba(232, 221, 162, 0.2) 100%), linear-gradient(90deg, #FFF8F0 0%, #FFF8F0 100%)",
-      }
-    : undefined;
-
   return (
     <div
       className={[
-        "flex w-full max-w-[248px] flex-col items-end gap-6 overflow-hidden rounded-lg border-[0.5px] border-solid px-2 py-4",
-        muted ? "border-brand-foreground bg-layer1" : "border-[#ADABA5] bg-layer1",
-        isHover && !muted ? "border-[#d5d8d9]" : "",
+        "flex w-full max-w-[308px] flex-col items-end gap-6 overflow-hidden rounded-lg border-[0.5px] border-solid px-2 py-4",
+        muted ? "border-background" : isHover ? "border-textDisabled bg-layer1" : "border-textDisabled",
         className || "",
       ].join(" ")}
-      style={containerStyle}
     >
       <div className="flex w-full flex-col gap-4 pb-2 pl-2 pr-4">
         <div
           className={[
             "flex w-full flex-col gap-2 border-b pb-4",
-            muted ? "border-brand-foreground text-[#ADABA5]" : "border-[#ADABA5] border-b-[0.5px]",
-            isHover && !muted ? "border-[#d5d8d9]" : "",
+            muted ? "border-background text-textDisabled" : "border-textDisabled border-b-[0.5px]",
           ].join(" ")}
         >
-          <p className={`font-body text-xs font-light tracking-[-0.72px] ${muted ? "" : "text-[#827A64]"}`}>
+          <p className={`font-body text-xs font-light tracking-[-0.72px] ${muted ? "" : "text-textTertiary"}`}>
             {label}
           </p>
-          <h3 className={`font-heading text-xl font-light tracking-[-0.4px] ${muted ? "" : "text-brand-black"}`}>
+          <h3 className={`font-heading text-xl font-normal tracking-[-0.4px] ${muted ? "" : "text-brand-black"}`}>
             {heading}
           </h3>
         </div>
 
         <div className="flex w-full flex-col gap-4">
           {showSlot && (slot ?? <CardSlotBlock />)}
-          <p className={`font-body text-sm font-light leading-[1.5] ${muted ? "text-[#ADABA5]" : "text-[#59554b]"}`}>
+          <p className={`font-body text-sm font-light leading-[1.5] ${muted ? "text-textDisabled" : "text-textSecondary"}`}>
             {body}
           </p>
         </div>
@@ -302,8 +292,8 @@ function ProfileCard({
   };
 
   const textMuted = isDisabled;
-  const titleClass = textMuted ? "text-[#ADABA5]" : "text-brand-black";
-  const bodyClass = textMuted ? "text-[#ADABA5]" : "text-[#59554b]";
+  const titleClass = textMuted ? "text-textDisabled" : "text-brand-black";
+  const bodyClass = textMuted ? "text-textDisabled" : "text-textSecondary";
 
   return (
     <div className={shellClass} style={shellStyleMerged}>

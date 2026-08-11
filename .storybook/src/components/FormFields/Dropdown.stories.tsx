@@ -1,5 +1,6 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
+import { within, userEvent } from "storybook/test";
 import { Dropdown } from "./Dropdown";
 
 /**
@@ -7,6 +8,15 @@ import { Dropdown } from "./Dropdown";
  *
  * ## Figma
  * [Dropdown section](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=255-651)
+ *
+ * ## Selected state
+ * The currently-selected option is highlighted and shows a trailing check
+ * mark in the open menu (Figma "State=Selected").
+ *
+ * ## Mobile / touch
+ * Pressing behaves exactly like clicking: the trigger and options respond to
+ * touch and pen via pointer events, outside-tap dismisses the menu
+ * (`pointerdown`), and `touch-action: manipulation` removes the tap delay.
  */
 const meta: Meta<typeof Dropdown> = {
   title: "Form fields/Dropdowns",
@@ -14,7 +24,7 @@ const meta: Meta<typeof Dropdown> = {
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
-    backgrounds: { default: "layer1", values: [{ name: "layer1", value: "#FFF8F0" }] },
+    backgrounds: { default: "layer1", values: [{ name: "layer1", value: "#fffdf0" }] },
   },
 };
 export default meta;
@@ -47,6 +57,28 @@ export const CustomOptions: Story = {
       defaultValue={null}
     />
   ),
+};
+
+export const SelectedWithCheck: Story = {
+  name: "Open — selected (check)",
+  render: () => (
+    <div className="pb-40">
+      <Dropdown defaultValue="Checkbox" />
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Menu auto-opened to show the selected option (**Checkbox**) with its highlight and trailing check mark.",
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    // The trigger is the only button exposing aria-expanded; open the menu.
+    await userEvent.click(canvas.getByRole("button", { expanded: false }));
+  },
 };
 
 export const Showcase: Story = {

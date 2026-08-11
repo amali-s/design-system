@@ -8,7 +8,7 @@ import type { ToastState } from "./Toast";
  *
  * ## Figma Design
  * View the toast designs in Figma:
- * https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Component-kit?node-id=215-108
+ * https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=215-108
  *
  * ## States
  * Three visual states, each with its own status icon:
@@ -317,7 +317,7 @@ const ToastDemo = () => {
                 true,
               )
             }
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#E0F4FF] text-[#0084D1] border border-[#0084D1] hover:bg-[#CCEAFB] transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#edf8ff] text-[#0084D1] border border-[#0084D1] hover:bg-[#d8f0ff] transition-all cursor-pointer"
           >
             Information Toast
           </button>
@@ -333,7 +333,7 @@ const ToastDemo = () => {
                 true,
               )
             }
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#FAD4CF] text-[#DC3D29] border border-[#DC3D29] hover:bg-[#F5C0B8] transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#fff2f0] text-[#DC3D29] border border-[#DC3D29] hover:bg-[#ffe3df] transition-all cursor-pointer"
           >
             Error Toast
           </button>
@@ -349,7 +349,7 @@ const ToastDemo = () => {
                 true,
               )
             }
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#B3F1D2] text-[#00803F] border border-[#00803F] hover:bg-[#9FE8C4] transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#eafbe7] text-[#00803F] border border-[#00803F] hover:bg-[#d6f6d0] transition-all cursor-pointer"
           >
             Success Toast
           </button>

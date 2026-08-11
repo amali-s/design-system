@@ -78,11 +78,21 @@ module.exports = {
         },
 
         /** Figma / Sage surfaces — form fields, layered UI */
-        layer1: '#FFF8F0',
+        layer1: '#fffdf0',
         /** Figma "Layer 1 Hover" — row/surface hover fill */
         layer1Hover: '#FAF7E1',
+        /** Figma "Background" — disabled card border / page base */
+        background: '#fbf8e9',
         /** Figma "Neutral text" — secondary copy, hairline borders */
         neutralText: '#6C7275',
+        /** Figma "Primary action" — ghost action links, accent CTAs */
+        primaryAction: '#0095cc',
+        /** Figma "Accent" — neutral slot / placeholder surface (distinct from mustard brand.accent) */
+        surfaceAccent: '#eae9db',
+        /** Figma text ramp (text-primary = brand.black #1B2323) */
+        textSecondary: '#4b5459',
+        textTertiary: '#647782',
+        textDisabled: '#d0d3d3',
       },
       fontFamily: {
         // ── Headings & UI — Rethink Sans ──

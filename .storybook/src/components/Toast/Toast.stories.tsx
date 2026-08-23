@@ -2,6 +2,7 @@ import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ToastNotification } from "./Toast";
 import type { ToastState } from "./Toast";
+import { motionVar, motionDurationMs } from "../../tokens/motion";
 
 /**
  * Toast Notification component — matching the Figma design.
@@ -248,7 +249,7 @@ const ToastDemo = () => {
     // Remove after exit animation
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 350);
+    }, motionDurationMs("feedback"));
   }, []);
 
   const addToast = (
@@ -269,7 +270,7 @@ const ToastDemo = () => {
       setToasts((prev) =>
         prev.map((t) => (t.id === id ? { ...t, phase: "idle" as const } : t)),
       );
-    }, 350);
+    }, motionDurationMs("feedback"));
 
     // Auto-dismiss after DISMISS_MS
     timersRef.current[id] = setTimeout(() => dismissToast(id), DISMISS_MS);
@@ -401,9 +402,9 @@ const ToastDemo = () => {
             // ── Enter / exit overrides ──
             let animation = "";
             if (t.phase === "entering") {
-              animation = "sonner-enter 0.35s cubic-bezier(0.21,1.02,0.73,1) forwards";
+              animation = `sonner-enter ${motionVar.duration.feedback} ${motionVar.ease.toastIn} forwards`;
             } else if (t.phase === "exiting") {
-              animation = "sonner-exit 0.35s cubic-bezier(0.06,0.71,0.55,1) forwards";
+              animation = `sonner-exit ${motionVar.duration.feedback} ${motionVar.ease.toastOut} forwards`;
             }
 
             const translateY = hovered ? expandedTranslateY : stackedTranslateY;
@@ -425,7 +426,7 @@ const ToastDemo = () => {
                   opacity,
                   transformOrigin: "bottom center",
                   transition: t.phase === "idle"
-                    ? "transform 0.35s cubic-bezier(0.21,1.02,0.73,1), opacity 0.3s ease"
+                    ? `transform ${motionVar.duration.feedback} ${motionVar.ease.toastIn}, opacity 0.3s ease`
                     : "none",
                   animation,
                   pointerEvents: (hovered || isNewest) ? "auto" : "none",

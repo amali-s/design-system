@@ -227,7 +227,7 @@ export const ToastNotification = ({
               <button
                 type="button"
                 onClick={onAction}
-                className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-[16px] font-sans text-sm font-w4 text-primaryAction bg-transparent hover:bg-primaryAction/10 transition-all duration-200 self-start"
+                className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-[16px] font-sans text-sm font-w4 text-primaryAction bg-transparent hover:bg-primaryAction/10 transition-all duration-ui ease-standard self-start"
               >
                 <span className="leading-none">{actionLabel}</span>
                 <AddIcon />
@@ -240,7 +240,7 @@ export const ToastNotification = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex-shrink-0 p-1 hover:opacity-60 transition-opacity"
+              className="min-touch-target flex-shrink-0 p-1 hover:opacity-60 transition-opacity"
               aria-label="Close toast"
             >
               <CloseIcon />

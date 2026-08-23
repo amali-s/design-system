@@ -106,9 +106,9 @@ export const Tearsheet = ({
                   type="button"
                   aria-label="Close"
                   className="
-                    flex-shrink-0 p-2 -m-2 rounded-full
+                    inline-flex size-11 shrink-0 items-center justify-center -m-3 rounded-full
                     text-[#8A867E] hover:text-secondary hover:bg-[rgba(89,85,75,0.06)]
-                    transition-colors duration-200
+                    transition-colors duration-ui ease-standard
                   "
                 >
                   <svg

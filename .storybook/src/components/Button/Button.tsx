@@ -1,4 +1,5 @@
 import * as React from "react";
+import { motionVar } from "../../tokens/motion";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "tertiary" | "ghost" | "danger";
@@ -8,10 +9,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 type PressInteraction = "enabled" | "hover" | "pressed";
 
-/** Shared motion — transform-based so the grow stays on the compositor */
-const MOTION_MS = 200;
-const MOTION_EASE = "ease-in-out";
-const MOTION_TRANSITION = `transform ${MOTION_MS}ms ${MOTION_EASE}, box-shadow ${MOTION_MS}ms ${MOTION_EASE}, background-image ${MOTION_MS}ms ${MOTION_EASE}`;
+/** Shared motion — transform-based so the grow stays on the compositor. Durations are CSS vars so reduced-motion can set them to 1ms. */
+const PRESS_TRANSITION = `transform ${motionVar.duration.ui} ${motionVar.ease.standard}, box-shadow ${motionVar.duration.ui} ${motionVar.ease.standard}, background-image ${motionVar.duration.ui} ${motionVar.ease.standard}`;
+const TERTIARY_TRANSITION = `transform ${motionVar.duration.ui} ${motionVar.ease.standard}, box-shadow ${motionVar.duration.ui} ${motionVar.ease.standard}, background-color ${motionVar.duration.ui} ${motionVar.ease.standard}, color ${motionVar.duration.ui} ${motionVar.ease.standard}, border-color ${motionVar.duration.ui} ${motionVar.ease.standard}`;
+const HOVER_SCALE = `scale(${motionVar.scale.buttonHover})`;
 
 const sizePadding = (size: "sm" | "md" | "lg") =>
   size === "lg" ? "12px 16px" : "8px 12px";
@@ -27,7 +28,7 @@ const primaryInteractionStyle = (
     border: "none",
     transformOrigin: "center center",
     willChange: "transform",
-    transition: MOTION_TRANSITION,
+    transition: PRESS_TRANSITION,
     touchAction: "manipulation",
   };
 
@@ -36,7 +37,7 @@ const primaryInteractionStyle = (
       ...base,
       backgroundImage: "none",
       boxShadow: "none",
-      transform: "scale(1.06)",
+      transform: HOVER_SCALE,
     };
   }
 
@@ -70,7 +71,7 @@ const secondaryInteractionStyle = (
     border: "none",
     transformOrigin: "center center",
     willChange: "transform",
-    transition: MOTION_TRANSITION,
+    transition: PRESS_TRANSITION,
     touchAction: "manipulation",
   };
 
@@ -80,7 +81,7 @@ const secondaryInteractionStyle = (
       // Match primary: grow on hover without a gradient overlay
       backgroundImage: "none",
       boxShadow: "none",
-      transform: "scale(1.06)",
+      transform: HOVER_SCALE,
     };
   }
 
@@ -115,7 +116,7 @@ const dangerInteractionStyle = (
     border: "none",
     transformOrigin: "center center",
     willChange: "transform",
-    transition: MOTION_TRANSITION,
+    transition: PRESS_TRANSITION,
     touchAction: "manipulation",
   };
 
@@ -125,7 +126,7 @@ const dangerInteractionStyle = (
       // Match primary/secondary: grow on hover without a gradient overlay
       backgroundImage: "none",
       boxShadow: "none",
-      transform: "scale(1.06)",
+      transform: HOVER_SCALE,
     };
   }
 
@@ -158,7 +159,7 @@ const tertiaryInteractionStyle = (
     padding: sizePadding(size),
     transformOrigin: "center center",
     willChange: "transform",
-    transition: `transform ${MOTION_MS}ms ${MOTION_EASE}, box-shadow ${MOTION_MS}ms ${MOTION_EASE}, background-color ${MOTION_MS}ms ${MOTION_EASE}, color ${MOTION_MS}ms ${MOTION_EASE}, border-color ${MOTION_MS}ms ${MOTION_EASE}`,
+    transition: TERTIARY_TRANSITION,
     touchAction: "manipulation",
   };
 
@@ -171,7 +172,7 @@ const tertiaryInteractionStyle = (
       color: "#FFFDFA",
       border: "0.5px solid transparent",
       boxShadow: "none",
-      transform: "scale(1.06)",
+      transform: HOVER_SCALE,
     };
   }
 
@@ -231,10 +232,11 @@ export const Button = ({
 
   const baseStyles = `
     relative inline-flex items-center justify-center gap-2
+    min-h-11 min-w-11
     font-sans text-sm font-medium leading-none tracking-tight
     focus-visible:outline-none
     touch-manipulation
-    ${isPressInteractive ? "" : "transition-all duration-200 ease-in-out"}
+    ${isPressInteractive ? "" : "transition-all duration-ui ease-standard"}
   `;
 
   const sizeStyles = {

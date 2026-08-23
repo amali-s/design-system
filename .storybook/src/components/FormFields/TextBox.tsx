@@ -1,4 +1,5 @@
 import * as React from "react";
+import { formControlType } from "../../tokens/typography";
 
 export interface TextBoxProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
@@ -41,7 +42,8 @@ export const TextBox = React.forwardRef<HTMLTextAreaElement, TextBoxProps>(funct
           disabled={disabled}
           aria-describedby={helperText ? helperId : undefined}
           className={[
-            "min-h-[40px] w-full resize-y bg-transparent font-body text-sm font-light leading-[1.5]",
+            "min-h-[40px] w-full resize-y bg-transparent font-body font-light leading-[1.5]",
+            formControlType,
             "text-brand-black placeholder:text-[#6c7275]",
             "focus-visible:outline-none",
             disabled ? "cursor-not-allowed text-[#ADABA5] placeholder:text-[#ADABA5]/80" : "",

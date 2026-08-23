@@ -10,4 +10,73 @@
   html {
     font-family: 'Spectral', Georgia, serif;
   }
+
+  /*
+   * Motion + touch tokens — values match `.storybook/src/tokens/motion.ts`
+   * and `touchTarget` in spacing.ts. Durations drop to 1ms (not 0) under
+   * reduced motion so transitionend / timeout enter-exit phases still fire.
+   */
+  :root {
+    --motion-duration-micro: 100ms;
+    --motion-duration-hover: 150ms;
+    --motion-duration-ui: 200ms;
+    --motion-duration-disclosure: 220ms;
+    --motion-duration-feedback: 350ms;
+    --motion-ease-standard: ease-in-out;
+    --motion-ease-hover-in: ease-out;
+    --motion-ease-hover-out: ease-in;
+    --motion-ease-collapse-chevron: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+    --motion-ease-collapse-panel: cubic-bezier(0.68, 0, 0.32, 1);
+    --motion-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --motion-ease-toast-in: cubic-bezier(0.21, 1.02, 0.73, 1);
+    --motion-ease-toast-out: cubic-bezier(0.06, 0.71, 0.55, 1);
+    --motion-scale-button-hover: 1.06;
+    --touch-target: 2.75rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --motion-duration-micro: 1ms;
+      --motion-duration-hover: 1ms;
+      --motion-duration-ui: 1ms;
+      --motion-duration-disclosure: 1ms;
+      --motion-duration-feedback: 1ms;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 1ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /** 16px under 640px; 14px from `sm` up. See `formControlType` token. */
+  .form-control-type {
+    @apply text-base sm:text-sm;
+  }
+}
+
+@layer utilities {
+  /**
+   * 44×44 hit area without growing layout — compact icon controls
+   * (Accordion copy/chevron, Card heart, Toast close).
+   */
+  .min-touch-target {
+    position: relative;
+  }
+
+  .min-touch-target::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: var(--touch-target);
+    height: var(--touch-target);
+    transform: translate(-50%, -50%);
+  }
 }

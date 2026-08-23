@@ -18,6 +18,13 @@ export const fontFamily = {
   mono: ['JetBrains Mono', 'Menlo', 'monospace'],
 } as const;
 
+/**
+ * Form controls that accept text (or look like native fields).
+ * 16px below Tailwind `sm` (640px) so iOS Safari does not zoom on focus;
+ * 14px from `sm` up to match Figma.
+ */
+export const formControlType = "form-control-type";
+
 export const fontSize = {
   xs: '0.75rem',     // 12px
   sm: '0.875rem',    // 14px

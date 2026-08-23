@@ -2,6 +2,7 @@ import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Tearsheet } from "./Tearsheet";
 import { Button } from "../Button/Button";
+import { formControlType } from "../../tokens/typography";
 
 const meta: Meta<typeof Tearsheet> = {
   title: "Components/Tearsheet",
@@ -80,7 +81,7 @@ export const WithFormContent: Story = {
           <input
             type="text"
             placeholder="Enter name"
-            className="w-full px-4 py-2 rounded-lg border border-[rgba(89,85,75,0.2)] font-sans text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+            className={`w-full px-4 py-2 rounded-lg border border-[rgba(89,85,75,0.2)] font-sans ${formControlType} focus:outline-none focus:ring-2 focus:ring-primary/30`}
           />
         </div>
         <div>
@@ -90,7 +91,7 @@ export const WithFormContent: Story = {
           <textarea
             placeholder="Enter description"
             rows={3}
-            className="w-full px-4 py-2 rounded-lg border border-[rgba(89,85,75,0.2)] font-sans text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
+            className={`w-full px-4 py-2 rounded-lg border border-[rgba(89,85,75,0.2)] font-sans ${formControlType} focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none`}
           />
         </div>
       </div>

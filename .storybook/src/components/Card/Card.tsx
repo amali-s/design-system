@@ -172,7 +172,10 @@ function ProfileMeta({
           e.stopPropagation();
           onHeartToggle?.();
         }}
-        className={disabled ? "cursor-not-allowed text-textDisabled" : hearted ? "text-deepRed" : "text-[#6c7275]"}
+        className={[
+          "min-touch-target",
+          disabled ? "cursor-not-allowed text-textDisabled" : hearted ? "text-deepRed" : "text-[#6c7275]",
+        ].join(" ")}
       >
         <HeartIcon filled={hearted} />
       </button>

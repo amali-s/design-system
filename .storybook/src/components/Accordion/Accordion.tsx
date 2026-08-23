@@ -1,4 +1,5 @@
 import * as React from "react";
+import { motionVar } from "../../tokens/motion";
 
 /** Figma frames every accordion variant at 536px */
 const ACCORDION_WIDTH_PX = 536;
@@ -11,32 +12,25 @@ const ROW_PADDING_BOTTOM_COLLAPSED_PX = 12;
 const ROW_PADDING_BOTTOM_EXPANDED_PX = 8;
 
 /**
- * Shared motion. Figma has no prototype data on this node, so these are tuned by
- * eye rather than exported — same plain-CSS-transition approach as `Button.tsx`.
- */
-const MOTION_EXPAND_MS = 220;
-const MOTION_HOVER_MS = 150;
-/** Collapsed → Expanded */
-const EASE_EXPAND = "ease-in-out";
-/**
- * Expanded → Collapsed — "ease-in-out-back", the commonly quoted easeInOutBack.
- * Only the chevron can actually render it: `transform` is unclamped, so the flick
- * past 180° and back reads.
- */
-const EASE_COLLAPSE_CHEVRON = "cubic-bezier(0.68, -0.6, 0.32, 1.6)";
-/**
+ * Shared motion lives in `tokens/motion` (`duration.disclosure` / `duration.hover`,
+ * split collapse easings). Figma has no prototype data on this node, so these were
+ * tuned by eye — same plain-CSS-transition approach as `Button.tsx`.
+ *
+ * Collapsed → Expanded uses `ease.standard` (ease-in-out).
+ *
+ * Expanded → Collapsed — `ease.collapseChevron` is easeInOutBack. Only the chevron
+ * can actually render it: `transform` is unclamped, so the flick past 180° and back
+ * reads.
+ *
  * The panel can't use that curve. Interpolating `grid-template-rows` 1fr → 0fr
  * clamps below 0fr, and anything above 1fr renders identically to 1fr (the row is
  * content-bound), so the overshoot is invisible in both directions and only eats
  * duration — measured, the panel hit 0 at 150ms of 220ms and sat there. `max-height`
- * has the same content ceiling. So the panel keeps easeInOutBack's control points on
- * x (same snappy in-out rhythm) with the y overshoot removed.
+ * has the same content ceiling. So the panel uses `ease.collapsePanel`: same control
+ * points on x (snappy in-out rhythm) with the y overshoot removed.
+ *
+ * Enabled → Hover / Hover → Enabled: `ease.hoverIn` / `ease.hoverOut`.
  */
-const EASE_COLLAPSE_PANEL = "cubic-bezier(0.68, 0, 0.32, 1)";
-/** Enabled → Hover */
-const EASE_HOVER_IN = "ease-out";
-/** Hover → Enabled */
-const EASE_HOVER_OUT = "ease-in";
 
 export interface AccordionTag {
   label: string;
@@ -104,7 +98,9 @@ function ChevronIcon({ expanded }: { expanded: boolean }) {
       xmlns="http://www.w3.org/2000/svg"
       className={["shrink-0 text-[#827A64]", expanded ? "rotate-180" : ""].join(" ")}
       style={{
-        transition: `transform ${MOTION_EXPAND_MS}ms ${expanded ? EASE_EXPAND : EASE_COLLAPSE_CHEVRON}`,
+        transition: `transform ${motionVar.duration.disclosure} ${
+          expanded ? motionVar.ease.standard : motionVar.ease.collapseChevron
+        }`,
       }}
       aria-hidden
     >
@@ -214,7 +210,7 @@ export function AccordionItem({
   const body = children ?? DEFAULT_DESCRIPTION;
 
   const shellClass = [
-    "flex w-full flex-col overflow-hidden rounded-lg border-b",
+    "flex w-full flex-col rounded-lg border-b",
     disabled ? "border-disabled" : "border-neutralText",
     isHover ? "bg-layer1Hover" : "bg-transparent",
     className || "",
@@ -226,7 +222,9 @@ export function AccordionItem({
     paddingRight: ROW_PADDING_PX,
     paddingTop: ROW_PADDING_TOP_PX,
     paddingBottom: expanded ? ROW_PADDING_BOTTOM_EXPANDED_PX : ROW_PADDING_BOTTOM_COLLAPSED_PX,
-    transition: `background-color ${MOTION_HOVER_MS}ms ${isHover ? EASE_HOVER_IN : EASE_HOVER_OUT}`,
+    transition: `background-color ${motionVar.duration.hover} ${
+      isHover ? motionVar.ease.hoverIn : motionVar.ease.hoverOut
+    }`,
   };
 
   const muted = disabled;
@@ -260,7 +258,7 @@ export function AccordionItem({
                     disabled={disabled}
                     onClick={onCopy}
                     className={[
-                      "inline-flex shrink-0 items-center outline-none focus:outline-none focus-visible:outline-none",
+                      "min-touch-target inline-flex shrink-0 items-center outline-none focus:outline-none focus-visible:outline-none",
                       disabled ? "cursor-not-allowed opacity-50" : "hover:opacity-80",
                     ].join(" ")}
                   >
@@ -298,8 +296,8 @@ export function AccordionItem({
             className="grid w-full"
             style={{
               gridTemplateRows: expanded ? "1fr" : "0fr",
-              transition: `grid-template-rows ${MOTION_EXPAND_MS}ms ${
-                expanded ? EASE_EXPAND : EASE_COLLAPSE_PANEL
+              transition: `grid-template-rows ${motionVar.duration.disclosure} ${
+                expanded ? motionVar.ease.standard : motionVar.ease.collapsePanel
               }`,
             }}
           >
@@ -319,7 +317,7 @@ export function AccordionItem({
           aria-controls={panelId}
           aria-label={expanded ? `Collapse ${title}` : `Expand ${title}`}
           onClick={toggle}
-          className="inline-flex shrink-0 items-center justify-center outline-none focus:outline-none focus-visible:outline-none"
+          className="min-touch-target inline-flex shrink-0 items-center justify-center outline-none focus:outline-none focus-visible:outline-none"
         >
           <ChevronIcon expanded={expanded} />
         </button>

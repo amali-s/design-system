@@ -1,4 +1,5 @@
 import * as React from "react";
+import { formControlType } from "../../tokens/typography";
 
 export interface TextInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
@@ -25,7 +26,8 @@ export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(func
         disabled={disabled}
         aria-describedby={helperText ? helperId : undefined}
         className={[
-          "h-8 w-full rounded-lg border-0 bg-layer1 px-2 py-2 font-body text-sm font-light leading-[1.5]",
+          "min-h-11 w-full rounded-lg border-0 bg-layer1 px-2 py-2 font-body font-light leading-[1.5]",
+          formControlType,
           "text-brand-black placeholder:text-disabled",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
           disabled ? "cursor-not-allowed text-disabled placeholder:text-disabled/80" : "",

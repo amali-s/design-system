@@ -143,6 +143,30 @@ module.exports = {
         'ghibli-md': '0 4px 16px rgba(89, 85, 75, 0.08)',
         'ghibli-lg': '0 8px 32px rgba(89, 85, 75, 0.1)',
       },
+      // Names match `.storybook/src/tokens/motion.ts`; values are CSS vars
+      // so prefers-reduced-motion can set durations to 1ms.
+      transitionDuration: {
+        micro: 'var(--motion-duration-micro)',
+        hover: 'var(--motion-duration-hover)',
+        ui: 'var(--motion-duration-ui)',
+        disclosure: 'var(--motion-duration-disclosure)',
+        feedback: 'var(--motion-duration-feedback)',
+      },
+      transitionTimingFunction: {
+        standard: 'var(--motion-ease-standard)',
+        hoverIn: 'var(--motion-ease-hover-in)',
+        'hover-in': 'var(--motion-ease-hover-in)',
+        hoverOut: 'var(--motion-ease-hover-out)',
+        'hover-out': 'var(--motion-ease-hover-out)',
+        collapseChevron: 'var(--motion-ease-collapse-chevron)',
+        collapsePanel: 'var(--motion-ease-collapse-panel)',
+        bounce: 'var(--motion-ease-bounce)',
+        toastIn: 'var(--motion-ease-toast-in)',
+        toastOut: 'var(--motion-ease-toast-out)',
+      },
+      scale: {
+        buttonHover: 'var(--motion-scale-button-hover)',
+      },
     },
   },
   plugins: [],

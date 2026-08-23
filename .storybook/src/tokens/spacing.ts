@@ -4,6 +4,17 @@
  * Consistent spacing scale based on 4px base unit.
  */
 
+/**
+ * Apple HIG / WCAG 2.5.8 minimum interactive size.
+ * Maps to Tailwind spacing 11 (`min-h-11` / `min-w-11` = 44px).
+ */
+export const touchTarget = {
+  px: 44,
+  rem: "2.75rem",
+  /** Tailwind spacing key */
+  spacing: 11,
+} as const;
+
 export const spacing = {
   0: '0',
   0.5: '0.125rem',  // 2px

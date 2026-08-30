@@ -22,17 +22,28 @@ export type UsePressInteractionOptions<T extends HTMLElement = HTMLElement> =
     capture?: boolean;
   };
 
-/** True when the pointer can hover without also being a tap. */
+/**
+ * True when this pointer can hover without also being a tap.
+ *
+ * `pointerType === "mouse"` is necessary but not sufficient: iOS synthesizes
+ * compatibility mouse events after a tap. Require a fine hover-capable
+ * pointer so hover fill/scale never sticks on touch.
+ */
 export function isHoverPointer(pointerType: string) {
-  return pointerType === "mouse";
+  if (pointerType !== "mouse") return false;
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return true;
+  }
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 }
 
 /**
  * Shared hover/press machine.
  *
- * - Hover only for `pointerType === "mouse"` (no sticky iOS `:hover`)
+ * - Hover only for mouse + `@media (hover: hover) and (pointer: fine)`
  * - Press for mouse (primary button), touch, and pen
  * - `pressed` wins over `hover` until pointerup / cancel / blur
+ * - Mouse press restores hover if the pointer is still over the target
  */
 export function usePressInteraction<T extends HTMLElement = HTMLElement>(
   options: UsePressInteractionOptions<T> = {},
@@ -50,20 +61,25 @@ export function usePressInteraction<T extends HTMLElement = HTMLElement>(
 
   const [interaction, setInteraction] = React.useState<PressInteraction>("enabled");
   const pressPointerId = React.useRef<number | null>(null);
+  const canHoverRef = React.useRef(false);
 
   const releasePress = React.useCallback(() => {
     pressPointerId.current = null;
-    setInteraction("enabled");
+    setInteraction(canHoverRef.current ? "hover" : "enabled");
   }, []);
 
   const handlePointerEnter = (e: React.PointerEvent<T>) => {
     if (!disabled && isHoverPointer(e.pointerType)) {
-      setInteraction("hover");
+      canHoverRef.current = true;
+      if (pressPointerId.current === null) {
+        setInteraction("hover");
+      }
     }
     onPointerEnter?.(e);
   };
 
   const handlePointerLeave = (e: React.PointerEvent<T>) => {
+    canHoverRef.current = false;
     if (!disabled && pressPointerId.current === null) {
       setInteraction("enabled");
     }
@@ -85,10 +101,10 @@ export function usePressInteraction<T extends HTMLElement = HTMLElement>(
 
   const handlePointerUp = (e: React.PointerEvent<T>) => {
     if (!disabled && pressPointerId.current === e.pointerId) {
-      releasePress();
       if (capture && e.currentTarget.hasPointerCapture(e.pointerId)) {
         e.currentTarget.releasePointerCapture(e.pointerId);
       }
+      releasePress();
     }
     onPointerUp?.(e);
   };

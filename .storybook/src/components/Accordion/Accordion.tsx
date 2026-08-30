@@ -161,6 +161,9 @@ function AccordionTags({ tags }: { tags: AccordionTag[] }) {
 /**
  * Sage Component Kit accordion item — inline disclosure row from Figma.
  *
+ * Width is `w-full` (no 536px layout cap). Storybook stories may wrap with
+ * `max-w-[536px]` so large canvases match the Figma frame.
+ *
  * [Figma — Accordion](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=463-186)
  */
 export function AccordionItem({
@@ -212,7 +215,7 @@ export function AccordionItem({
   const body = children ?? DEFAULT_DESCRIPTION;
 
   const shellClass = [
-    "flex w-full max-w-[536px] flex-col rounded-lg border-b",
+    "flex w-full flex-col rounded-lg border-b",
     disabled ? "border-disabled" : "border-neutralText",
     isHover ? "bg-layer1Hover" : "bg-transparent",
     className || "",
@@ -356,7 +359,7 @@ export function Accordion({
 
   return (
     <AccordionContext.Provider value={{ allowMultiple, openValues, toggle }}>
-      <div className={["flex w-full max-w-[536px] flex-col", className || ""].join(" ")}>
+      <div className={["flex w-full flex-col", className || ""].join(" ")}>
         {children}
       </div>
     </AccordionContext.Provider>

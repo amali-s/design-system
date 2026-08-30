@@ -1,5 +1,7 @@
 import * as React from "react";
 import { Button } from "../Button/Button";
+import { motionVar } from "../../tokens/motion";
+import { usePressInteraction } from "../usePressInteraction";
 
 /** Profile card width from Figma */
 const PROFILE_WIDTH_PX = 320;
@@ -33,8 +35,13 @@ export interface CardProps {
   /** Profile: filled heart */
   hearted?: boolean;
   onHeartToggle?: () => void;
-  /** Profile: amenity tags */
+  /** Amenity tags */
   tags?: CardTag[];
+  /**
+   * Storybook snapshot pin. Omit or `"enabled"` for live hover/press via
+   * `usePressInteraction`. `"hover"` freezes the hover treatment; `"disabled"`
+   * is non-interactive.
+   */
   state?: "enabled" | "hover" | "disabled";
   className?: string;
 }
@@ -101,27 +108,14 @@ function CardActionLink({
   outlined?: boolean;
   onClick?: () => void;
 }) {
-  if (outlined) {
-    return (
-      <button
-        type="button"
-        disabled={disabled}
-        onClick={(e) => {
-          e.stopPropagation();
-          onClick?.();
-        }}
-        className={[
-          "inline-flex items-center gap-2 rounded-2xl border px-3 py-2 font-sans text-sm font-medium leading-none",
-          disabled
-            ? "cursor-not-allowed border-textDisabled text-textDisabled"
-            : "border-primaryAction text-primaryAction hover:bg-primaryAction/10",
-        ].join(" ")}
-      >
-        {label}
-        <PlusIcon />
-      </button>
-    );
-  }
+  const { interaction, pointerHandlers } = usePressInteraction<HTMLButtonElement>({
+    disabled,
+    onPointerDown: (e) => e.stopPropagation(),
+  });
+  const fill =
+    !disabled && (interaction === "hover" || interaction === "pressed")
+      ? "bg-primaryAction/10"
+      : "";
 
   return (
     <button
@@ -131,9 +125,18 @@ function CardActionLink({
         e.stopPropagation();
         onClick?.();
       }}
+      {...pointerHandlers}
       className={[
         "inline-flex items-center gap-2 rounded-2xl px-3 py-2 font-sans text-sm font-medium leading-none",
-        disabled ? "cursor-not-allowed text-textDisabled" : "text-primaryAction hover:bg-primaryAction/10",
+        outlined ? "border" : "",
+        disabled
+          ? outlined
+            ? "cursor-not-allowed border-textDisabled text-textDisabled"
+            : "cursor-not-allowed text-textDisabled"
+          : outlined
+            ? `border-primaryAction text-primaryAction ${fill}`
+            : `text-primaryAction ${fill}`,
+        "transition-colors duration-ui ease-standard",
       ].join(" ")}
     >
       {label}
@@ -172,6 +175,7 @@ function ProfileMeta({
           e.stopPropagation();
           onHeartToggle?.();
         }}
+        onPointerDown={(e) => e.stopPropagation()}
         className={[
           "min-touch-target",
           disabled ? "cursor-not-allowed text-textDisabled" : hearted ? "text-deepRed" : "text-[#6c7275]",
@@ -214,16 +218,28 @@ function StandardCard({
   className,
 }: CardProps) {
   const isDisabled = state === "disabled";
-  const isHover = state === "hover";
+  const isSnapshotHover = state === "hover";
+  const { interaction, pointerHandlers } = usePressInteraction<HTMLDivElement>({
+    disabled: isDisabled || isSnapshotHover,
+    capture: false,
+  });
+  const isHover =
+    isSnapshotHover || interaction === "hover" || interaction === "pressed";
   const muted = isDisabled;
 
   return (
     <div
+      {...pointerHandlers}
       className={[
         "flex w-full max-w-[308px] flex-col items-end gap-6 overflow-hidden rounded-lg border-[0.5px] border-solid px-2 py-4",
         muted ? "border-background" : isHover ? "border-textDisabled bg-layer1" : "border-textDisabled",
         className || "",
       ].join(" ")}
+      style={{
+        transition: `background-color ${motionVar.duration.hover} ${
+          isHover ? motionVar.ease.hoverIn : motionVar.ease.hoverOut
+        }`,
+      }}
     >
       <div className="flex w-full flex-col gap-4 pb-2 pl-2 pr-4">
         <div
@@ -274,7 +290,13 @@ function ProfileCard({
   className,
 }: CardProps) {
   const isDisabled = state === "disabled";
-  const isHover = state === "hover";
+  const isSnapshotHover = state === "hover";
+  const { interaction, pointerHandlers } = usePressInteraction<HTMLDivElement>({
+    disabled: isDisabled || isSnapshotHover,
+    capture: false,
+  });
+  const isHover =
+    isSnapshotHover || interaction === "hover" || interaction === "pressed";
 
   const shellStyle: React.CSSProperties = isHover
     ? {
@@ -299,7 +321,7 @@ function ProfileCard({
   const bodyClass = textMuted ? "text-textDisabled" : "text-textSecondary";
 
   return (
-    <div className={shellClass} style={shellStyleMerged}>
+    <div className={shellClass} style={shellStyleMerged} {...pointerHandlers}>
       <div className="flex w-full flex-col items-center gap-4">
         {showSlot && (
           <div className="w-full px-0">{slot ?? <CardSlotBlock tall={hearted || action} />}</div>
@@ -332,6 +354,7 @@ function ProfileCard({
                   e.stopPropagation();
                   onAction?.();
                 }}
+                onPointerDown={(e) => e.stopPropagation()}
                 icon={<PlusIcon />}
               >
                 {actionLabel}

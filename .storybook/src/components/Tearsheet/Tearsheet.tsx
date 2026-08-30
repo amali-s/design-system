@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Drawer } from "vaul";
 import { Button } from "../Button/Button";
+import { usePressInteraction } from "../usePressInteraction";
 
 export interface TearsheetProps {
   /** Whether the tearsheet is open (controlled mode) */
@@ -31,6 +32,18 @@ export interface TearsheetProps {
   className?: string;
 }
 
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onChange = () => setReduced(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return reduced;
+}
+
 /**
  * Tearsheet component — Bottom drawer panel using Vaul for motion.
  *
@@ -39,7 +52,7 @@ export interface TearsheetProps {
  * - Overlay: semi-transparent black
  * - Content: brand-white background, rounded top corners
  * - Header: title (Rethink Sans), optional description
- * - Footer: primary + secondary actions
+ * - Footer: primary + secondary actions (stacked full-width below `sm`)
  * - Uses design system typography and colors
  */
 export const Tearsheet = ({
@@ -63,8 +76,14 @@ export const Tearsheet = ({
         ? { onOpenChange }
         : {};
 
+  // Vaul has no duration / reduced-motion prop. Open/close CSS is covered by
+  // the global `prefers-reduced-motion` 1ms override in tailwind.css. Scale-
+  // background is a JS transform on a wrapper, so disable it when reduced.
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const closePress = usePressInteraction<HTMLButtonElement>();
+
   return (
-    <Drawer.Root {...drawerProps}>
+    <Drawer.Root {...drawerProps} shouldScaleBackground={!prefersReducedMotion}>
       <Drawer.Trigger asChild>
         {trigger ?? (
           <Button variant="primary" size="md">
@@ -82,11 +101,15 @@ export const Tearsheet = ({
             rounded-t-2xl
             shadow-ghibli-lg
             max-h-[90vh] flex flex-col
+            pt-[env(safe-area-inset-top)]
+            pl-[env(safe-area-inset-left)]
+            pr-[env(safe-area-inset-right)]
+            pb-[env(safe-area-inset-bottom)]
             ${className ?? ""}
           `}
         >
           {/* Handle bar for drag gesture */}
-          <div className="mx-auto mt-2 h-1.5 w-12 flex-shrink-0 rounded-full bg-[rgba(89,85,75,0.2)]" />
+          <div className="mx-auto mt-2 h-1.5 w-12 flex-shrink-0 cursor-grab rounded-full bg-[rgba(89,85,75,0.2)] active:cursor-grabbing" />
 
           {/* Header */}
           <div className="flex flex-col gap-1 px-6 pt-4 pb-4 border-b border-[rgba(89,85,75,0.08)]">
@@ -105,11 +128,25 @@ export const Tearsheet = ({
                 <button
                   type="button"
                   aria-label="Close"
+                  {...closePress.pointerHandlers}
                   className="
                     inline-flex size-11 shrink-0 items-center justify-center -m-3 rounded-full
-                    text-[#8A867E] hover:text-secondary hover:bg-[rgba(89,85,75,0.06)]
+                    text-[#8A867E]
+                    outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1
                     transition-colors duration-ui ease-standard
                   "
+                  style={{
+                    color:
+                      closePress.interaction === "hover" || closePress.interaction === "pressed"
+                        ? "#575040"
+                        : "#8A867E",
+                    backgroundColor:
+                      closePress.interaction === "pressed"
+                        ? "rgba(89,85,75,0.10)"
+                        : closePress.interaction === "hover"
+                          ? "rgba(89,85,75,0.06)"
+                          : "transparent",
+                  }}
                 >
                   <svg
                     width="20"
@@ -133,13 +170,14 @@ export const Tearsheet = ({
             {children}
           </div>
 
-          {/* Footer actions */}
+          {/* Footer actions — stacked full-width below sm; primary last (thumb). */}
           {(primaryActionLabel || secondaryActionLabel) && (
-            <div className="flex gap-2 justify-end px-6 py-4 border-t border-[rgba(89,85,75,0.08)] bg-[rgba(89,85,75,0.02)]">
+            <div className="flex flex-col gap-2 sm:flex-row sm:justify-end px-6 pt-4 pb-4 border-t border-[rgba(89,85,75,0.08)] bg-[rgba(89,85,75,0.02)]">
               {secondaryActionLabel && (
                 <Button
                   variant="secondary"
                   size="md"
+                  className="w-full sm:w-auto"
                   onClick={onSecondaryAction}
                 >
                   {secondaryActionLabel}
@@ -149,6 +187,7 @@ export const Tearsheet = ({
                 <Button
                   variant="primary"
                   size="md"
+                  className="w-full sm:w-auto"
                   onClick={onPrimaryAction}
                   disabled={primaryActionDisabled}
                 >

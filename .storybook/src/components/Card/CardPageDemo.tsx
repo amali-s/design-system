@@ -47,7 +47,6 @@ const ITEMS: ContentItem[] = [
 
 export function CardPageDemo() {
   const [selectedId, setSelectedId] = React.useState<string | null>("trees");
-  const [hoveredId, setHoveredId] = React.useState<string | null>(null);
   const [activity, setActivity] = React.useState<string>(
     "Select a card or tap Action to see feedback here.",
   );
@@ -72,8 +71,6 @@ export function CardPageDemo() {
               key={item.id}
               role="button"
               tabIndex={0}
-              onMouseEnter={() => setHoveredId(item.id)}
-              onMouseLeave={() => setHoveredId(null)}
               onClick={() => {
                 setSelectedId(item.id);
                 setActivity(`Focused "${item.heading}".`);
@@ -85,21 +82,20 @@ export function CardPageDemo() {
                   setActivity(`Focused "${item.heading}".`);
                 }
               }}
-              className="cursor-pointer rounded-lg outline-none focus:outline-none focus-visible:outline-none"
+              className="cursor-pointer rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <CardComponent
                 variant="card"
-                state={hoveredId === item.id ? "hover" : "enabled"}
-                  label={item.label}
-                  heading={item.heading}
-                  body={item.body}
-                  actionLabel={item.actionLabel}
-                  showSlot={item.showSlot}
-                  action
-                  onAction={() => {
-                    setSelectedId(item.id);
-                    setActivity(`Action "${item.actionLabel}" on "${item.heading}".`);
-                  }}
+                label={item.label}
+                heading={item.heading}
+                body={item.body}
+                actionLabel={item.actionLabel}
+                showSlot={item.showSlot}
+                action
+                onAction={() => {
+                  setSelectedId(item.id);
+                  setActivity(`Action "${item.actionLabel}" on "${item.heading}".`);
+                }}
               />
             </div>
           ))}

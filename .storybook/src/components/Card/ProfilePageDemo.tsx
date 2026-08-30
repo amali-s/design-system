@@ -42,7 +42,6 @@ const SPACES: SpaceItem[] = [
  */
 export function ProfilePageDemo() {
   const [selectedId, setSelectedId] = React.useState<string | null>("studio");
-  const [hoveredId, setHoveredId] = React.useState<string | null>(null);
   const [hearted, setHearted] = React.useState<Record<string, boolean>>({
     studio: false,
     "garden-room": true,
@@ -84,8 +83,6 @@ export function ProfilePageDemo() {
             key={space.id}
             role="button"
             tabIndex={0}
-            onMouseEnter={() => setHoveredId(space.id)}
-            onMouseLeave={() => setHoveredId(null)}
             onClick={() => {
               setSelectedId(space.id);
               setActivity(`Viewing details for “${space.heading}”.`);
@@ -97,24 +94,23 @@ export function ProfilePageDemo() {
                 setActivity(`Viewing details for “${space.heading}”.`);
               }
             }}
-            className="cursor-pointer rounded-xl outline-none focus:outline-none focus-visible:outline-none"
+            className="cursor-pointer rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             <Card
               variant="profile"
-              state={hoveredId === space.id ? "hover" : "enabled"}
-                heading={space.heading}
-                body={space.body}
-                spaceType={space.spaceType}
-                neighborhood={space.neighborhood}
-                hearted={hearted[space.id]}
-                onHeartToggle={() => toggleHeart(space.id)}
-                action={space.showAction}
-                actionLabel="Action"
-                showSlot
-                onAction={() => {
-                  setSelectedId(space.id);
-                  setActivity(`Reserved “${space.heading}” via ghost action.`);
-                }}
+              heading={space.heading}
+              body={space.body}
+              spaceType={space.spaceType}
+              neighborhood={space.neighborhood}
+              hearted={hearted[space.id]}
+              onHeartToggle={() => toggleHeart(space.id)}
+              action={space.showAction}
+              actionLabel="Action"
+              showSlot
+              onAction={() => {
+                setSelectedId(space.id);
+                setActivity(`Reserved “${space.heading}” via ghost action.`);
+              }}
             />
           </div>
         ))}

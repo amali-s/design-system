@@ -329,6 +329,7 @@ export function ToastStack({
   const timersRef = React.useRef<Record<string, ReturnType<typeof setTimeout>>>({});
   const autoTimersRef = React.useRef<Record<string, ReturnType<typeof setTimeout>>>({});
   const swipeLock = React.useRef(false);
+  const dismissedIds = React.useRef(new Set<string>());
 
   const keyOf = (id: ToastStackItem["id"]) => String(id);
 
@@ -342,14 +343,16 @@ export function ToastStack({
   const beginExit = React.useCallback(
     (id: ToastStackItem["id"]) => {
       const key = keyOf(id);
+      if (dismissedIds.current.has(key)) return;
+      dismissedIds.current.add(key);
       clearTimer(timersRef.current, key);
       clearTimer(autoTimersRef.current, key);
       setLocal((prev) =>
         prev.map((t) => (t.id === id && t.phase !== "exiting" ? { ...t, phase: "exiting" } : t)),
       );
+      onDismiss(id);
       timersRef.current[key] = setTimeout(() => {
         setLocal((prev) => prev.filter((t) => t.id !== id));
-        onDismiss(id);
         delete timersRef.current[key];
       }, motionDurationMs("feedback"));
     },
@@ -362,13 +365,13 @@ export function ToastStack({
       const incomingIds = new Set(toasts.map((t) => t.id));
       const prevById = new Map(prev.map((t) => [t.id, t]));
 
-      const next: InternalToast[] = toasts.map((t) => {
+      const next: InternalToast[] = [];
+      for (const t of toasts) {
+        const key = keyOf(t.id);
+        if (dismissedIds.current.has(key)) continue;
         const existing = prevById.get(t.id);
-        if (existing) {
-          return { ...existing, ...t, phase: existing.phase };
-        }
-        return { ...t, phase: "entering" };
-      });
+        next.push(existing ? { ...existing, ...t, phase: existing.phase } : { ...t, phase: "entering" });
+      }
 
       for (const old of prev) {
         if (!incomingIds.has(old.id) && old.phase !== "exiting") {
@@ -615,8 +618,10 @@ function ToastStackLayer({
     if (e.currentTarget.hasPointerCapture(e.pointerId)) {
       e.currentTarget.releasePointerCapture(e.pointerId);
     }
-    if (Math.abs(lastX.current) >= SWIPE_DISMISS_PX) {
+    if (Math.abs(lastX.current) >= SWIPE_INTENT_PX) {
       onSwiped();
+    }
+    if (Math.abs(lastX.current) >= SWIPE_DISMISS_PX) {
       onDismiss();
       setDragX(0);
       return;

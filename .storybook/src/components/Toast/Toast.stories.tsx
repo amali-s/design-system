@@ -1,8 +1,7 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import { ToastNotification } from "./Toast";
-import type { ToastState } from "./Toast";
-import { motionVar, motionDurationMs } from "../../tokens/motion";
+import { ToastNotification, ToastStack } from "./Toast";
+import type { ToastStackItem, ToastState } from "./Toast";
 
 /**
  * Toast Notification component — matching the Figma design.
@@ -205,51 +204,23 @@ export const FigmaDesignGrid: Story = {
 // ─── Interactive Demo: Sonner-Style Stacking ────────────────
 
 /**
- * Helper component demonstrating Sonner-style stacked toast behavior.
+ * Helper demonstrating Sonner-style stacked toast behavior via `ToastStack`.
  *
  * - Toasts appear from the bottom-right, stacking in the same position.
  * - Newest toast is on top at full scale; older ones are behind with
  *   reduced scale and vertical offset (depth effect).
- * - On hover the stack fans out vertically so all toasts are readable.
- * - Auto-dismiss after 4 seconds with a smooth slide-out to the right.
+ * - Tap the stack (or hover with a mouse) to fan out so every toast is hittable.
+ *   Tap outside or tap the stack chrome again to collapse.
+ * - Swipe horizontally to dismiss. Auto-dismiss after 4 seconds.
  */
-const TOAST_GAP = 8;        // px between toasts when expanded
-const STACK_OFFSET = 10;    // px vertical offset per stacked toast
-const STACK_SCALE = 0.05;   // scale reduction per depth level
-const MAX_VISIBLE = 3;      // max visible toasts in the stack
-const DISMISS_MS = 4000;    // auto-dismiss timeout
+const DISMISS_MS = 4000;
 
 const ToastDemo = () => {
-  const [toasts, setToasts] = React.useState<
-    Array<{
-      id: number;
-      state: ToastState;
-      header: string;
-      body: string;
-      button: boolean;
-      closeIcon: boolean;
-      phase: "entering" | "idle" | "exiting";
-    }>
-  >([]);
-  const [hovered, setHovered] = React.useState(false);
-
+  const [toasts, setToasts] = React.useState<ToastStackItem[]>([]);
   const idRef = React.useRef(0);
-  const timersRef = React.useRef<Record<number, ReturnType<typeof setTimeout>>>({});
 
-  const dismissToast = React.useCallback((id: number) => {
-    // Clear any pending auto-dismiss timer
-    if (timersRef.current[id]) {
-      clearTimeout(timersRef.current[id]);
-      delete timersRef.current[id];
-    }
-
-    setToasts((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, phase: "exiting" as const } : t)),
-    );
-    // Remove after exit animation
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, motionDurationMs("feedback"));
+  const dismissToast = React.useCallback((id: ToastStackItem["id"]) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
   const addToast = (
@@ -260,50 +231,20 @@ const ToastDemo = () => {
     closeIcon: boolean,
   ) => {
     const id = ++idRef.current;
-    setToasts((prev) => [
-      ...prev,
-      { id, state, header, body, button, closeIcon, phase: "entering" },
-    ]);
-
-    // Transition to idle after enter animation
-    setTimeout(() => {
-      setToasts((prev) =>
-        prev.map((t) => (t.id === id ? { ...t, phase: "idle" as const } : t)),
-      );
-    }, motionDurationMs("feedback"));
-
-    // Auto-dismiss after DISMISS_MS
-    timersRef.current[id] = setTimeout(() => dismissToast(id), DISMISS_MS);
-  };
-
-  // Toasts ordered newest-first for rendering (newest = index 0 = on top)
-  const orderedToasts = [...toasts].reverse();
-
-  // Measure actual toast heights so the 8px gap is always accurate
-  const toastRefs = React.useRef<Record<number, HTMLDivElement | null>>({});
-  const getExpandedY = (depth: number) => {
-    // Sum up heights of all toasts in front of this one + gap per toast
-    let offset = 0;
-    for (let i = 0; i < depth; i++) {
-      const id = orderedToasts[i]?.id;
-      const el = id != null ? toastRefs.current[id] : null;
-      const h = el ? el.getBoundingClientRect().height : 100;
-      offset += h + TOAST_GAP;
-    }
-    return -offset;
+    setToasts((prev) => [...prev, { id, state, header, body, button, closeIcon }]);
   };
 
   return (
     <div className="w-full min-h-[500px] relative">
-      {/* Trigger buttons */}
       <div className="flex flex-col gap-4 max-w-[500px]">
         <p className="font-brand text-xl text-secondary">
           Interactive Toast Demo
         </p>
         <p className="font-body text-[13px] text-[#8A867E] mb-2">
           Click buttons to trigger toasts. They stack like Sonner — newest
-          on top, older ones behind with a depth effect. Hover over the
-          toast area to expand the stack. Toasts auto-dismiss after 4 s.
+          on top, older ones behind with a depth effect. Tap the stack (or
+          hover with a mouse) to expand. Swipe a toast sideways to dismiss.
+          Toasts auto-dismiss after 4 s.
         </p>
 
         <div className="flex flex-wrap gap-3">
@@ -318,7 +259,7 @@ const ToastDemo = () => {
                 true,
               )
             }
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#edf8ff] text-[#0084D1] border border-[#0084D1] hover:bg-[#d8f0ff] transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#edf8ff] text-[#0084D1] border border-[#0084D1] fine-hover:bg-[#d8f0ff] active:bg-[#d8f0ff] transition-colors cursor-pointer"
           >
             Information Toast
           </button>
@@ -334,7 +275,7 @@ const ToastDemo = () => {
                 true,
               )
             }
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#fff2f0] text-[#DC3D29] border border-[#DC3D29] hover:bg-[#ffe3df] transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#fff2f0] text-[#DC3D29] border border-[#DC3D29] fine-hover:bg-[#ffe3df] active:bg-[#ffe3df] transition-colors cursor-pointer"
           >
             Error Toast
           </button>
@@ -350,7 +291,7 @@ const ToastDemo = () => {
                 true,
               )
             }
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#eafbe7] text-[#00803F] border border-[#00803F] hover:bg-[#d6f6d0] transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#eafbe7] text-[#00803F] border border-[#00803F] fine-hover:bg-[#d6f6d0] active:bg-[#d6f6d0] transition-colors cursor-pointer"
           >
             Success Toast
           </button>
@@ -366,111 +307,19 @@ const ToastDemo = () => {
                 false,
               )
             }
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-brand-white text-secondary border border-[rgba(89,85,75,0.2)] hover:border-[rgba(89,85,75,0.4)] transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-brand-white text-secondary border border-[rgba(89,85,75,0.2)] fine-hover:border-[rgba(89,85,75,0.4)] active:border-[rgba(89,85,75,0.4)] transition-colors cursor-pointer"
           >
             Minimal Toast
           </button>
         </div>
       </div>
 
-      {/* Toast stack — anchored to bottom-right */}
-      <div
-        className="absolute bottom-4 right-4 z-50"
-        style={{ width: 233 }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-      >
-        {/* Wrapper keeps newest toast at bottom; older toasts shift upward */}
-        <div className="relative" style={{ height: 100 }}>
-          {orderedToasts.map((t, visualIndex) => {
-            const isNewest = visualIndex === 0;
-            const depth = visualIndex; // 0 = newest (front), 1+ = older (behind)
-            const isVisible = depth < MAX_VISIBLE;
-
-            // ── Stacked (default) transforms ──
-            // Older toasts shift up slightly and scale down
-            const stackedTranslateY = -(depth * STACK_OFFSET);
-            const stackedScale = 1 - depth * STACK_SCALE;
-            const stackedOpacity = isVisible
-              ? 1 - depth * 0.15
-              : 0;
-
-            // ── Expanded (hovered) transforms ──
-            // Fan out using measured heights so the 8px gap is exact
-            const expandedTranslateY = getExpandedY(depth);
-
-            // ── Enter / exit overrides ──
-            let animation = "";
-            if (t.phase === "entering") {
-              animation = `sonner-enter ${motionVar.duration.feedback} ${motionVar.ease.toastIn} forwards`;
-            } else if (t.phase === "exiting") {
-              animation = `sonner-exit ${motionVar.duration.feedback} ${motionVar.ease.toastOut} forwards`;
-            }
-
-            const translateY = hovered ? expandedTranslateY : stackedTranslateY;
-            const scale = hovered ? 1 : stackedScale;
-            const opacity = t.phase === "exiting" ? undefined : (hovered ? 1 : stackedOpacity);
-
-            return (
-              <div
-                key={t.id}
-                ref={(el) => { toastRefs.current[t.id] = el; }}
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  right: 0,
-                  zIndex: 100 - visualIndex,
-                  transform: t.phase === "entering" || t.phase === "exiting"
-                    ? undefined
-                    : `translateY(${translateY}px) scale(${scale})`,
-                  opacity,
-                  transformOrigin: "bottom center",
-                  transition: t.phase === "idle"
-                    ? `transform ${motionVar.duration.feedback} ${motionVar.ease.toastIn}, opacity 0.3s ease`
-                    : "none",
-                  animation,
-                  pointerEvents: (hovered || isNewest) ? "auto" : "none",
-                }}
-              >
-                <ToastNotification
-                  header={t.header}
-                  body={t.body}
-                  state={t.state}
-                  button={t.button}
-                  closeIcon={t.closeIcon}
-                  actionLabel="Action"
-                  onAction={() => dismissToast(t.id)}
-                  onClose={() => dismissToast(t.id)}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Keyframe animations */}
-      <style>{`
-        @keyframes sonner-enter {
-          0% {
-            opacity: 0;
-            transform: translateY(100%) scale(0.95);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-        @keyframes sonner-exit {
-          0% {
-            opacity: 1;
-            transform: translateX(0) scale(1);
-          }
-          100% {
-            opacity: 0;
-            transform: translateX(110%) scale(0.95);
-          }
-        }
-      `}</style>
+      <ToastStack
+        toasts={toasts}
+        onDismiss={dismissToast}
+        position="bottom-right"
+        autoDismissMs={DISMISS_MS}
+      />
     </div>
   );
 };

@@ -1,8 +1,7 @@
 import * as React from "react";
 import { motionVar } from "../../tokens/motion";
+import { usePressInteraction } from "../usePressInteraction";
 
-/** Figma frames every accordion variant at 536px */
-const ACCORDION_WIDTH_PX = 536;
 /** Horizontal padding on accordion rows (Figma: 12px) */
 const ROW_PADDING_PX = 12;
 /** Top padding (Figma: 12px) */
@@ -149,7 +148,7 @@ function AccordionTags({ tags }: { tags: AccordionTag[] }) {
       {tags.map((tag) => (
         <span
           key={tag.label}
-          className="inline-flex items-center gap-1 rounded-xl bg-[#FBF8E9] px-2 py-1 font-sans text-[8px] font-normal tracking-[-0.32px] text-neutralText"
+          className="inline-flex items-center gap-1 rounded-xl bg-[#FBF8E9] px-2 py-1 font-sans text-xs font-normal tracking-[-0.32px] text-neutralText"
         >
           {tag.icon ?? <CheckIcon />}
           {tag.label}
@@ -188,8 +187,11 @@ export function AccordionItem({
   const groupExpanded = ctx ? ctx.openValues.includes(value) : undefined;
   const expanded = isControlled ? expandedProp! : ctx ? groupExpanded! : internalExpanded;
 
-  const [hovered, setHovered] = React.useState(false);
-  const isHover = hovered && !disabled;
+  const { interaction, pointerHandlers } = usePressInteraction<HTMLDivElement>({
+    disabled,
+    capture: false,
+  });
+  const isHover = !disabled && (interaction === "hover" || interaction === "pressed");
 
   const panelId = `${value}-panel`;
   const headerId = `${value}-header`;
@@ -210,14 +212,13 @@ export function AccordionItem({
   const body = children ?? DEFAULT_DESCRIPTION;
 
   const shellClass = [
-    "flex w-full flex-col rounded-lg border-b",
+    "flex w-full max-w-[536px] flex-col rounded-lg border-b",
     disabled ? "border-disabled" : "border-neutralText",
     isHover ? "bg-layer1Hover" : "bg-transparent",
     className || "",
   ].join(" ");
 
   const shellStyle: React.CSSProperties = {
-    maxWidth: ACCORDION_WIDTH_PX,
     paddingLeft: ROW_PADDING_PX,
     paddingRight: ROW_PADDING_PX,
     paddingTop: ROW_PADDING_TOP_PX,
@@ -233,12 +234,7 @@ export function AccordionItem({
   const bodyClass = muted ? "text-[#ADABA5]" : "text-neutralText";
 
   return (
-    <div
-      className={shellClass}
-      style={shellStyle}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <div className={shellClass} style={shellStyle} {...pointerHandlers}>
       {/* Header block + chevron row — 12px apart, chevron flush right */}
       <div className="flex w-full min-w-0 flex-col items-end gap-3">
         <div className="flex w-full min-w-0 flex-col">
@@ -258,8 +254,9 @@ export function AccordionItem({
                     disabled={disabled}
                     onClick={onCopy}
                     className={[
-                      "min-touch-target inline-flex shrink-0 items-center outline-none focus:outline-none focus-visible:outline-none",
-                      disabled ? "cursor-not-allowed opacity-50" : "hover:opacity-80",
+                      "min-touch-target inline-flex shrink-0 items-center rounded-sm outline-none",
+                      "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
+                      disabled ? "cursor-not-allowed opacity-50" : "fine-hover:opacity-80 active:opacity-80",
                     ].join(" ")}
                   >
                     <CopyIcon />
@@ -274,7 +271,7 @@ export function AccordionItem({
                 aria-expanded={expanded}
                 aria-controls={panelId}
                 onClick={toggle}
-                className="flex w-full text-left outline-none focus:outline-none focus-visible:outline-none"
+                className="flex w-full rounded-sm text-left outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
               >
                 <h3
                   className={`font-heading text-xl font-light tracking-[-0.4px] leading-tight ${titleClass}`}
@@ -317,7 +314,7 @@ export function AccordionItem({
           aria-controls={panelId}
           aria-label={expanded ? `Collapse ${title}` : `Expand ${title}`}
           onClick={toggle}
-          className="min-touch-target inline-flex shrink-0 items-center justify-center outline-none focus:outline-none focus-visible:outline-none"
+          className="min-touch-target inline-flex shrink-0 items-center justify-center rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
         >
           <ChevronIcon expanded={expanded} />
         </button>
@@ -359,7 +356,7 @@ export function Accordion({
 
   return (
     <AccordionContext.Provider value={{ allowMultiple, openValues, toggle }}>
-      <div className={["flex w-full flex-col", className || ""].join(" ")} style={{ maxWidth: ACCORDION_WIDTH_PX }}>
+      <div className={["flex w-full max-w-[536px] flex-col", className || ""].join(" ")}>
         {children}
       </div>
     </AccordionContext.Provider>

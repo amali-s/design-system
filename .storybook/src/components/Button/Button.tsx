@@ -1,5 +1,6 @@
 import * as React from "react";
 import { motionVar } from "../../tokens/motion";
+import { usePressInteraction, type PressInteraction } from "../usePressInteraction";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "tertiary" | "ghost" | "danger";
@@ -7,11 +8,10 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   icon?: React.ReactNode;
 }
 
-type PressInteraction = "enabled" | "hover" | "pressed";
-
 /** Shared motion — transform-based so the grow stays on the compositor. Durations are CSS vars so reduced-motion can set them to 1ms. */
 const PRESS_TRANSITION = `transform ${motionVar.duration.ui} ${motionVar.ease.standard}, box-shadow ${motionVar.duration.ui} ${motionVar.ease.standard}, background-image ${motionVar.duration.ui} ${motionVar.ease.standard}`;
 const TERTIARY_TRANSITION = `transform ${motionVar.duration.ui} ${motionVar.ease.standard}, box-shadow ${motionVar.duration.ui} ${motionVar.ease.standard}, background-color ${motionVar.duration.ui} ${motionVar.ease.standard}, color ${motionVar.duration.ui} ${motionVar.ease.standard}, border-color ${motionVar.duration.ui} ${motionVar.ease.standard}`;
+const GHOST_TRANSITION = `background-color ${motionVar.duration.ui} ${motionVar.ease.standard}`;
 const HOVER_SCALE = `scale(${motionVar.scale.buttonHover})`;
 
 const sizePadding = (size: "sm" | "md" | "lg") =>
@@ -201,6 +201,39 @@ const tertiaryInteractionStyle = (
   };
 };
 
+/** Ghost — fill on mouse hover / press; no scale (text-only family). */
+const ghostInteractionStyle = (
+  interaction: PressInteraction,
+  size: "sm" | "md" | "lg",
+): React.CSSProperties => {
+  const base: React.CSSProperties = {
+    borderRadius: 32,
+    padding: sizePadding(size),
+    border: "none",
+    transition: GHOST_TRANSITION,
+    touchAction: "manipulation",
+  };
+
+  if (interaction === "hover") {
+    return {
+      ...base,
+      backgroundColor: "#D7DDE0",
+    };
+  }
+
+  if (interaction === "pressed") {
+    return {
+      ...base,
+      backgroundColor: "#C5CED2",
+    };
+  }
+
+  return {
+    ...base,
+    backgroundColor: "transparent",
+  };
+};
+
 export const Button = ({
   variant = "primary",
   size = "md",
@@ -208,10 +241,6 @@ export const Button = ({
   children,
   disabled,
   className,
-  onMouseEnter,
-  onMouseLeave,
-  onMouseDown,
-  onMouseUp,
   onPointerEnter,
   onPointerLeave,
   onPointerDown,
@@ -221,14 +250,16 @@ export const Button = ({
   style,
   ...props
 }: ButtonProps) => {
-  const [interaction, setInteraction] = React.useState<PressInteraction>("enabled");
-  const isPressInteractive =
-    (variant === "primary" ||
-      variant === "secondary" ||
-      variant === "tertiary" ||
-      variant === "danger") &&
-    !disabled;
-  const pressPointerId = React.useRef<number | null>(null);
+  const isPressInteractive = !disabled;
+  const { interaction, pointerHandlers } = usePressInteraction<HTMLButtonElement>({
+    disabled: !isPressInteractive,
+    onPointerEnter,
+    onPointerLeave,
+    onPointerDown,
+    onPointerUp,
+    onPointerCancel,
+    onBlur,
+  });
 
   const baseStyles = `
     relative inline-flex items-center justify-center gap-2
@@ -236,7 +267,6 @@ export const Button = ({
     font-sans text-sm font-medium leading-none tracking-tight
     focus-visible:outline-none
     touch-manipulation
-    ${isPressInteractive ? "" : "transition-all duration-ui ease-standard"}
   `;
 
   const sizeStyles = {
@@ -271,7 +301,7 @@ export const Button = ({
       ? "text-[#ADABA5] cursor-not-allowed rounded-[32px] px-3 py-2"
       : [
           "text-primary bg-transparent rounded-[32px] px-3 py-2",
-          "hover:bg-[#D7DDE0]",
+          "focus-visible:ring-1 focus-visible:ring-primary-focus focus-visible:ring-offset-1",
         ].join(" "),
 
     danger: disabled
@@ -290,94 +320,9 @@ export const Button = ({
         ? tertiaryInteractionStyle(interaction, size)
         : variant === "danger"
           ? dangerInteractionStyle(interaction, size)
-          : primaryInteractionStyle(interaction, size);
-
-  const releasePress = React.useCallback(() => {
-    pressPointerId.current = null;
-    setInteraction("enabled");
-  }, []);
-
-  // ── Pointer events cover mouse, touch, and pen for press-interactive variants ─
-
-  const handlePointerEnter = (e: React.PointerEvent<HTMLButtonElement>) => {
-    if (isPressInteractive && e.pointerType === "mouse") {
-      setInteraction("hover");
-    }
-    onPointerEnter?.(e);
-  };
-
-  const handlePointerLeave = (e: React.PointerEvent<HTMLButtonElement>) => {
-    if (isPressInteractive && pressPointerId.current === null) {
-      setInteraction("enabled");
-    }
-    onPointerLeave?.(e);
-  };
-
-  const handlePointerDown = (e: React.PointerEvent<HTMLButtonElement>) => {
-    const isValidPress =
-      isPressInteractive &&
-      (e.pointerType !== "mouse" || e.button === 0);
-
-    if (isValidPress) {
-      pressPointerId.current = e.pointerId;
-      setInteraction("pressed");
-      e.currentTarget.setPointerCapture(e.pointerId);
-    }
-    onPointerDown?.(e);
-  };
-
-  const handlePointerUp = (e: React.PointerEvent<HTMLButtonElement>) => {
-    if (isPressInteractive && pressPointerId.current === e.pointerId) {
-      releasePress();
-      if (e.currentTarget.hasPointerCapture(e.pointerId)) {
-        e.currentTarget.releasePointerCapture(e.pointerId);
-      }
-    }
-    onPointerUp?.(e);
-  };
-
-  const handlePointerCancel = (e: React.PointerEvent<HTMLButtonElement>) => {
-    if (isPressInteractive && pressPointerId.current === e.pointerId) {
-      releasePress();
-    }
-    onPointerCancel?.(e);
-  };
-
-  const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onMouseEnter?.(e);
-  };
-
-  const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onMouseLeave?.(e);
-  };
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onMouseDown?.(e);
-  };
-
-  const handleMouseUp = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onMouseUp?.(e);
-  };
-
-  const handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
-    if (isPressInteractive) releasePress();
-    onBlur?.(e);
-  };
-
-  React.useEffect(() => {
-    if (!isPressInteractive || interaction !== "pressed") return;
-    const onWindowUp = () => releasePress();
-    window.addEventListener("pointerup", onWindowUp);
-    window.addEventListener("pointercancel", onWindowUp);
-    window.addEventListener("touchend", onWindowUp);
-    window.addEventListener("touchcancel", onWindowUp);
-    return () => {
-      window.removeEventListener("pointerup", onWindowUp);
-      window.removeEventListener("pointercancel", onWindowUp);
-      window.removeEventListener("touchend", onWindowUp);
-      window.removeEventListener("touchcancel", onWindowUp);
-    };
-  }, [isPressInteractive, interaction, releasePress]);
+          : variant === "ghost"
+            ? ghostInteractionStyle(interaction, size)
+            : primaryInteractionStyle(interaction, size);
 
   return (
     <button
@@ -385,16 +330,7 @@ export const Button = ({
       disabled={disabled}
       style={{ ...pressStyle, ...style }}
       {...props}
-      onPointerEnter={handlePointerEnter}
-      onPointerLeave={handlePointerLeave}
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerUp}
-      onPointerCancel={handlePointerCancel}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onBlur={handleBlur}
+      {...pointerHandlers}
     >
       <span>{children}</span>
       {icon && <span className="flex-shrink-0">{icon}</span>}

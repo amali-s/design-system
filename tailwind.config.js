@@ -169,5 +169,11 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // Hover fills/scale only when the device can hover. Touch uses `active:` /
+    // the shared `usePressInteraction` press state instead of sticky `:hover`.
+    function fineHoverVariant({ addVariant }) {
+      addVariant("fine-hover", "@media (hover: hover) and (pointer: fine)");
+    },
+  ],
 };

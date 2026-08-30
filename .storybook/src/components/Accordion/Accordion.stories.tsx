@@ -4,7 +4,7 @@ import { Accordion, AccordionItem } from "./Accordion";
 
 function StateCell({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex w-[536px] max-w-full flex-col gap-2">
+    <div className="flex w-full max-w-[536px] flex-col gap-2">
       <p className="font-sans text-[11px] font-medium uppercase tracking-wider text-[#8A867E]">{label}</p>
       {children}
     </div>
@@ -71,7 +71,7 @@ export const States: Story = {
 export const Demo: Story = {
   name: "Demo",
   render: () => (
-    <div className="w-[536px] max-w-full rounded-xl bg-brand-white p-6">
+    <div className="w-full max-w-[536px] rounded-xl bg-brand-white p-6">
       <header className="mb-6">
         <p className="font-sans text-xs font-medium uppercase tracking-wider text-[#827A64]">Spaces</p>
         <h1 className="mt-1 font-brand text-2xl font-medium text-brand-darkBlue">Details</h1>

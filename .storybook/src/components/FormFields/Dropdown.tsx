@@ -1,5 +1,6 @@
 import * as React from "react";
 import { formControlType } from "../../tokens/typography";
+import { usePressInteraction } from "../usePressInteraction";
 
 const DEFAULT_OPTIONS = ["Dropdown", "Checkbox", "Radio Button", "Toggle Switch"];
 
@@ -45,6 +46,50 @@ function CheckIcon({ className }: { className?: string }) {
     >
       <path d="M1 4L4.5 7L11 1" stroke="currentColor" strokeWidth={1.2} strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  );
+}
+
+function DropdownOption({
+  opt,
+  selected,
+  isFirst,
+  isLast,
+  onSelect,
+}: {
+  opt: string;
+  selected: boolean;
+  isFirst: boolean;
+  isLast: boolean;
+  onSelect: (value: string) => void;
+}) {
+  const { interaction, pointerHandlers } = usePressInteraction<HTMLButtonElement>();
+  const fill =
+    interaction === "pressed"
+      ? "bg-[#8A7C5E]/30"
+      : interaction === "hover" || selected
+        ? "bg-[#8A7C5E]/20"
+        : "";
+
+  return (
+    <button
+      type="button"
+      role="option"
+      aria-selected={selected}
+      onClick={() => onSelect(opt)}
+      {...pointerHandlers}
+      className={[
+        "flex min-h-11 items-center justify-between gap-2 bg-layer1 px-2 py-2 text-left font-body font-light leading-[1.5] text-brand-black",
+        formControlType,
+        "touch-manipulation transition-colors duration-hover ease-hover-in",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
+        fill,
+        isFirst ? "rounded-t-lg" : "",
+        isLast ? "rounded-b-lg" : "",
+      ].join(" ")}
+    >
+      <span>{opt}</span>
+      {selected && <CheckIcon className="text-brand-black" />}
+    </button>
   );
 }
 
@@ -130,32 +175,16 @@ export function Dropdown({
               : "opacity-0 scale-y-0 pointer-events-none ease-bounce",
           ].join(" ")}
         >
-          {options.map((opt, i) => {
-            const selected = value === opt;
-            return (
-              <button
-                key={opt}
-                type="button"
-                role="option"
-                aria-selected={selected}
-                onClick={() => commit(opt)}
-                className={[
-                  "flex min-h-11 items-center justify-between gap-2 bg-layer1 px-2 py-2 text-left font-body font-light leading-[1.5] text-brand-black",
-                  formControlType,
-                  "touch-manipulation transition-colors duration-hover ease-hover-in",
-                  "hover:bg-[#8A7C5E]/20",
-                  "active:bg-[#8A7C5E]/30 active:transition-colors active:duration-micro active:ease-standard",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
-                  selected ? "bg-[#8A7C5E]/20" : "",
-                  i === 0 ? "rounded-t-lg" : "",
-                  i === options.length - 1 ? "rounded-b-lg" : "",
-                ].join(" ")}
-              >
-                <span>{opt}</span>
-                {selected && <CheckIcon className="text-brand-black" />}
-              </button>
-            );
-          })}
+          {options.map((opt, i) => (
+            <DropdownOption
+              key={opt}
+              opt={opt}
+              selected={value === opt}
+              isFirst={i === 0}
+              isLast={i === options.length - 1}
+              onSelect={commit}
+            />
+          ))}
         </div>
       )}
     </div>

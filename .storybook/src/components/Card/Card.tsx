@@ -333,7 +333,6 @@ function ProfileCard({
                   onAction?.();
                 }}
                 icon={<PlusIcon />}
-                className="rounded-2xl px-3 py-1"
               >
                 {actionLabel}
               </Button>

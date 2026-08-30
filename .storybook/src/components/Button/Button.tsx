@@ -232,7 +232,7 @@ export const Button = ({
 
   const baseStyles = `
     relative inline-flex items-center justify-center gap-2
-    min-h-11 min-w-11
+    min-touch-target
     font-sans text-sm font-medium leading-none tracking-tight
     focus-visible:outline-none
     touch-manipulation
@@ -247,35 +247,35 @@ export const Button = ({
 
   const variantStyles = {
     primary: disabled
-      ? "bg-disabled text-[#f6f1eb] cursor-not-allowed rounded-[32px] px-3.5 py-1.5"
+      ? "bg-disabled text-[#f6f1eb] cursor-not-allowed rounded-[32px] px-3 py-2"
       : [
           "text-[#f6f1eb] border-0",
           "focus-visible:ring-1 focus-visible:ring-primary-focus focus-visible:ring-offset-1",
         ].join(" "),
 
     secondary: disabled
-      ? "bg-disabled text-[#D0D3D3] cursor-not-allowed rounded-2xl px-3 py-2"
+      ? "bg-disabled text-[#D0D3D3] cursor-not-allowed rounded-[24px] px-3 py-2"
       : [
           "text-brand-white border-0",
           "focus-visible:ring-1 focus-visible:ring-secondary-gold focus-visible:ring-offset-1",
         ].join(" "),
 
     tertiary: disabled
-      ? "border-[0.75px] border-disabled text-disabled bg-transparent cursor-not-allowed rounded-2xl px-3 py-2"
+      ? "border-[0.75px] border-disabled text-disabled bg-transparent cursor-not-allowed rounded-[24px] px-3 py-2"
       : [
           "bg-transparent",
           "focus-visible:ring-1 focus-visible:ring-primary-focus focus-visible:ring-offset-1",
         ].join(" "),
 
     ghost: disabled
-      ? "text-[#ADABA5] cursor-not-allowed rounded-2xl px-3 py-1"
+      ? "text-[#ADABA5] cursor-not-allowed rounded-[32px] px-3 py-2"
       : [
-          "text-primary bg-transparent rounded-2xl px-3 py-1",
+          "text-primary bg-transparent rounded-[32px] px-3 py-2",
           "hover:bg-[#D7DDE0]",
         ].join(" "),
 
     danger: disabled
-      ? "bg-disabled text-[#f6f1eb] cursor-not-allowed rounded-[32px] px-3.5 py-1.5"
+      ? "bg-disabled text-[#f6f1eb] cursor-not-allowed rounded-[32px] px-3 py-2"
       : [
           "text-[#f6f1eb] border-0",
           "focus-visible:ring-1 focus-visible:ring-error focus-visible:ring-offset-1",

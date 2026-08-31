@@ -1,9 +1,16 @@
 import * as React from "react";
 import { formControlType } from "../../tokens/typography";
+import { Field } from "./Field";
 
 export interface TextBoxProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   helperText?: string;
+  /** Marks the field invalid (error border + helper color). */
+  error?: boolean;
+  /** Alias of `error`. */
+  invalid?: boolean;
+  /** Replaces helper text when set. */
+  errorMessage?: string;
   containerClassName?: string;
 }
 
@@ -11,6 +18,9 @@ export const TextBox = React.forwardRef<HTMLTextAreaElement, TextBoxProps>(funct
   {
     label = "Text field title",
     helperText,
+    error,
+    invalid,
+    errorMessage,
     id,
     className,
     containerClassName,
@@ -23,16 +33,26 @@ export const TextBox = React.forwardRef<HTMLTextAreaElement, TextBoxProps>(funct
   const genId = React.useId();
   const boxId = id ?? genId;
   const helperId = `${boxId}-helper`;
+  const isError = Boolean(error || invalid || errorMessage);
+  const describedBy = errorMessage || helperText ? helperId : undefined;
 
   return (
-    <div className={`flex w-full max-w-[314px] flex-col gap-2 ${containerClassName || ""}`}>
-      <label htmlFor={boxId} className="font-body text-sm font-light leading-[1.5] text-[#6c7275]">
-        {label}
-      </label>
+    <Field
+      label={label}
+      htmlFor={boxId}
+      helperText={helperText}
+      error={isError}
+      errorMessage={errorMessage}
+      disabled={disabled}
+      helperId={helperId}
+      className={`w-full max-w-field-md ${containerClassName || ""}`}
+    >
       <div
         className={[
-          "rounded-lg border-0 bg-layer1 p-2",
+          "rounded-lg border border-line-field bg-field p-2 min-h-11",
           !disabled ? "focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-1" : "",
+          disabled ? "cursor-not-allowed bg-disabled" : "",
+          isError && !disabled ? "border-line-error" : "",
         ].join(" ")}
       >
         <textarea
@@ -40,23 +60,19 @@ export const TextBox = React.forwardRef<HTMLTextAreaElement, TextBoxProps>(funct
           id={boxId}
           rows={rows}
           disabled={disabled}
-          aria-describedby={helperText ? helperId : undefined}
+          aria-invalid={isError || undefined}
+          aria-describedby={describedBy}
           className={[
             "min-h-[40px] w-full resize-y bg-transparent font-body font-light leading-[1.5]",
             formControlType,
-            "text-brand-black placeholder:text-[#6c7275]",
+            "text-brand-black placeholder:text-muted",
             "focus-visible:outline-none",
-            disabled ? "cursor-not-allowed text-[#ADABA5] placeholder:text-[#ADABA5]/80" : "",
+            disabled ? "cursor-not-allowed text-textDisabled placeholder:text-textDisabled" : "",
             className || "",
           ].join(" ")}
           {...textareaProps}
         />
       </div>
-      {helperText ? (
-        <p id={helperId} className="font-body text-xs font-light leading-[1.4] tracking-[-0.72px] text-[#6c7275]">
-          {helperText}
-        </p>
-      ) : null}
-    </div>
+    </Field>
   );
 });

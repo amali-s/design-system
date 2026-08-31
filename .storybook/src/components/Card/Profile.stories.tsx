@@ -49,6 +49,19 @@ export const States: Story = {
           <StateCell label="Hearted + ghost action">
             <CardComponent variant="profile" state="enabled" action hearted />
           </StateCell>
+          <StateCell label="Slot with image">
+            <CardComponent
+              variant="profile"
+              state="enabled"
+              action={false}
+              slot={
+                <img
+                  src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=640&q=80"
+                  alt="Cabin exterior"
+                />
+              }
+            />
+          </StateCell>
         </div>
       </div>
 

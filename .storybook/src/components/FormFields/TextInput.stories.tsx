@@ -14,7 +14,13 @@ const meta: Meta<typeof TextInput> = {
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
-    backgrounds: { default: "layer1", values: [{ name: "layer1", value: "#FFF8F0" }] },
+    backgrounds: {
+      default: "cream",
+      values: [
+        { name: "cream", value: "#EDE6DE" },
+        { name: "white", value: "#FFFDFA" },
+      ],
+    },
   },
 };
 export default meta;
@@ -41,6 +47,14 @@ export const Disabled: Story = {
   },
 };
 
+export const Error: Story = {
+  args: {
+    defaultValue: "Text input ",
+    error: true,
+    errorMessage: "Enter a valid value",
+  },
+};
+
 export const Showcase: Story = {
   render: () => (
     <div className="flex flex-col gap-8">
@@ -55,6 +69,10 @@ export const Showcase: Story = {
       <div>
         <p className="mb-4 font-brand text-xl text-brand-darkGrey">Disabled</p>
         <TextInput defaultValue="Text input " disabled />
+      </div>
+      <div>
+        <p className="mb-4 font-brand text-xl text-brand-darkGrey">Error</p>
+        <TextInput defaultValue="Text input " error errorMessage="Enter a valid value" />
       </div>
     </div>
   ),

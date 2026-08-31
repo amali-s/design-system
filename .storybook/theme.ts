@@ -1,4 +1,5 @@
 import { create } from 'storybook/theming/create';
+import { colors, semantic } from './src/tokens/colors';
 
 /**
  * Sage Design System — Storybook Theme
@@ -14,15 +15,15 @@ export const sageTheme = create({
   brandUrl:   '/',
 
   // ── Core palette ─────────────────────────────────────────────────────────
-  // Primary = brand navy; secondary = action cyan
-  colorPrimary:   '#1E526F',   // brand.darkBlue
-  colorSecondary: '#1AAED8',   // status.primary
+  // Primary = brand navy; secondary = cyan chrome accent (not component UI)
+  colorPrimary:   colors.brand.darkBlue,
+  colorSecondary: semantic.status.primary,
 
   // ── App shell ─────────────────────────────────────────────────────────────
-  appBg:          '#EDF3ED',   // semantic.background.sage  ← sidebar / panel bg
-  appContentBg:   '#FFFDFA',   // brand.white               ← canvas / story bg
-  appPreviewBg:   '#FFFDFA',   // brand.white               ← preview iframe bg
-  appBorderColor: 'rgba(89, 85, 75, 0.12)',  // semantic.border.medium
+  appBg:          semantic.background.sage,
+  appContentBg:   colors.brand.white,
+  appPreviewBg:   colors.brand.white,
+  appBorderColor: semantic.border.medium,
   appBorderRadius: 4,
 
   // ── Typography ────────────────────────────────────────────────────────────
@@ -30,19 +31,19 @@ export const sageTheme = create({
   fontCode: '"JetBrains Mono", Menlo, monospace',
 
   // ── Text ──────────────────────────────────────────────────────────────────
-  textColor:        '#1B2323',  // brand.black
-  textInverseColor: '#EDE6DE',  // brand.foreground (cream)
-  textMutedColor:   '#8A867E',  // semantic.text.muted
+  textColor:        colors.brand.black,
+  textInverseColor: colors.brand.foreground,
+  textMutedColor:   semantic.text.muted,
 
   // ── Toolbar / tab bar ─────────────────────────────────────────────────────
-  barBg:           '#EDF3ED',   // sage tint — matches sidebar
-  barTextColor:    '#413E36',   // brand.darkGrey
-  barHoverColor:   '#1E526F',   // brand.darkBlue
-  barSelectedColor:'#1E526F',   // brand.darkBlue
+  barBg:           semantic.background.sage,
+  barTextColor:    colors.brand.darkGrey,
+  barHoverColor:   colors.brand.darkBlue,
+  barSelectedColor:colors.brand.darkBlue,
 
   // ── Inputs ────────────────────────────────────────────────────────────────
-  inputBg:           '#FFFDFA', // brand.white
-  inputBorder:       'rgba(89, 85, 75, 0.12)',
-  inputTextColor:    '#1B2323', // brand.black
+  inputBg:           colors.brand.white,
+  inputBorder:       semantic.border.medium,
+  inputTextColor:    colors.brand.black,
   inputBorderRadius: 4,
 });

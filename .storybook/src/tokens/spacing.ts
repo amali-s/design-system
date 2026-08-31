@@ -41,6 +41,23 @@ export const spacing = {
   32: '8rem',       // 128px
 } as const;
 
+/**
+ * Layout widths — replace one-off max-w-[Npx] in components.
+ * Wired to Tailwind `max-w-*` / `min-w-*` (field-sm, field-md, card, readable, toast).
+ */
+export const layout = {
+  /** TextInput, Dropdown */
+  fieldSm: "240px",
+  /** TextBox (was 314px) */
+  fieldMd: "320px",
+  /** Card and Profile share one card width */
+  card: "320px",
+  /** Accordion / demo reading column */
+  readable: "536px",
+  /** Toast cap */
+  toast: "24rem",
+} as const;
+
 export const borderRadius = {
   none: '0',
   sm: '0.125rem',   // 2px
@@ -50,6 +67,8 @@ export const borderRadius = {
   xl: '0.75rem',    // 12px
   '2xl': '1rem',    // 16px
   '3xl': '1.5rem',  // 24px
+  /** Shared pill for Button, Tag, and Ghost-styled Link. */
+  button: '32px',
   full: '9999px',
 } as const;
 

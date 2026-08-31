@@ -99,11 +99,22 @@ const TypographyPage = () => (
       {/* Headings */}
       <section className="mb-16">
         <h2 className="text-xl font-medium text-brand-darkBlue mb-2">Headings</h2>
-        <p className="font-body text-sm font-light text-brand-darkGrey mb-6">Rethink Sans for section and page headers</p>
+        <p className="font-body text-sm font-light text-brand-darkGrey mb-2">
+          CSS order: <code className="font-mono text-xs">heading1</code> is the largest
+          (36px), <code className="font-mono text-xs">heading6</code> the smallest (14px).
+          Aliases: <code className="font-mono text-xs">headingXl</code>…<code className="font-mono text-xs">headingSm</code>.
+        </p>
+        <p className="font-body text-sm font-light text-brand-darkGrey mb-6">
+          Figma numbered this ramp in reverse: Figma Heading 1 = 14px = Sage{" "}
+          <code className="font-mono text-xs">heading6</code> /{" "}
+          <code className="font-mono text-xs">figmaHeading1</code>. Rethink Light (300)
+          is loaded for Accordion titles; Spectral Light is unchanged for body and labels.
+          There is no 350 weight (<code className="font-mono text-xs">font-w2</code> was removed).
+        </p>
         
         <div className="bg-brand-foreground rounded-2xl p-6">
           <TypeStyleRow
-            name="Heading 6"
+            name="Heading 1"
             fontFamily="Rethink Sans"
             fontSize="36px"
             fontWeight="Regular"
@@ -111,7 +122,7 @@ const TypographyPage = () => (
             className="font-sans text-3xl font-normal tracking-normal"
           />
           <TypeStyleRow
-            name="Heading 5"
+            name="Heading 2"
             fontFamily="Rethink Sans"
             fontSize="32px"
             fontWeight="Regular"
@@ -119,7 +130,7 @@ const TypographyPage = () => (
             className="font-sans text-2xl font-normal tracking-normal"
           />
           <TypeStyleRow
-            name="Heading 4"
+            name="Heading 3"
             fontFamily="Rethink Sans"
             fontSize="24px"
             fontWeight="Medium"
@@ -127,7 +138,7 @@ const TypographyPage = () => (
             className="font-sans text-xl font-medium tracking-normal"
           />
           <TypeStyleRow
-            name="Heading 3"
+            name="Heading 4"
             fontFamily="Rethink Sans"
             fontSize="20px"
             fontWeight="Regular"
@@ -135,7 +146,7 @@ const TypographyPage = () => (
             className="font-sans text-lg font-normal tracking-normal"
           />
           <TypeStyleRow
-            name="Heading 2"
+            name="Heading 5"
             fontFamily="Rethink Sans"
             fontSize="20px"
             fontWeight="Medium"
@@ -143,7 +154,7 @@ const TypographyPage = () => (
             className="font-sans text-lg font-medium tracking-normal"
           />
           <TypeStyleRow
-            name="Heading 1"
+            name="Heading 6"
             fontFamily="Rethink Sans"
             fontSize="14px"
             fontWeight="Medium"
@@ -241,7 +252,7 @@ const TypographyPage = () => (
           <p><span className="text-data-darkBlue">font-body</span> <span className="text-brand-darkGrey">// Spectral</span></p>
           
           <p className="text-brand-darkGrey mt-4 mb-2">// Font weights</p>
-          <p><span className="text-data-darkBlue">font-light</span> <span className="text-brand-darkGrey">// 300 — Spectral Light</span></p>
+          <p><span className="text-data-darkBlue">font-light</span> <span className="text-brand-darkGrey">// 300 — Spectral Light, Rethink Light</span></p>
           <p><span className="text-data-darkBlue">font-normal</span> <span className="text-brand-darkGrey">// 400 — Rethink Regular</span></p>
           <p><span className="text-data-darkBlue">font-medium</span> <span className="text-brand-darkGrey">// 500 — Rethink Medium</span></p>
           <p><span className="text-data-darkBlue">font-bold</span> <span className="text-brand-darkGrey">// 700</span></p>

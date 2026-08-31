@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Button } from "../Button/Button";
+import { Tag } from "../Tag/Tag";
+import { IconButton } from "../IconButton/IconButton";
+import { Heart, Plus } from "../../icons";
 import { motionVar } from "../../tokens/motion";
 import { usePressInteraction } from "../usePressInteraction";
-
-/** Profile card width from Figma */
-const PROFILE_WIDTH_PX = 320;
 
 export type CardVariant = "card" | "profile";
 
@@ -21,11 +21,11 @@ export interface CardProps {
   heading?: string;
   /** Body / description copy */
   body?: string;
-  /** Show ghost action (card inline link; profile ghost Button) */
+  /** Show ghost action (`Button variant="ghost"`) */
   action?: boolean;
   actionLabel?: string;
   onAction?: () => void;
-  /** Custom slot content, or built-in accent “Slot” block when `showSlot` */
+  /** Custom slot content (image or node). Wins over the empty placeholder. */
   slot?: React.ReactNode;
   showSlot?: boolean;
   /** Profile: space type label */
@@ -59,89 +59,30 @@ const DEFAULT_TAGS: CardTag[] = [
 ];
 
 const PROFILE_GRADIENT =
-  "radial-gradient(ellipse 80% 90% at 50% 50%, rgba(255,248,240,0.16) 12%, rgba(236,228,165,0.16) 55%, rgba(217,208,89,0.16) 78%, rgba(217,208,89,0.16) 100%), linear-gradient(90deg, #FFF8F0 0%, #FFF8F0 100%)";
+  `radial-gradient(ellipse 80% 90% at 50% 50%, rgba(255,248,240,0.16) 12%, rgba(236,228,165,0.16) 55%, rgba(217,208,89,0.16) 78%, rgba(217,208,89,0.16) 100%), linear-gradient(90deg, var(--sage-surface-layer1) 0%, var(--sage-surface-layer1) 100%)`;
 
-function PlusIcon({ className }: { className?: string }) {
-  return (
-    <svg width={10} height={9} viewBox="0 0 10 9" fill="none" className={className} aria-hidden>
-      <path d="M5 0.5V8.5" stroke="currentColor" strokeWidth={1} strokeLinecap="round" />
-      <path d="M1 4.5H9" stroke="currentColor" strokeWidth={1} strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function HeartIcon({ filled, className }: { filled?: boolean; className?: string }) {
-  return (
-    <svg width={12} height={12} viewBox="0 0 12 12" fill="none" className={className} aria-hidden>
-      <path
-        d="M6 10.5C6 10.5 1.5 7.25 1.5 4.75C1.5 3.5 2.5 2.5 3.75 2.5C4.75 2.5 5.5 3 6 3.75C6.5 3 7.25 2.5 8.25 2.5C9.5 2.5 10.5 3.5 10.5 4.75C10.5 7.25 6 10.5 6 10.5Z"
-        stroke={filled ? "#7D0A16" : "currentColor"}
-        fill={filled ? "#7D0A16" : "none"}
-        strokeWidth={1}
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function CardSlotBlock({ tall }: { tall?: boolean }) {
+function CardSlotBlock({
+  tall,
+  children,
+}: {
+  tall?: boolean;
+  children?: React.ReactNode;
+}) {
   return (
     <div
       className={[
-        "flex w-full items-center justify-center overflow-hidden bg-surfaceAccent font-body text-sm font-light text-black",
-        tall ? "h-[118px]" : "h-10",
+        "relative w-full overflow-hidden bg-surfaceAccent",
+        tall ? "aspect-[4/3]" : "aspect-video",
+        "[&_img]:h-full [&_img]:w-full [&_img]:object-cover",
       ].join(" ")}
     >
-      Slot
+      {children ?? (
+        <div className="flex h-full w-full flex-col items-center justify-center gap-2 text-muted">
+          <Plus size={24} />
+          <span className="font-body text-xs font-light tracking-[-0.72px]">Media</span>
+        </div>
+      )}
     </div>
-  );
-}
-
-function CardActionLink({
-  label,
-  disabled,
-  outlined,
-  onClick,
-}: {
-  label: string;
-  disabled?: boolean;
-  outlined?: boolean;
-  onClick?: () => void;
-}) {
-  const { interaction, pointerHandlers } = usePressInteraction<HTMLButtonElement>({
-    disabled,
-    onPointerDown: (e) => e.stopPropagation(),
-  });
-  const fill =
-    !disabled && (interaction === "hover" || interaction === "pressed")
-      ? "bg-primaryAction/10"
-      : "";
-
-  return (
-    <button
-      type="button"
-      disabled={disabled}
-      onClick={(e) => {
-        e.stopPropagation();
-        onClick?.();
-      }}
-      {...pointerHandlers}
-      className={[
-        "inline-flex items-center gap-2 rounded-2xl px-3 py-2 font-sans text-sm font-medium leading-none",
-        outlined ? "border" : "",
-        disabled
-          ? outlined
-            ? "cursor-not-allowed border-textDisabled text-textDisabled"
-            : "cursor-not-allowed text-textDisabled"
-          : outlined
-            ? `border-primaryAction text-primaryAction ${fill}`
-            : `text-primaryAction ${fill}`,
-        "transition-colors duration-ui ease-standard",
-      ].join(" ")}
-    >
-      {label}
-      <PlusIcon />
-    </button>
   );
 }
 
@@ -158,7 +99,7 @@ function ProfileMeta({
   disabled?: boolean;
   onHeartToggle?: () => void;
 }) {
-  const muted = disabled ? "text-textDisabled" : "text-[#6c7275]";
+  const muted = disabled ? "text-textDisabled" : "text-muted";
 
   return (
     <div className="flex w-full items-center justify-between">
@@ -167,40 +108,24 @@ function ProfileMeta({
         <span className="inline-block size-1 rounded-full bg-current opacity-60" aria-hidden />
         <span>{neighborhood}</span>
       </div>
-      <button
-        type="button"
+      <IconButton
         aria-label={hearted ? "Remove favorite" : "Add favorite"}
+        size="sm"
         disabled={disabled}
+        icon={
+          <Heart
+            size={16}
+            filled={hearted}
+            className={disabled ? "text-textDisabled" : hearted ? "text-deepRed" : "text-muted"}
+          />
+        }
         onClick={(e) => {
           e.stopPropagation();
           onHeartToggle?.();
         }}
         onPointerDown={(e) => e.stopPropagation()}
-        className={[
-          "min-touch-target",
-          disabled ? "cursor-not-allowed text-textDisabled" : hearted ? "text-deepRed" : "text-[#6c7275]",
-        ].join(" ")}
-      >
-        <HeartIcon filled={hearted} />
-      </button>
-    </div>
-  );
-}
-
-function ProfileTags({ tags, disabled }: { tags: CardTag[]; disabled?: boolean }) {
-  return (
-    <div className="flex flex-wrap gap-2">
-      {tags.map((tag) => (
-        <span
-          key={tag.label}
-          className={[
-            "inline-flex items-center gap-1 rounded-xl bg-data-paleMustard px-2 py-1 font-sans text-[8px] font-normal tracking-[-0.32px]",
-            disabled ? "text-textDisabled" : "text-textSecondary",
-          ].join(" ")}
-        >
-          {tag.label}
-        </span>
-      ))}
+        className="-m-2"
+      />
     </div>
   );
 }
@@ -231,8 +156,8 @@ function StandardCard({
     <div
       {...pointerHandlers}
       className={[
-        "flex w-full max-w-[308px] flex-col items-end gap-6 overflow-hidden rounded-lg border-[0.5px] border-solid px-2 py-4",
-        muted ? "border-background" : isHover ? "border-textDisabled bg-layer1" : "border-textDisabled",
+        "flex w-full max-w-card flex-col items-end gap-6 overflow-hidden rounded-lg border-[0.5px] border-solid px-2 py-4",
+        muted ? "border-background" : isHover ? "border-line-medium bg-layer1" : "border-line-medium",
         className || "",
       ].join(" ")}
       style={{
@@ -245,7 +170,7 @@ function StandardCard({
         <div
           className={[
             "flex w-full flex-col gap-2 border-b pb-4",
-            muted ? "border-background text-textDisabled" : "border-textDisabled border-b-[0.5px]",
+            muted ? "border-background text-textDisabled" : "border-line-medium border-b-[0.5px]",
           ].join(" ")}
         >
           <p className={`font-body text-xs font-light tracking-[-0.72px] ${muted ? "" : "text-textTertiary"}`}>
@@ -257,7 +182,7 @@ function StandardCard({
         </div>
 
         <div className="flex w-full flex-col gap-4">
-          {showSlot && (slot ?? <CardSlotBlock />)}
+          {showSlot && <CardSlotBlock>{slot}</CardSlotBlock>}
           <p className={`font-body text-sm font-light leading-[1.5] ${muted ? "text-textDisabled" : "text-textSecondary"}`}>
             {body}
           </p>
@@ -266,7 +191,20 @@ function StandardCard({
 
       {action && (
         <div className="shrink-0 self-end pr-2">
-          <CardActionLink label={actionLabel!} disabled={isDisabled} onClick={onAction} />
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            disabled={isDisabled}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAction?.();
+            }}
+            onPointerDown={(e) => e.stopPropagation()}
+            icon={<Plus size={16} />}
+          >
+            {actionLabel}
+          </Button>
         </div>
       )}
     </div>
@@ -301,30 +239,27 @@ function ProfileCard({
   const shellStyle: React.CSSProperties = isHover
     ? {
         backgroundImage:
-          "linear-gradient(90deg, rgba(148, 148, 148, 0.2) 0%, rgba(148, 148, 148, 0.2) 100%), " + PROFILE_GRADIENT,
+          "linear-gradient(90deg, var(--sage-ghost-hover) 0%, var(--sage-ghost-hover) 100%), " + PROFILE_GRADIENT,
       }
     : { backgroundImage: PROFILE_GRADIENT };
 
   const shellClass = [
-    "flex w-full flex-col overflow-hidden rounded-xl pb-4",
+    "flex w-full max-w-card flex-col overflow-hidden rounded-xl pb-4",
     isDisabled ? "opacity-60" : "",
     className || "",
   ].join(" ");
-
-  const shellStyleMerged: React.CSSProperties = {
-    ...shellStyle,
-    maxWidth: PROFILE_WIDTH_PX,
-  };
 
   const textMuted = isDisabled;
   const titleClass = textMuted ? "text-textDisabled" : "text-brand-black";
   const bodyClass = textMuted ? "text-textDisabled" : "text-textSecondary";
 
   return (
-    <div className={shellClass} style={shellStyleMerged} {...pointerHandlers}>
+    <div className={shellClass} style={shellStyle} {...pointerHandlers}>
       <div className="flex w-full flex-col items-center gap-4">
         {showSlot && (
-          <div className="w-full px-0">{slot ?? <CardSlotBlock tall={hearted || action} />}</div>
+          <div className="w-full px-0">
+            <CardSlotBlock tall>{slot}</CardSlotBlock>
+          </div>
         )}
 
         <div className="flex w-full flex-col gap-4 px-3.5">
@@ -339,7 +274,11 @@ function ProfileCard({
             <h3 className={`font-heading text-xl font-normal leading-tight ${titleClass}`}>{heading}</h3>
           </div>
 
-          <ProfileTags tags={tags!} disabled={isDisabled} />
+          <div className="flex flex-wrap gap-2">
+            {tags!.map((tag) => (
+              <Tag key={tag.label} label={tag.label} variant="mustard" disabled={isDisabled} />
+            ))}
+          </div>
 
           <p className={`font-body text-sm font-light leading-[1.5] ${bodyClass}`}>{body}</p>
 
@@ -355,7 +294,7 @@ function ProfileCard({
                   onAction?.();
                 }}
                 onPointerDown={(e) => e.stopPropagation()}
-                icon={<PlusIcon />}
+                icon={<Plus size={16} />}
               >
                 {actionLabel}
               </Button>

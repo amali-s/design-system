@@ -101,7 +101,7 @@ export function CardPageDemo() {
           ))}
         </div>
 
-        <aside className="w-full shrink-0 rounded-lg bg-layer1 p-5 lg:max-w-[240px]">
+        <aside className="w-full shrink-0 rounded-lg bg-layer1 p-5 lg:max-w-field-sm">
           <p className="font-sans text-xs font-medium uppercase tracking-wider text-[#827A64]">
             Page activity
           </p>

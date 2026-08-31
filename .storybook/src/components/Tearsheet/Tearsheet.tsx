@@ -3,7 +3,8 @@
 import * as React from "react";
 import { Drawer } from "vaul";
 import { Button } from "../Button/Button";
-import { usePressInteraction } from "../usePressInteraction";
+import { IconButton } from "../IconButton/IconButton";
+import { Close } from "../../icons";
 
 export interface TearsheetProps {
   /** Whether the tearsheet is open (controlled mode) */
@@ -80,7 +81,6 @@ export const Tearsheet = ({
   // the global `prefers-reduced-motion` 1ms override in tailwind.css. Scale-
   // background is a JS transform on a wrapper, so disable it when reduced.
   const prefersReducedMotion = usePrefersReducedMotion();
-  const closePress = usePressInteraction<HTMLButtonElement>();
 
   return (
     <Drawer.Root {...drawerProps} shouldScaleBackground={!prefersReducedMotion}>
@@ -92,7 +92,7 @@ export const Tearsheet = ({
         )}
       </Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 bg-black/40 z-40" />
+        <Drawer.Overlay className="fixed inset-0 bg-brand-black/40 z-40" />
         <Drawer.Content
           className={`
             fixed bottom-0 left-0 right-0 z-50
@@ -109,58 +109,29 @@ export const Tearsheet = ({
           `}
         >
           {/* Handle bar for drag gesture */}
-          <div className="mx-auto mt-2 h-1.5 w-12 flex-shrink-0 cursor-grab rounded-full bg-[rgba(89,85,75,0.2)] active:cursor-grabbing" />
+          <div className="mx-auto mt-2 h-1.5 w-12 flex-shrink-0 cursor-grab rounded-full bg-line-strong active:cursor-grabbing" />
 
           {/* Header */}
-          <div className="flex flex-col gap-1 px-6 pt-4 pb-4 border-b border-[rgba(89,85,75,0.08)]">
+          <div className="flex flex-col gap-1 px-6 pt-4 pb-4 border-b border-line">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <h2 className="font-brand text-xl font-medium text-secondary">
                   {title}
                 </h2>
                 {description && (
-                  <p className="font-body text-sm font-w3 text-[#8A867E] mt-1">
+                  <p className="font-body text-sm font-w3 text-muted mt-1">
                     {description}
                   </p>
                 )}
               </div>
               <Drawer.Close asChild>
-                <button
-                  type="button"
+                <IconButton
                   aria-label="Close"
-                  {...closePress.pointerHandlers}
-                  className="
-                    inline-flex size-11 shrink-0 items-center justify-center -m-3 rounded-full
-                    text-[#8A867E]
-                    outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1
-                    transition-colors duration-ui ease-standard
-                  "
-                  style={{
-                    color:
-                      closePress.interaction === "hover" || closePress.interaction === "pressed"
-                        ? "#575040"
-                        : "#8A867E",
-                    backgroundColor:
-                      closePress.interaction === "pressed"
-                        ? "rgba(89,85,75,0.10)"
-                        : closePress.interaction === "hover"
-                          ? "rgba(89,85,75,0.06)"
-                          : "transparent",
-                  }}
-                >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M15 5L5 15M5 5l10 10" />
-                  </svg>
-                </button>
+                  size="md"
+                  shape="round"
+                  icon={<Close size={20} />}
+                  className="-m-1 text-muted"
+                />
               </Drawer.Close>
             </div>
           </div>
@@ -172,7 +143,7 @@ export const Tearsheet = ({
 
           {/* Footer actions — stacked full-width below sm; primary last (thumb). */}
           {(primaryActionLabel || secondaryActionLabel) && (
-            <div className="flex flex-col gap-2 sm:flex-row sm:justify-end px-6 pt-4 pb-4 border-t border-[rgba(89,85,75,0.08)] bg-[rgba(89,85,75,0.02)]">
+            <div className="flex flex-col gap-2 sm:flex-row sm:justify-end px-6 pt-4 pb-4 border-t border-line bg-line-subtle">
               {secondaryActionLabel && (
                 <Button
                   variant="secondary"

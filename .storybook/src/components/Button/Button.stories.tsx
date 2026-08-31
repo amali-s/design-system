@@ -1,13 +1,15 @@
 import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./Button";
+import { Plus } from "../../icons";
 
 /**
  * The Button component — warm, pill-shaped buttons in the Sage design system.
  *
- * Four variants matching the Figma Component Kit:
- * **Primary** (#1AAED8), **Secondary** (#575040), **Tertiary** (outline),
- * **Ghost** (text-only), and **Danger** / error filled (#CC3926).
+ * Five variants matching the Sage kit, recast for contrast-safe UI:
+ * **Primary** (navy fill `#1E526F`), **Secondary** (`#575040`), **Tertiary** (navy outline),
+ * **Ghost** (navy label), and **Danger** / error filled (`#CC3926`).
+ * Cyan is decorative only — not used for 14px button labels.
  *
  * ## Figma Design
  * - [Primary](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=113-90)
@@ -47,11 +49,15 @@ const meta: Meta<typeof Button> = {
     },
   },
   decorators: [
-    (Story) => (
-      <div style={{ transform: "scale(1.5)", transformOrigin: "center center" }}>
-        <Story />
-      </div>
-    ),
+    (Story, context) => {
+      const skipScale = context.name === "Sizes" || context.name === "Full Showcase";
+      if (skipScale) return <Story />;
+      return (
+        <div style={{ transform: "scale(1.5)", transformOrigin: "center center" }}>
+          <Story />
+        </div>
+      );
+    },
   ],
 };
 export default meta;
@@ -125,12 +131,7 @@ export const Disabled: Story = {
 
 // ─── Icons ───────────────────────────────────────────────────
 
-const PlusIcon = () => (
-  <svg width="10" height="9" viewBox="0 0 10 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M5 0.5V8.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-    <path d="M1 4.5H9" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-  </svg>
-);
+const PlusIcon = () => <Plus size={16} />;
 
 export const WithIcon: Story = {
   args: {
@@ -171,6 +172,18 @@ export const AllDisabled: Story = {
       <Button variant="secondary" disabled icon={<PlusIcon />}>Action</Button>
       <Button variant="tertiary" disabled icon={<PlusIcon />}>Action</Button>
       <Button variant="ghost" disabled icon={<PlusIcon />}>Action</Button>
+      <Button variant="danger" disabled icon={<PlusIcon />}>Action</Button>
+    </div>
+  ),
+};
+
+export const Sizes: Story = {
+  name: "Sizes",
+  render: () => (
+    <div className="flex items-end gap-3">
+      <Button variant="primary" size="sm">Small</Button>
+      <Button variant="primary" size="md">Default</Button>
+      <Button variant="primary" size="lg">Large</Button>
     </div>
   ),
 };
@@ -180,10 +193,11 @@ export const ButtonShowcase: Story = {
   render: () => (
     <div className="flex flex-col gap-8">
       <div>
-        <p className="font-brand text-xl text-secondary mb-4">Filled Buttons</p>
+        <p className="font-brand text-xl text-secondary mb-4">Filled</p>
         <div className="flex flex-wrap gap-3 items-center">
           <Button variant="primary" icon={<PlusIcon />}>Action</Button>
           <Button variant="secondary" icon={<PlusIcon />}>Action</Button>
+          <Button variant="danger" icon={<PlusIcon />}>Action</Button>
         </div>
       </div>
       <div>
@@ -191,12 +205,11 @@ export const ButtonShowcase: Story = {
         <div className="flex flex-wrap gap-3 items-center">
           <Button variant="tertiary" icon={<PlusIcon />}>Action</Button>
           <Button variant="ghost" icon={<PlusIcon />}>Action</Button>
-          <Button variant="danger" icon={<PlusIcon />}>Action</Button>
         </div>
       </div>
       <div>
         <p className="font-brand text-xl text-secondary mb-4">Sizes</p>
-        <div className="flex items-center gap-3">
+        <div className="flex items-end gap-3">
           <Button variant="primary" size="sm">Small</Button>
           <Button variant="primary" size="md">Default</Button>
           <Button variant="primary" size="lg">Large</Button>
@@ -209,6 +222,7 @@ export const ButtonShowcase: Story = {
           <Button variant="secondary" disabled>Action</Button>
           <Button variant="tertiary" disabled>Action</Button>
           <Button variant="ghost" disabled>Action</Button>
+          <Button variant="danger" disabled>Action</Button>
         </div>
       </div>
     </div>

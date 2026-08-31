@@ -1,45 +1,68 @@
 import * as React from "react";
 import { formControlType } from "../../tokens/typography";
+import { Field } from "./Field";
 
 export interface TextInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> {
   label?: string;
   helperText?: string;
+  /** Marks the field invalid (error border + helper color). */
+  error?: boolean;
+  /** Alias of `error`. */
+  invalid?: boolean;
+  /** Replaces helper text when set. */
+  errorMessage?: string;
   inputClassName?: string;
 }
 
 export const TextInput = React.forwardRef<HTMLInputElement, TextInputProps>(function TextInput(
-  { label = "Label", helperText = "Helper text", id, className, inputClassName, disabled, ...inputProps },
+  {
+    label = "Label",
+    helperText = "Helper text",
+    error,
+    invalid,
+    errorMessage,
+    id,
+    className,
+    inputClassName,
+    disabled,
+    ...inputProps
+  },
   ref,
 ) {
   const genId = React.useId();
   const inputId = id ?? genId;
   const helperId = `${inputId}-helper`;
+  const isError = Boolean(error || invalid || errorMessage);
+  const describedBy = errorMessage || helperText ? helperId : undefined;
 
   return (
-    <div className={`flex w-full max-w-[240px] flex-col gap-2 ${className || ""}`}>
-      <label htmlFor={inputId} className="font-body text-xs font-light leading-[1.4] tracking-[-0.72px] text-brand-black">
-        {label}
-      </label>
+    <Field
+      label={label}
+      htmlFor={inputId}
+      helperText={helperText}
+      error={isError}
+      errorMessage={errorMessage}
+      disabled={disabled}
+      helperId={helperId}
+      className={`w-full max-w-field-sm ${className || ""}`}
+    >
       <input
         ref={ref}
         id={inputId}
         disabled={disabled}
-        aria-describedby={helperText ? helperId : undefined}
+        aria-invalid={isError || undefined}
+        aria-describedby={describedBy}
         className={[
-          "min-h-11 w-full rounded-lg border-0 bg-layer1 px-2 py-2 font-body font-light leading-[1.5]",
+          "min-h-11 w-full rounded-lg border border-line-field bg-field px-2 py-2 font-body font-light leading-[1.5]",
           formControlType,
-          "text-brand-black placeholder:text-disabled",
+          "text-brand-black placeholder:text-muted",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
-          disabled ? "cursor-not-allowed text-disabled placeholder:text-disabled/80" : "",
+          disabled ? "cursor-not-allowed bg-disabled text-textDisabled placeholder:text-textDisabled" : "",
+          isError && !disabled ? "border-line-error" : "",
           inputClassName || "",
         ].join(" ")}
         {...inputProps}
       />
-      {helperText ? (
-        <p id={helperId} className="font-body text-xs font-light leading-[1.4] tracking-[-0.72px] text-[#6c7275]">
-          {helperText}
-        </p>
-      ) : null}
-    </div>
+    </Field>
   );
 });

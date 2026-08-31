@@ -14,7 +14,13 @@ const meta: Meta<typeof TextBox> = {
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
-    backgrounds: { default: "layer1", values: [{ name: "layer1", value: "#FFF8F0" }] },
+    backgrounds: {
+      default: "cream",
+      values: [
+        { name: "cream", value: "#EDE6DE" },
+        { name: "white", value: "#FFFDFA" },
+      ],
+    },
   },
 };
 export default meta;
@@ -50,6 +56,16 @@ export const Disabled: Story = {
   },
 };
 
+export const Error: Story = {
+  args: {
+    helperText: "Helper text",
+    defaultValue: sample,
+    error: true,
+    errorMessage: "This field is required",
+    rows: 4,
+  },
+};
+
 export const WithoutHelper: Story = {
   name: "Without helper text",
   args: {
@@ -72,12 +88,16 @@ export const Showcase: Story = {
       </div>
       <div>
         <p className="mb-4 font-brand text-xl text-brand-darkGrey">Focus</p>
-        <p className="mb-2 text-xs text-[#8A867E]">Tab into the field to see the primary focus ring.</p>
+        <p className="mb-2 text-xs text-muted">Tab into the field to see the primary focus ring.</p>
         <TextBox helperText="Helper text" defaultValue={sample} rows={4} />
       </div>
       <div>
         <p className="mb-4 font-brand text-xl text-brand-darkGrey">Disabled</p>
         <TextBox helperText="Helper text" defaultValue={sample} disabled rows={4} />
+      </div>
+      <div>
+        <p className="mb-4 font-brand text-xl text-brand-darkGrey">Error</p>
+        <TextBox defaultValue={sample} error errorMessage="This field is required" rows={4} />
       </div>
     </div>
   ),

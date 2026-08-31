@@ -24,7 +24,13 @@ const meta: Meta<typeof Dropdown> = {
   tags: ["autodocs"],
   parameters: {
     layout: "centered",
-    backgrounds: { default: "layer1", values: [{ name: "layer1", value: "#fffdf0" }] },
+    backgrounds: {
+      default: "cream",
+      values: [
+        { name: "cream", value: "#EDE6DE" },
+        { name: "white", value: "#FFFDFA" },
+      ],
+    },
   },
 };
 export default meta;
@@ -38,12 +44,20 @@ export const ClosedPlaceholder: Story = {
 
 export const ClosedFilled: Story = {
   name: "Closed — selected",
-  render: () => <Dropdown defaultValue="Selected" placeholder="Select a value" />,
+  render: () => <Dropdown defaultValue="Studio" placeholder="Select a value" />,
 };
 
 export const Disabled: Story = {
   args: {
     disabled: true,
+    placeholder: "Select a value",
+  },
+};
+
+export const Error: Story = {
+  args: {
+    error: true,
+    errorMessage: "Select an option",
     placeholder: "Select a value",
   },
 };
@@ -63,14 +77,14 @@ export const SelectedWithCheck: Story = {
   name: "Open — selected (check)",
   render: () => (
     <div className="pb-40">
-      <Dropdown defaultValue="Checkbox" />
+      <Dropdown defaultValue="Studio" />
     </div>
   ),
   parameters: {
     docs: {
       description: {
         story:
-          "Menu auto-opened to show the selected option (**Checkbox**) with its highlight and trailing check mark.",
+          "Menu auto-opened to show the selected option (**Studio**) with its highlight and trailing check mark.",
       },
     },
   },
@@ -85,23 +99,46 @@ export const Showcase: Story = {
   render: () => (
     <div className="flex flex-col gap-10 font-sans">
       <div>
-        <p className="mb-3 text-xs uppercase tracking-wider text-[#8A867E]">States</p>
+        <p className="mb-3 text-xs uppercase tracking-wider text-muted">States</p>
         <div className="flex flex-wrap items-start gap-8">
           <div className="flex flex-col gap-2">
-            <span className="text-xs text-[#6c7275]">Placeholder</span>
+            <span className="text-xs text-muted">Placeholder</span>
             <Dropdown defaultValue={null} />
           </div>
           <div className="flex flex-col gap-2">
-            <span className="text-xs text-[#6c7275]">Filled</span>
-            <Dropdown defaultValue="Selected" />
+            <span className="text-xs text-muted">Filled</span>
+            <Dropdown defaultValue="Studio" />
           </div>
           <div className="flex flex-col gap-2">
-            <span className="text-xs text-[#6c7275]">Disabled</span>
+            <span className="text-xs text-muted">Disabled</span>
             <Dropdown disabled placeholder="Select a value" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="text-xs text-muted">Error</span>
+            <Dropdown error errorMessage="Select an option" placeholder="Select a value" />
           </div>
         </div>
       </div>
-      <p className="text-xs text-[#8A867E]">Open the menu to match the kit list (Dropdown, Checkbox, Radio Button, Toggle Switch).</p>
+      <p className="text-xs text-muted">Default options are space types. See Kit map for the control catalog.</p>
     </div>
   ),
+};
+
+export const KitMap: Story = {
+  name: "Kit map",
+  render: () => (
+    <Dropdown
+      label="Control"
+      options={["Dropdown", "Checkbox", "Radio Button", "Toggle Switch"]}
+      placeholder="Select a control"
+      defaultValue={null}
+    />
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: "Catalog of form controls in the kit — not product options. Default stories use space types.",
+      },
+    },
+  },
 };

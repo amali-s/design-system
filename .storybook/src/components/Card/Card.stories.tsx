@@ -49,6 +49,20 @@ export const States: Story = {
           <StateCell label="Minimal">
             <CardComponent variant="card" state="enabled" showSlot={false} action={false} />
           </StateCell>
+          <StateCell label="Slot with image">
+            <CardComponent
+              variant="card"
+              state="enabled"
+              showSlot
+              action
+              slot={
+                <img
+                  src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=640&q=80"
+                  alt="Forest path"
+                />
+              }
+            />
+          </StateCell>
         </div>
       </div>
 

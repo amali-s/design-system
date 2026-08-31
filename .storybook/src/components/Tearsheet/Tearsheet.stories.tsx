@@ -2,7 +2,8 @@ import * as React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Tearsheet } from "./Tearsheet";
 import { Button } from "../Button/Button";
-import { formControlType } from "../../tokens/typography";
+import { TextInput } from "../FormFields/TextInput";
+import { TextBox } from "../FormFields/TextBox";
 
 const meta: Meta<typeof Tearsheet> = {
   title: "Components/Tearsheet",
@@ -66,6 +67,46 @@ export const Default: Story = {
   },
 };
 
+export const Open: Story = {
+  name: "Open",
+  render: function OpenTearsheet() {
+    const [open, setOpen] = React.useState(true);
+    return (
+      <Tearsheet
+        open={open}
+        onOpenChange={setOpen}
+        title="Tearsheet Title"
+        description="Optional description text that provides context for the tearsheet content."
+        primaryActionLabel="Confirm"
+        secondaryActionLabel="Cancel"
+      >
+        <div className="font-body text-sm font-normal text-secondary space-y-4">
+          <p>
+            This is the tearsheet content area. It can contain any content you need
+            — forms, lists, details, or mixed layouts.
+          </p>
+          <p>
+            The panel slides up from the bottom with a smooth animation powered by
+            Vaul. Users can drag the handle to close or tap the overlay.
+          </p>
+        </div>
+      </Tearsheet>
+    );
+  },
+  parameters: {
+    layout: "fullscreen",
+    docs: {
+      description: {
+        story: "Controlled open so docs show the panel, not only the trigger.",
+      },
+      story: {
+        inline: false,
+        iframeHeight: 560,
+      },
+    },
+  },
+};
+
 export const WithFormContent: Story = {
   args: {
     title: "Add New Item",
@@ -74,26 +115,18 @@ export const WithFormContent: Story = {
     secondaryActionLabel: "Cancel",
     children: (
       <div className="space-y-4">
-        <div>
-          <label className="block font-sans text-sm font-w5 text-secondary mb-1.5">
-            Name
-          </label>
-          <input
-            type="text"
-            placeholder="Enter name"
-            className={`w-full px-4 py-2 rounded-lg border border-[rgba(89,85,75,0.2)] font-sans ${formControlType} focus:outline-none focus:ring-2 focus:ring-primary/30`}
-          />
-        </div>
-        <div>
-          <label className="block font-sans text-sm font-w5 text-secondary mb-1.5">
-            Description
-          </label>
-          <textarea
-            placeholder="Enter description"
-            rows={3}
-            className={`w-full px-4 py-2 rounded-lg border border-[rgba(89,85,75,0.2)] font-sans ${formControlType} focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none`}
-          />
-        </div>
+        <TextInput
+          className="max-w-none w-full"
+          label="Name"
+          placeholder="Enter name"
+          helperText=""
+        />
+        <TextBox
+          containerClassName="max-w-none w-full"
+          label="Description"
+          placeholder="Enter description"
+          rows={3}
+        />
       </div>
     ),
   },
@@ -103,7 +136,7 @@ export const MinimalContent: Story = {
   args: {
     title: "Quick Info",
     children: (
-      <p className="font-body text-sm font-w3 text-[#8A867E]">
+      <p className="font-body text-sm font-w3 text-muted">
         A minimal tearsheet with just a title and simple content. No footer
         actions.
       </p>

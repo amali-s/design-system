@@ -1,6 +1,10 @@
 import * as React from "react";
+import { colors, semantic } from "../../tokens/colors";
 import { motionVar, motionDurationMs } from "../../tokens/motion";
 import { isHoverPointer } from "../usePressInteraction";
+import { Button } from "../Button/Button";
+import { IconButton } from "../IconButton/IconButton";
+import { Close, Plus, StatusError, StatusInfo, StatusSuccess } from "../../icons";
 
 /* ─── Types ───────────────────────────────────────────────── */
 
@@ -60,115 +64,29 @@ export interface ToastStackProps {
   className?: string;
 }
 
-/* ─── Status icons (inline SVG) ───────────────────────────── */
-
-const InformationIcon = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <circle cx="8" cy="8" r="8" fill="#0084D1" />
-    <rect x="7.25" y="6.75" width="1.5" height="5" rx="0.5" fill="#FFFFFF" />
-    <circle cx="8" cy="4.5" r="0.9" fill="#FFFFFF" />
-  </svg>
-);
-
-const SuccessIcon = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <circle cx="8" cy="8" r="8" fill="#00803F" />
-    <path
-      d="M4.5 8.25L7 10.5L11.5 5.75"
-      stroke="#FFFFFF"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      fill="none"
-    />
-  </svg>
-);
-
-const ErrorIcon = () => (
-  <svg
-    width="16"
-    height="14"
-    viewBox="0 0 16 14"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <path
-      d="M8 0.75L15.25 13.25H0.75L8 0.75Z"
-      fill="#CC3926"
-    />
-    <rect x="7.25" y="5" width="1.5" height="4.25" rx="0.5" fill="#FFFFFF" />
-    <circle cx="8" cy="11" r="0.85" fill="#FFFFFF" />
-  </svg>
-);
+/* ─── Status icons ────────────────────────────────────────── */
 
 const StatusIcon = ({ state }: { state: Exclude<ToastState, "default"> }) => {
   switch (state) {
     case "success":
-      return <SuccessIcon />;
+      return <StatusSuccess size={16} style={{ color: semantic.status.success }} />;
     case "error":
-      return <ErrorIcon />;
+      return <StatusError size={16} style={{ color: semantic.status.error }} />;
     case "information":
     default:
-      return <InformationIcon />;
+      return <StatusInfo size={16} style={{ color: colors.brand.darkBlue }} />;
   }
 };
-
-/* ─── Close icon ──────────────────────────────────────────── */
-
-const CloseIcon = () => (
-  <svg
-    width="8"
-    height="8"
-    viewBox="0 0 8 8"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <path d="M1 1L7 7" stroke="#1B2323" strokeWidth="1.5" strokeLinecap="round" />
-    <path d="M7 1L1 7" stroke="#1B2323" strokeWidth="1.5" strokeLinecap="round" />
-  </svg>
-);
-
-/* ─── Add (+) icon for the action button ──────────────────── */
-
-const AddIcon = () => (
-  <svg
-    width="10"
-    height="9"
-    viewBox="0 0 10 9"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    aria-hidden="true"
-  >
-    <path d="M5 0.5V8.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-    <path d="M1 4.5H9" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-  </svg>
-);
 
 /* ─── State → background color ────────────────────────────── */
 
 const stateBackground: Record<Exclude<ToastState, "default">, string> = {
-  information: "bg-[#edf8ff]", // light blue
-  success: "bg-[#eafbe7]",     // pale green
-  error: "bg-[#fff2f0]",       // warm peach
+  information: "bg-background-blue",
+  success: "bg-background-success",
+  error: "bg-background-red",
 };
 
-const TOAST_WIDTH = "w-full max-w-[min(100%,24rem)]";
+const TOAST_WIDTH = "w-full max-w-toast";
 
 /* ─── Presentational Toast Component ──────────────────────── */
 
@@ -180,16 +98,16 @@ const TOAST_WIDTH = "w-full max-w-[min(100%,24rem)]";
  * - Width: fluid, capped at 24rem (Figma snapshot was 233px)
  * - Border-radius: 8px
  * - Padding: 8px
- * - Shadow: 0px 4px 4px rgba(0,0,0,0.25)
+ * - Shadow: `shadow-ghibli-md`
  * - Status icon (16px) in top-left, color & glyph by state:
- *     • Information → blue circle with "i"
- *     • Success     → green circle with "✓"
+ *     • Information → navy circle with "i"
+ *     • Success     → dark green circle with "✓"
  *     • Error       → red triangle with "!"
- * - Background: #edf8ff (information), #eafbe7 (success), #fff2f0 (error)
- * - Header: Rethink Sans Medium, 14px, #1B2323
- * - Body:   Spectral Light, 14px, #4b5459 (Text secondary)
- * - Action: borderless ghost button (Primary action #0095cc label) with "+" icon
- * - Close:  small "×" in top-right corner, stroke 1.5px
+ * - Background: semantic tints (blue / success / red)
+ * - Header: Rethink Sans Medium, 14px, brand.black
+ * - Body:   Spectral Light, 14px, text secondary
+ * - Action: Button ghost sm with "+" icon
+ * - Close:  16px "×" inside min-touch-target
  *
  * For stacked toasts with tap-to-expand and swipe-to-dismiss, use `ToastStack`.
  */
@@ -217,7 +135,7 @@ export const ToastNotification = ({
         TOAST_WIDTH,
         "overflow-hidden",
         "rounded-lg",
-        "shadow-[0px_4px_4px_rgba(0,0,0,0.25)]",
+        "shadow-ghibli-md",
         "p-2",
         bg,
         className || "",
@@ -237,32 +155,32 @@ export const ToastNotification = ({
               {header}
             </p>
 
-            <p className="font-body text-sm font-w2 text-textSecondary leading-relaxed tracking-[-0.84px]">
+            <p className="font-body text-sm font-light text-textSecondary leading-relaxed tracking-[-0.84px]">
               {body}
             </p>
 
             {button && (
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="sm"
                 onClick={onAction}
-                className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-[16px] font-sans text-sm font-w4 text-primaryAction bg-transparent fine-hover:bg-primaryAction/10 active:bg-primaryAction/10 transition-colors duration-ui ease-standard self-start"
+                icon={<Plus size={16} />}
               >
-                <span className="leading-none">{actionLabel}</span>
-                <AddIcon />
-              </button>
+                {actionLabel}
+              </Button>
             )}
           </div>
 
           {/* Close icon */}
           {closeIcon && (
-            <button
-              type="button"
-              onClick={onClose}
-              className="min-touch-target flex-shrink-0 p-1 fine-hover:opacity-60 active:opacity-60 transition-opacity"
+            <IconButton
               aria-label="Close toast"
-            >
-              <CloseIcon />
-            </button>
+              size="sm"
+              icon={<Close size={16} className="text-brand-black" />}
+              onClick={onClose}
+              className="-mt-1 -mr-1"
+            />
           )}
         </div>
       </div>

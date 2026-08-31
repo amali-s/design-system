@@ -37,11 +37,10 @@ export const fontSize = {
 } as const;
 
 export const fontWeight = {
-  w1: '300',      // Spectral Light / Rethink Light
-  w2: '350',
+  w1: '300',      // Spectral Light / Rethink Light (loaded)
   w3: '400',      // Rethink Regular
   w5: '600',
-  light: '300',   // Spectral Light
+  light: '300',   // Spectral Light / Rethink Light
   medium: '500',  // Rethink Medium
   bold: '700',
 } as const;
@@ -58,8 +57,60 @@ export const letterSpacing = {
   label: '-0.06em',  // -6% — Figma Label styles
 } as const;
 
+const heading1 = {
+  fontFamily: fontFamily.sans,
+  fontSize: '2.25rem',     // 36px
+  fontWeight: fontWeight.w3,
+  letterSpacing: '0',
+  lineHeight: lineHeight.normal,
+} as const;
+
+const heading2 = {
+  fontFamily: fontFamily.sans,
+  fontSize: '2rem',        // 32px
+  fontWeight: fontWeight.w3,
+  letterSpacing: '0',
+  lineHeight: lineHeight.normal,
+} as const;
+
+const heading3 = {
+  fontFamily: fontFamily.sans,
+  fontSize: '1.5rem',      // 24px
+  fontWeight: fontWeight.medium,
+  letterSpacing: '0',
+  lineHeight: lineHeight.normal,
+} as const;
+
+const heading4 = {
+  fontFamily: fontFamily.sans,
+  fontSize: '1.25rem',     // 20px
+  fontWeight: fontWeight.w3,
+  letterSpacing: '0',
+  lineHeight: lineHeight.normal,
+} as const;
+
+const heading5 = {
+  fontFamily: fontFamily.sans,
+  fontSize: '1.25rem',     // 20px
+  fontWeight: fontWeight.medium,
+  letterSpacing: '0',
+  lineHeight: lineHeight.normal,
+} as const;
+
+const heading6 = {
+  fontFamily: fontFamily.sans,
+  fontSize: '0.875rem',    // 14px
+  fontWeight: fontWeight.medium,
+  letterSpacing: '-0.01em',
+  lineHeight: lineHeight.normal,
+} as const;
+
 /**
- * Pre-composed text styles matching the Figma type scale
+ * Pre-composed text styles matching the Figma type scale.
+ *
+ * Headings use CSS order: heading1 is the largest (36px), heading6 the
+ * smallest (14px). The Figma kit numbered this ramp in reverse
+ * (`figmaHeading1` = 14px = `heading6`). Size aliases: headingXl…headingSm.
  */
 export const textStyles = {
   // Page Titles - Rethink Sans
@@ -78,49 +129,22 @@ export const textStyles = {
     lineHeight: lineHeight.tight,
   },
 
-  // Headings - Rethink Sans
-  heading6: {
-    fontFamily: fontFamily.sans,
-    fontSize: '2.25rem',     // 36px
-    fontWeight: fontWeight.w3,
-    letterSpacing: '0',
-    lineHeight: lineHeight.normal,
-  },
-  heading5: {
-    fontFamily: fontFamily.sans,
-    fontSize: '2rem',        // 32px
-    fontWeight: fontWeight.w3,
-    letterSpacing: '0',
-    lineHeight: lineHeight.normal,
-  },
-  heading4: {
-    fontFamily: fontFamily.sans,
-    fontSize: '1.5rem',      // 24px
-    fontWeight: fontWeight.medium,
-    letterSpacing: '0',
-    lineHeight: lineHeight.normal,
-  },
-  heading3: {
-    fontFamily: fontFamily.sans,
-    fontSize: '1.25rem',     // 20px
-    fontWeight: fontWeight.w3,
-    letterSpacing: '0',
-    lineHeight: lineHeight.normal,
-  },
-  heading2: {
-    fontFamily: fontFamily.sans,
-    fontSize: '1.25rem',     // 20px
-    fontWeight: fontWeight.medium,
-    letterSpacing: '0',
-    lineHeight: lineHeight.normal,
-  },
-  heading1: {
-    fontFamily: fontFamily.sans,
-    fontSize: '0.875rem',    // 14px
-    fontWeight: fontWeight.medium,
-    letterSpacing: '-0.01em',
-    lineHeight: lineHeight.normal,
-  },
+  heading1,
+  heading2,
+  heading3,
+  heading4,
+  heading5,
+  heading6,
+  headingXl: heading1,
+  headingLg: heading2,
+  headingMd: heading3,
+  headingSm: heading6,
+  figmaHeading1: heading6,
+  figmaHeading2: heading5,
+  figmaHeading3: heading4,
+  figmaHeading4: heading3,
+  figmaHeading5: heading2,
+  figmaHeading6: heading1,
 
   // Body - Spectral
   body2: {

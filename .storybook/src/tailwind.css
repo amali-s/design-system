@@ -1,5 +1,5 @@
 /* Google Fonts — Rethink Sans (headings/UI), Spectral (body) */
-@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700&family=Spectral:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@300;400;500;600;700&family=Spectral:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -32,6 +32,106 @@
     --motion-ease-toast-out: cubic-bezier(0.06, 0.71, 0.55, 1);
     --motion-scale-button-hover: 1.06;
     --touch-target: 2.75rem;
+
+    /* Light theme — values match semantic in colors.ts */
+    --sage-text: #1B2323;
+    --sage-text-secondary: #413E36;
+    --sage-text-muted: #8A867E;
+    --sage-text-inverse: #FFFDFA;
+    --sage-text-disabled: #413E36;
+    --sage-text-body: #4B5459;
+    --sage-text-tertiary: #647782;
+    --sage-heading: #1E526F;
+    --sage-surface: #FFFDFA;
+    --sage-surface-subtle: #EDE6DE;
+    --sage-surface-field: #FFF8F0;
+    --sage-surface-disabled: #B5B1A9;
+    --sage-surface-accent: #EAE9DB;
+    --sage-surface-layer1: #FFF8F0;
+    --sage-surface-layer1-hover: #FAF7E1;
+    --sage-surface-sage: #EDF3ED;
+    --sage-surface-blue: #E8F2F9;
+    --sage-surface-red: #F5E8E9;
+    --sage-surface-gold: #F9F6E8;
+    --sage-surface-success: #E8F3EC;
+    --sage-border: rgba(89, 85, 75, 0.08);
+    --sage-border-subtle: rgba(89, 85, 75, 0.06);
+    --sage-border-medium: rgba(89, 85, 75, 0.12);
+    --sage-border-strong: rgba(89, 85, 75, 0.2);
+    --sage-border-field: rgba(89, 85, 75, 0.2);
+    --sage-border-focus: #1E526F;
+    --sage-border-error: #CC3926;
+    --sage-interactive: #1E526F;
+    --sage-interactive-hover: #1A4862;
+    --sage-interactive-active: #184259;
+    --sage-on-interactive: #FFFDFA;
+    --sage-ghost-hover: rgba(89, 85, 75, 0.12);
+    --sage-ghost-active: rgba(89, 85, 75, 0.2);
+    --sage-press-shadow: inset -1px 3px 4px 0px #184259;
+    --sage-press-gradient: linear-gradient(89.45deg, rgba(30, 82, 111, 0.28) 0.19%, rgba(12, 40, 58, 0.5) 91.52%), linear-gradient(90deg, #1E526F 0%, #1E526F 100%);
+    --sage-secondary: #575040;
+    --sage-secondary-hover: #4A4740;
+    --sage-secondary-active: #3D3A35;
+    --sage-on-secondary: #FFFDFA;
+    --sage-secondary-press-shadow: inset -1px 4px 4px 0px #453F30;
+    --sage-secondary-press-gradient: linear-gradient(264.21deg, rgba(73,50,0,0.6) 2.9%, rgba(150,144,130,0.06) 98.25%), linear-gradient(90deg, #575040 0%, #575040 100%);
+    --sage-shadow-sm: 0 1px 4px rgba(89, 85, 75, 0.06);
+    --sage-shadow-md: 0 4px 16px rgba(89, 85, 75, 0.08);
+    --sage-shadow-lg: 0 8px 32px rgba(89, 85, 75, 0.1);
+  }
+
+  html.dark,
+  .dark {
+    --sage-text: #EDE6DE;
+    --sage-text-secondary: #C5C0B6;
+    --sage-text-muted: #A8A49C;
+    --sage-text-inverse: #1B2323;
+    --sage-text-disabled: #C5C0B6;
+    --sage-text-body: #C5C0B6;
+    --sage-text-tertiary: #A8A49C;
+    --sage-heading: #FFFDFA;
+    --sage-surface: #1B2323;
+    --sage-surface-subtle: #141A1A;
+    --sage-surface-field: #252D2D;
+    --sage-surface-disabled: #3A403C;
+    --sage-surface-accent: #2A3232;
+    --sage-surface-layer1: #252D2D;
+    --sage-surface-layer1-hover: #2C3535;
+    --sage-surface-sage: #24302A;
+    --sage-surface-blue: #1C2E38;
+    --sage-surface-red: #3A2224;
+    --sage-surface-gold: #2E2A1C;
+    --sage-surface-success: #1A2E24;
+    --sage-border: rgba(237, 230, 222, 0.10);
+    --sage-border-subtle: rgba(237, 230, 222, 0.08);
+    --sage-border-medium: rgba(237, 230, 222, 0.14);
+    --sage-border-strong: rgba(237, 230, 222, 0.22);
+    --sage-border-field: rgba(237, 230, 222, 0.22);
+    --sage-border-focus: #FFFDFA;
+    --sage-border-error: #F07A6A;
+    --sage-interactive: #FFFDFA;
+    --sage-interactive-hover: #EDE6DE;
+    --sage-interactive-active: #E8DDA2;
+    --sage-on-interactive: #1B2323;
+    --sage-ghost-hover: rgba(237, 230, 222, 0.12);
+    --sage-ghost-active: rgba(237, 230, 222, 0.2);
+    --sage-press-shadow: inset -1px 3px 4px 0px rgba(27, 35, 35, 0.35);
+    --sage-press-gradient: linear-gradient(89.45deg, rgba(27, 35, 35, 0.12) 0.19%, rgba(27, 35, 35, 0.28) 91.52%), linear-gradient(90deg, #FFFDFA 0%, #FFFDFA 100%);
+    --sage-secondary: #E8DDA2;
+    --sage-secondary-hover: #F3EBC0;
+    --sage-secondary-active: #D4C88A;
+    --sage-on-secondary: #1B2323;
+    --sage-secondary-press-shadow: inset -1px 4px 4px 0px rgba(27, 35, 35, 0.28);
+    --sage-secondary-press-gradient: linear-gradient(264.21deg, rgba(27, 35, 35, 0.2) 2.9%, rgba(232, 221, 162, 0.12) 98.25%), linear-gradient(90deg, #E8DDA2 0%, #E8DDA2 100%);
+    --sage-shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.35);
+    --sage-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --sage-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  html.dark .sb-show-main,
+  html.dark .docs-story {
+    background: var(--sage-surface) !important;
+    color: var(--sage-text);
   }
 
   @media (prefers-reduced-motion: reduce) {

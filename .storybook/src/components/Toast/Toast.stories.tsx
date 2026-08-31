@@ -12,9 +12,9 @@ import type { ToastStackItem, ToastState } from "./Toast";
  *
  * ## States
  * Three visual states, each with its own status icon:
- * - **Information** — light blue background, blue ⓘ icon
- * - **Success**     — pale green background, green ✓ icon
- * - **Error**       — warm peach background, red ! triangle icon
+ * - **Information** — blue tint background, navy ⓘ icon
+ * - **Success**     — success tint background, dark green ✓ icon
+ * - **Error**       — red tint background, red ! triangle icon
  *
  * ## Features
  * - Status icon (16px) in top-left, color/glyph chosen by state
@@ -149,7 +149,7 @@ export const AllStates: Story = {
   render: () => (
     <div className="flex flex-col gap-6">
       <div>
-        <p className="text-xs text-[#8A867E] font-sans uppercase tracking-wider mb-3">
+        <p className="text-xs text-muted font-sans uppercase tracking-wider mb-3">
           With Action + Close
         </p>
         <div className="flex flex-wrap gap-4">
@@ -159,7 +159,7 @@ export const AllStates: Story = {
         </div>
       </div>
       <div>
-        <p className="text-xs text-[#8A867E] font-sans uppercase tracking-wider mb-3">
+        <p className="text-xs text-muted font-sans uppercase tracking-wider mb-3">
           Close Only
         </p>
         <div className="flex flex-wrap gap-4">
@@ -169,7 +169,7 @@ export const AllStates: Story = {
         </div>
       </div>
       <div>
-        <p className="text-xs text-[#8A867E] font-sans uppercase tracking-wider mb-3">
+        <p className="text-xs text-muted font-sans uppercase tracking-wider mb-3">
           Minimal (no action, no close)
         </p>
         <div className="flex flex-wrap gap-4">
@@ -240,7 +240,7 @@ const ToastDemo = () => {
         <p className="font-brand text-xl text-secondary">
           Interactive Toast Demo
         </p>
-        <p className="font-body text-[13px] text-[#8A867E] mb-2">
+        <p className="font-body text-[13px] text-muted mb-2">
           Click buttons to trigger toasts. They stack like Sonner — newest
           on top, older ones behind with a depth effect. Tap the stack (or
           hover with a mouse) to expand. Swipe a toast sideways to dismiss.
@@ -259,7 +259,7 @@ const ToastDemo = () => {
                 true,
               )
             }
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#edf8ff] text-[#0084D1] border border-[#0084D1] fine-hover:bg-[#d8f0ff] active:bg-[#d8f0ff] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-background-blue text-primary border border-primary fine-hover:bg-background-blue/80 active:bg-background-blue/80 transition-colors cursor-pointer"
           >
             Information Toast
           </button>
@@ -275,7 +275,7 @@ const ToastDemo = () => {
                 true,
               )
             }
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#fff2f0] text-[#DC3D29] border border-[#DC3D29] fine-hover:bg-[#ffe3df] active:bg-[#ffe3df] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-background-red text-error border border-error fine-hover:bg-background-red/80 active:bg-background-red/80 transition-colors cursor-pointer"
           >
             Error Toast
           </button>
@@ -291,7 +291,7 @@ const ToastDemo = () => {
                 true,
               )
             }
-            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-[#eafbe7] text-[#00803F] border border-[#00803F] fine-hover:bg-[#d6f6d0] active:bg-[#d6f6d0] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full font-sans text-[13px] font-medium bg-background-success text-success-onSurface border border-success-onSurface fine-hover:bg-background-success/80 active:bg-background-success/80 transition-colors cursor-pointer"
           >
             Success Toast
           </button>

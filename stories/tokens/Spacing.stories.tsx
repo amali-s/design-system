@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
+import { layout, borderRadius } from '../../.storybook/src/tokens/spacing';
+import { semantic } from '../../.storybook/src/tokens/colors';
 
 const SpacingSample = ({ name, value, pixels }: { name: string; value: string; pixels: string }) => (
   <div className="flex items-center gap-4 py-2">
@@ -79,6 +81,7 @@ const SpacingPage = () => (
           <RadiusSample name="xl" value="0.75rem" />
           <RadiusSample name="2xl" value="1rem" />
           <RadiusSample name="3xl" value="1.5rem" />
+          <RadiusSample name="button" value={borderRadius.button} />
           <RadiusSample name="full" value="9999px" />
         </div>
       </section>
@@ -86,14 +89,28 @@ const SpacingPage = () => (
       {/* Box Shadows */}
       <section className="mb-16">
         <h2 className="text-2xl font-bold text-brand-darkBlue mb-6">Box Shadows</h2>
+        <p className="text-brand-darkGrey mb-6">
+          Warm ghibli elevation — not default Tailwind black shadows.
+        </p>
         
         <div className="flex flex-wrap gap-8 bg-brand-foreground rounded-2xl p-8">
-          <ShadowSample name="sm" value="0 1px 2px 0 rgb(0 0 0 / 0.05)" />
-          <ShadowSample name="default" value="0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)" />
-          <ShadowSample name="md" value="0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)" />
-          <ShadowSample name="lg" value="0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)" />
-          <ShadowSample name="xl" value="0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)" />
-          <ShadowSample name="2xl" value="0 25px 50px -12px rgb(0 0 0 / 0.25)" />
+          <ShadowSample name="ghibli-sm" value={semantic.shadow.sm} />
+          <ShadowSample name="ghibli-md" value={semantic.shadow.md} />
+          <ShadowSample name="ghibli-lg" value={semantic.shadow.lg} />
+        </div>
+      </section>
+
+      <section className="mb-16">
+        <h2 className="text-2xl font-bold text-brand-darkBlue mb-6">Layout widths</h2>
+        <p className="text-brand-darkGrey mb-6">
+          Field, card, readable, and toast caps. Card and Profile share `max-w-card`.
+        </p>
+        <div className="bg-brand-foreground rounded-2xl p-6 font-mono text-sm space-y-2 text-brand-darkGrey">
+          <p>field.sm {layout.fieldSm} — max-w-field-sm / min-w-field-sm</p>
+          <p>field.md {layout.fieldMd} — max-w-field-md</p>
+          <p>card {layout.card} — max-w-card</p>
+          <p>readable {layout.readable} — max-w-readable</p>
+          <p>toast {layout.toast} — max-w-toast</p>
         </div>
       </section>
 
@@ -112,8 +129,10 @@ const SpacingPage = () => (
           <p><span className="text-data-darkBlue">rounded-2xl</span> <span className="text-brand-darkGrey">// border-radius: 1rem</span></p>
           
           <p className="text-brand-darkGrey mt-4 mb-2">// Shadows</p>
-          <p><span className="text-data-darkBlue">shadow-md</span> <span className="text-brand-darkGrey">// Medium shadow</span></p>
-          <p><span className="text-data-darkBlue">shadow-xl</span> <span className="text-brand-darkGrey">// Extra large shadow</span></p>
+          <p><span className="text-data-darkBlue">shadow-ghibli-md</span> <span className="text-brand-darkGrey">// Warm elevation</span></p>
+          <p className="text-brand-darkGrey mt-4 mb-2">// Layout</p>
+          <p><span className="text-data-darkBlue">max-w-field-sm</span> <span className="text-brand-darkGrey">// {layout.fieldSm}</span></p>
+          <p><span className="text-data-darkBlue">max-w-card</span> <span className="text-brand-darkGrey">// {layout.card}</span></p>
         </div>
       </section>
     </div>

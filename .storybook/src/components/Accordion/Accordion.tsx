@@ -1,6 +1,9 @@
 import * as React from "react";
 import { motionVar } from "../../tokens/motion";
 import { usePressInteraction } from "../usePressInteraction";
+import { Tag } from "../Tag/Tag";
+import { IconButton } from "../IconButton/IconButton";
+import { Check, Chevron, Copy } from "../../icons";
 
 /** Horizontal padding on accordion rows (Figma: 12px) */
 const ROW_PADDING_PX = 12;
@@ -89,80 +92,26 @@ function useAccordionContext() {
 
 function ChevronIcon({ expanded }: { expanded: boolean }) {
   return (
-    <svg
-      width={12}
-      height={6}
-      viewBox="0 0 12 6"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={["shrink-0 text-[#827A64]", expanded ? "rotate-180" : ""].join(" ")}
+    <Chevron
+      size={16}
+      className={["shrink-0 text-secondary", expanded ? "rotate-180" : ""].join(" ")}
       style={{
         transition: `transform ${motionVar.duration.disclosure} ${
           expanded ? motionVar.ease.standard : motionVar.ease.collapseChevron
         }`,
       }}
-      aria-hidden
-    >
-      <path d="M1 1L6 5L11 1" stroke="currentColor" strokeWidth={1} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function CopyIcon() {
-  return (
-    <span className="relative inline-block size-2 shrink-0" aria-hidden>
-      <span className="absolute inset-[12.5%_12.5%_0_0] rounded-[1px] border-[0.4px] border-layer1 bg-[#827A64]" />
-      <span className="absolute inset-[0_0_12.5%_12.5%] rounded-[1px] border border-[#827A64]" />
-    </span>
-  );
-}
-
-/**
- * Tag checkmark — Figma "check yes" (6×5px box, stroke overflows per the inset).
- */
-function CheckIcon() {
-  return (
-    <span className="relative block h-[5px] w-[6px] shrink-0" aria-hidden>
-      <span className="absolute inset-[-10%_-8.33%_-16.48%_-8.33%]">
-        <svg
-          viewBox="0 0 7.00005 6.32387"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="block size-full max-w-none"
-        >
-          <path
-            d="M0.500026 2.64288L2.68184 5.50003L6.50003 0.500026"
-            stroke="currentColor"
-            strokeLinecap="round"
-          />
-        </svg>
-      </span>
-    </span>
-  );
-}
-
-function AccordionTags({ tags }: { tags: AccordionTag[] }) {
-  return (
-    // Tag text/icon stay "Neutral text" in every row state, including disabled.
-    <div className="flex flex-wrap gap-2">
-      {tags.map((tag) => (
-        <span
-          key={tag.label}
-          className="inline-flex items-center gap-1 rounded-xl bg-[#FBF8E9] px-2 py-1 font-sans text-xs font-normal tracking-[-0.32px] text-neutralText"
-        >
-          {tag.icon ?? <CheckIcon />}
-          {tag.label}
-        </span>
-      ))}
-    </div>
+    />
   );
 }
 
 /**
  * Sage Component Kit accordion item — inline disclosure row from Figma.
  *
- * Width is `w-full` (no 536px layout cap). Storybook stories may wrap with
- * `max-w-[536px]` so large canvases match the Figma frame.
+ * Tags stay visible when collapsed. One header control (title + chevron)
+ * toggles the panel. This is not a FAQ accordion.
+ *
+ * Width is `w-full` (no layout cap). Storybook stories may wrap with
+ * `max-w-readable` so large canvases match the Figma frame.
  *
  * [Figma — Accordion](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=463-186)
  */
@@ -232,95 +181,87 @@ export function AccordionItem({
   };
 
   const muted = disabled;
-  const eyebrowClass = muted ? "text-[#ADABA5]" : "text-[#827A64]";
-  const titleClass = muted ? "text-[#ADABA5]" : "text-brand-black";
-  const bodyClass = muted ? "text-[#ADABA5]" : "text-neutralText";
+  const eyebrowClass = muted ? "text-textDisabled" : "text-secondary";
+  const titleClass = muted ? "text-textDisabled" : "text-brand-black";
+  const bodyClass = muted ? "text-textDisabled" : "text-neutralText";
 
   return (
     <div className={shellClass} style={shellStyle} {...pointerHandlers}>
-      {/* Header block + chevron row — 12px apart, chevron flush right */}
-      <div className="flex w-full min-w-0 flex-col items-end gap-3">
-        <div className="flex w-full min-w-0 flex-col">
-          {/* Text block and tags row — 16px apart */}
-          <div className="flex w-full min-w-0 flex-col gap-4">
-            {/* Eyebrow and title — 8px apart */}
-            <div className="flex w-full min-w-0 flex-col gap-2">
-              <div className="flex items-center gap-2">
-                {/* Figma "Label 1" — Spectral Light 12 */}
-                <span className={`font-body text-xs font-light tracking-[-0.72px] ${eyebrowClass}`}>
-                  {eyebrow}
-                </span>
-                {showCopy && (
-                  <button
-                    type="button"
-                    aria-label="Copy address"
-                    disabled={disabled}
-                    onClick={onCopy}
-                    className={[
-                      "min-touch-target inline-flex shrink-0 items-center rounded-sm outline-none",
-                      "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1",
-                      disabled ? "cursor-not-allowed opacity-50" : "fine-hover:opacity-80 active:opacity-80",
-                    ].join(" ")}
-                  >
-                    <CopyIcon />
-                  </button>
-                )}
-              </div>
-
-              <button
-                type="button"
-                id={headerId}
+      <div className="flex w-full min-w-0 flex-col">
+        <div className="flex w-full min-w-0 flex-col gap-2">
+          <div className="flex items-center gap-2">
+            {/* Figma "Label 1" — Spectral Light 12. text-secondary ≥4.5:1 on cream. */}
+            <span className={`font-body text-xs font-light tracking-[-0.72px] ${eyebrowClass}`}>
+              {eyebrow}
+            </span>
+            {showCopy && (
+              // 16px icon + 8px hover padding (32px). 44px hit via min-touch-target.
+              <IconButton
+                aria-label="Copy address"
+                size="sm"
                 disabled={disabled}
-                aria-expanded={expanded}
-                aria-controls={panelId}
-                onClick={toggle}
-                className="flex w-full rounded-sm text-left outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
-              >
-                <h3
-                  className={`font-heading text-xl font-light tracking-[-0.4px] leading-tight ${titleClass}`}
-                >
-                  {title}
-                </h3>
-              </button>
-            </div>
-
-            {showTags && <AccordionTags tags={tags} />}
+                icon={<Copy size={16} className={eyebrowClass} />}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCopy?.();
+                }}
+                onPointerDown={(e) => e.stopPropagation()}
+                className="!size-8 text-secondary"
+              />
+            )}
           </div>
 
-          {/* Description — grid-rows 0fr → 1fr so the disclosure can transition */}
-          <div
-            id={panelId}
-            role="region"
-            aria-labelledby={headerId}
-            aria-hidden={!expanded}
-            className="grid w-full"
-            style={{
-              gridTemplateRows: expanded ? "1fr" : "0fr",
-              transition: `grid-template-rows ${motionVar.duration.disclosure} ${
-                expanded ? motionVar.ease.standard : motionVar.ease.collapsePanel
-              }`,
-            }}
+          {/* One hit target: title + tags; chevron bottom-aligned to the row (with tags). */}
+          <button
+            type="button"
+            id={headerId}
+            disabled={disabled}
+            aria-expanded={expanded}
+            aria-controls={panelId}
+            aria-label={expanded ? `Collapse ${title}` : `Expand ${title}`}
+            onClick={toggle}
+            className="flex w-full min-w-0 items-end justify-between gap-3 rounded-sm text-left outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
           >
-            <div className="overflow-hidden">
-              {/* Padding lives inside the clipped area so it collapses with the panel */}
-              {/* Figma "Body 1" — Spectral Light 14 */}
-              <p className={`pt-3 font-body text-sm font-light leading-[1.5] ${bodyClass}`}>{body}</p>
+            <div className="flex min-w-0 flex-1 flex-col gap-4">
+              <h3
+                className={`font-heading text-xl font-light tracking-[-0.4px] leading-tight ${titleClass}`}
+              >
+                {title}
+              </h3>
+              {showTags && (
+                <div className="flex flex-wrap gap-2">
+                  {tags.map((tag) => (
+                    <Tag key={tag.label} label={tag.label} icon={tag.icon ?? <Check size={16} />} />
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
+            <span className="min-touch-target inline-flex shrink-0 items-center justify-center">
+              <ChevronIcon expanded={expanded} />
+            </span>
+          </button>
         </div>
 
-        {/* Chevron — always bottom-right, aligned to 12px row padding */}
-        <button
-          type="button"
-          disabled={disabled}
-          aria-expanded={expanded}
-          aria-controls={panelId}
-          aria-label={expanded ? `Collapse ${title}` : `Expand ${title}`}
-          onClick={toggle}
-          className="min-touch-target inline-flex shrink-0 items-center justify-center rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1"
+        {/* Description — grid-rows 0fr → 1fr so the disclosure can transition */}
+        <div
+          id={panelId}
+          role="region"
+          aria-labelledby={headerId}
+          aria-hidden={!expanded}
+          className="grid w-full"
+          style={{
+            gridTemplateRows: expanded ? "1fr" : "0fr",
+            transition: `grid-template-rows ${motionVar.duration.disclosure} ${
+              expanded ? motionVar.ease.standard : motionVar.ease.collapsePanel
+            }`,
+          }}
         >
-          <ChevronIcon expanded={expanded} />
-        </button>
+          <div className="overflow-hidden">
+            {/* Padding lives inside the clipped area so it collapses with the panel */}
+            {/* Figma "Body 1" — Spectral Light 14 */}
+            <p className={`pt-3 font-body text-sm font-light leading-[1.5] ${bodyClass}`}>{body}</p>
+          </div>
+        </div>
       </div>
     </div>
   );

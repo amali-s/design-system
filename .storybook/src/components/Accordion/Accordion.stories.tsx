@@ -4,15 +4,17 @@ import { Accordion, AccordionItem } from "./Accordion";
 
 function StateCell({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex w-full max-w-[536px] flex-col gap-2">
-      <p className="font-sans text-[11px] font-medium uppercase tracking-wider text-[#8A867E]">{label}</p>
+    <div className="flex w-full max-w-readable flex-col gap-2">
+      <p className="font-sans text-[11px] font-medium uppercase tracking-wider text-muted">{label}</p>
       {children}
     </div>
   );
 }
 
 /**
- * Accordion — vertically stacked disclosure panels from the Sage Component Kit.
+ * Accordion — inline disclosure row from the Sage Component Kit.
+ * Tags stay visible when collapsed; one header control (title + chevron)
+ * toggles the panel. Not a FAQ accordion.
  *
  * [Figma — Accordion](https://www.figma.com/design/5TMUAOp35jOOKBNNqEo32Z/Sage-Component-kit?node-id=463-186)
  */
@@ -24,6 +26,12 @@ const meta: Meta<typeof AccordionItem> = {
     layout: "padded",
     backgrounds: { default: "layer1", values: [{ name: "layer1", value: "#FFF8F0" }] },
     controls: { disable: true },
+    docs: {
+      description: {
+        component:
+          "Inline disclosure row: tags stay visible when collapsed. One header control (title + chevron) toggles the panel — not a FAQ accordion.",
+      },
+    },
   },
 };
 export default meta;
@@ -71,11 +79,11 @@ export const States: Story = {
 export const Demo: Story = {
   name: "Demo",
   render: () => (
-    <div className="w-full max-w-[536px] rounded-xl bg-brand-white p-6">
+    <div className="w-full max-w-readable rounded-xl bg-brand-white p-6">
       <header className="mb-6">
-        <p className="font-sans text-xs font-medium uppercase tracking-wider text-[#827A64]">Spaces</p>
+        <p className="font-sans text-xs font-medium uppercase tracking-wider text-secondary">Spaces</p>
         <h1 className="mt-1 font-brand text-2xl font-medium text-brand-darkBlue">Details</h1>
-        <p className="mt-2 font-body text-sm font-light text-[#59554b]">
+        <p className="mt-2 font-body text-sm font-light text-secondary">
           Expand each row to read more. Only one section stays open at a time.
         </p>
       </header>

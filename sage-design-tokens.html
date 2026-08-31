@@ -9,17 +9,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Rethink+Sans:wght@400;500;600;700&family=Spectral:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Status & Action */
-      --primary: #1AAED8;
-      --primary-hover: #1599C0;
-      --primary-active: #1285A8;
+      /* Status & Action — navy is UI; cyan is decorative */
+      --primary: #1E526F;
+      --primary-hover: #1A4862;
+      --primary-active: #184259;
       --secondary: #575040;
       --sage: #A9C1A9;
       --sage-light: #EDF3ED;
       --deep-red: #7D0A16;
-      --warning: #F6C12F;
+      --warning: #D98900;
+      --warning-on-surface: #8F5A00;
+      --warning-bright: #F6C12F;
       --error: #CC3926;
-      --success: #14C714;
+      --success: #198D54;
+      --success-on-surface: #147143;
+      --success-bright: #14C714;
+      --cyan-decorative: #1AAED8;
       /* Brand */
       --brand-dark-blue: #1E526F;
       --brand-accent: #E8DDA2;
@@ -129,15 +134,17 @@
 
     <section>
       <h2>Status & Action Colors</h2>
-      <p class="section-desc">Interactive elements, buttons, status indicators</p>
+      <p class="section-desc">Navy for 14px UI actions. Cyan is decorative / data only. Brights are charts — use on-surface for text.</p>
       <div class="token-grid">
-        <div class="color-swatch"><div class="swatch" style="background:#1AAED8"></div><span class="name">Primary</span><span class="value">#1AAED8</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#1E526F"></div><span class="name">Interactive (navy)</span><span class="value">#1E526F</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#1AAED8"></div><span class="name">Cyan (decorative)</span><span class="value">#1AAED8</span></div>
         <div class="color-swatch"><div class="swatch" style="background:#575040"></div><span class="name">Secondary</span><span class="value">#575040</span></div>
         <div class="color-swatch"><div class="swatch" style="background:#A9C1A9"></div><span class="name">Sage</span><span class="value">#A9C1A9</span></div>
-        <div class="color-swatch"><div class="swatch" style="background:#7D0A16"></div><span class="name">Deep Red</span><span class="value">#7D0A16</span></div>
-        <div class="color-swatch"><div class="swatch" style="background:#F6C12F"></div><span class="name">Warning</span><span class="value">#F6C12F</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#198D54"></div><span class="name">Success UI</span><span class="value">#198D54</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#147143"></div><span class="name">Success on-surface</span><span class="value">#147143</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#D98900"></div><span class="name">Warning UI</span><span class="value">#D98900</span></div>
+        <div class="color-swatch"><div class="swatch" style="background:#8F5A00"></div><span class="name">Warning on-surface</span><span class="value">#8F5A00</span></div>
         <div class="color-swatch"><div class="swatch" style="background:#CC3926"></div><span class="name">Error</span><span class="value">#CC3926</span></div>
-        <div class="color-swatch"><div class="swatch" style="background:#14C714"></div><span class="name">Success</span><span class="value">#14C714</span></div>
       </div>
     </section>
 
@@ -173,18 +180,26 @@
 
     <section>
       <h2>Typography</h2>
-      <p class="section-desc">Font families, sizes, weights</p>
+      <p class="section-desc">Rethink Sans for wordmark and UI. Spectral for body. heading1 is largest (36px), heading6 is 14px.</p>
       <div class="type-row">
         <span class="type-name">pageTitle1</span>
-        <span class="type-preview" style="font-family:'Rethink Sans',system-ui,sans-serif;font-size:36px;font-weight:700;letter-spacing:-0.01em">Rethink Sans Bold 36px</span>
+        <span class="type-preview" style="font-family:'Rethink Sans',system-ui,sans-serif;font-size:64px;font-weight:700;letter-spacing:-0.01em;line-height:1.1">Sage</span>
+      </div>
+      <div class="type-row">
+        <span class="type-name">heading1</span>
+        <span class="type-preview" style="font-family:'Rethink Sans',system-ui,sans-serif;font-size:36px;font-weight:400">Heading 1 — 36px Regular</span>
+      </div>
+      <div class="type-row">
+        <span class="type-name">heading2</span>
+        <span class="type-preview" style="font-family:'Rethink Sans',system-ui,sans-serif;font-size:32px;font-weight:400">Heading 2 — 32px Regular</span>
+      </div>
+      <div class="type-row">
+        <span class="type-name">heading3</span>
+        <span class="type-preview" style="font-family:'Rethink Sans',system-ui,sans-serif;font-size:24px;font-weight:500">Heading 3 — 24px Medium</span>
       </div>
       <div class="type-row">
         <span class="type-name">heading6</span>
-        <span class="type-preview" style="font-family:'Rethink Sans',system-ui,sans-serif;font-size:24px;font-weight:400">Heading 6 — 24px Regular</span>
-      </div>
-      <div class="type-row">
-        <span class="type-name">heading4</span>
-        <span class="type-preview" style="font-family:'Rethink Sans',system-ui,sans-serif;font-size:20px;font-weight:500">Heading 4 — 20px Medium</span>
+        <span class="type-preview" style="font-family:'Rethink Sans',system-ui,sans-serif;font-size:14px;font-weight:500">Heading 6 — 14px Medium</span>
       </div>
       <div class="type-row">
         <span class="type-name">body2</span>
@@ -223,8 +238,10 @@
         <div style="width:64px;height:64px;background:var(--primary);border-radius:12px"></div>
         <div style="width:64px;height:64px;background:var(--primary);border-radius:999px"></div>
       </div>
-      <p style="font-size:12px;color:var(--brand-dark-grey);margin-top:16px">sm: 4px · md: 8px · lg: 12px · pill: 999px</p>
+      <p style="font-size:12px;color:var(--brand-dark-grey);margin-top:16px">sm: 4px · md: 8px · lg: 12px · button pill: 32px · full: 999px</p>
       <p style="font-size:12px;color:var(--brand-dark-grey);margin-top:8px">Shadows: ghibli-sm · ghibli-md · ghibli-lg</p>
+      <p style="font-size:12px;color:var(--brand-dark-grey);margin-top:8px">Layout: field.sm 240 · field.md 320 · card 320 · readable 536 · toast 24rem</p>
+      <p style="font-size:12px;color:var(--brand-dark-grey);margin-top:8px">Dark theme: surfaces on #1B2323; filled Primary is cream. Use the Storybook Theme toolbar.</p>
     </section>
   </div>
 </body>
